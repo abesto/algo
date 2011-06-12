@@ -1,18 +1,15 @@
 ({
     appDir: 'algo',
-    baseUrl: 'tests',
+    baseUrl: 'scripts',
     dir: 'development',
     optimize: 'none',
 
+
     paths: {
-        cs: '../scripts/vendor/cs',
-        s: '../scripts',
-        vendor: '../scripts/vendor'
+        cs: 'vendor/cs',
+        vendor: 'vendor',
+        t: '../tests'
     },
 
-    modules: [
-        {
-            name: 'test'
-        }
-]
+	modules: [{ name: 't/test' }]
 })

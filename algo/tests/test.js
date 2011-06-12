@@ -1,1 +1,6 @@
-require(['cs!cstest']);
+require({
+paths: {
+    cs: '../scripts/vendor/cs',
+}},
+
+['cs!t/cstest']);
