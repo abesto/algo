@@ -1,0 +1,15 @@
+{
+    appDir: 'algo',
+    baseUrl: 'js',
+    dir: 'development',
+    optimize: 'none',
+
+    modules: [
+        { "name": 'lib/jquery' },
+        { "name": 'lib/underscore' },
+        {
+            "name": "main",
+            exclude: ['lib/jquery', 'lib/underscore']
+        }
+    ]
+}
