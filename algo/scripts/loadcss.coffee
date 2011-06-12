@@ -1,4 +1,4 @@
-define ['lib/jquery'], ($) ->
+define ['vendor/jquery'], ($) ->
     (urls...) ->
         $ ->
             for url in urls then do (url) ->

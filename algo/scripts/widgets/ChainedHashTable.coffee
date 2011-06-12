@@ -1,4 +1,4 @@
-define ['lib/jquery', 'loadcss'], ($, css) ->
+define ['vendor/jquery', 'loadcss'], ($, css) ->
     class ChainedHashTableWidget
         constructor: (@$container, @model) ->
             @$table = $('<table>')

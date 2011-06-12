@@ -1,4 +1,4 @@
-define ['lib/jquery'], ($) ->
+define ['vendor/jquery'], ($) ->
     class StateMachine
         constructor: ->
             @_data = {}

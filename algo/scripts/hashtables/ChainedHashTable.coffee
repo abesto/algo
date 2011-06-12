@@ -1,4 +1,4 @@
-define ['lib/jquery', './Element', './HashFunction', './UnorderedList'], ($, Element, HashFunction, UnorderedList) ->
+define ['vendor/jquery', 'cs!./Element', 'cs!./HashFunction', 'cs!./UnorderedList'], ($, Element, HashFunction, UnorderedList) ->
     class ChainedHashTable
         constructor: (hashFunction, listClass) ->
             @_hashFunction = hashFunction ? new HashFunction

@@ -1,4 +1,4 @@
-define ['lib/qunit', 'hashtables/Element', 'hashtables/OrderedUniqueList'], (T, E, OUL) ->
+define ['vendor/qunit', 'cs!s/hashtables/Element', 'cs!s/hashtables/OrderedUniqueList'], (T, E, OUL) ->
     T.module 'Chained hash table: Ordered unique list',
         setup: ->
             @l = new (OUL( (x, y) -> x ))

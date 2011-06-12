@@ -1,4 +1,4 @@
-define ['./OrderedList'], (OL) ->
+define ['cs!./OrderedList'], (OL) ->
     return (compare) ->
         L = new OL(compare)
         class OrderedUniqueList extends L

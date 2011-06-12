@@ -1,1 +1,0 @@
-../development/require.js

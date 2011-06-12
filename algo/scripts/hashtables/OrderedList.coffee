@@ -1,4 +1,4 @@
-define ['./UnorderedList'], (UL) ->
+define ['cs!./UnorderedList'], (UL) ->
     class GenericOrderedList extends UL
         constructor: (compare) ->
             super()

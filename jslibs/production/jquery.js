@@ -1,1 +1,0 @@
-../development/jquery.js

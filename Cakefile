@@ -1,53 +1,28 @@
-# TODO: don't copy coffee and less files into builds
-
 {exec} = require 'child_process'
 util = require 'util'
 fs = require 'fs'
-less = require 'less'
 
 APPNAME = 'algo'
 
-run = (description, cmd, callback) ->
-    util.log description
-    exec cmd, (err, stdout, stderr) ->
-        if err
-            throw err
-        else
-            callback?(stdout)
 
-build = (buildtype, callback) ->
-    run "Copying jslibs/#{buildtype}/* to algo/js/lib", "mkdir algo/js/lib -p && cp jslibs/#{buildtype}/* algo/js/lib/", ->
-        run "Copying csslibs/#{buildtype}/* to algo/css", "mkdir algo/css -p && cp csslibs/#{buildtype}/* algo/css/", ->
-            run "Making #{buildtype} build", "requirejs/build/build.sh #{buildtype}.build.json", callback
+run = (cmd, desc, callback) ->
+  title = desc ? cmd
+  util.log title
 
-compileLess = (filename, callback) ->
-    out_filename = filename.replace(/\/less\//, '/css/').replace('.less', '.css')
-    fs.readFile filename, 'utf8', (e, lesstext) ->
-        less.render lesstext, (e, css) ->
-            if e
-                throw e
+  exec cmd, (error, stdout, stderr) ->
+    if (stdout.split "\n").length > 1
+      stdout = "\n" + stdout
+    if error
+      util.log "\"#{title}\" ended with error. STDOUT: \"#{stdout}\". Error object: \"#{error}\""
+    else
+      util.log "\"#{title}\" finished. Output: \"#{stdout}\""
+      callback?()
+# eof run
 
-            if lesstext != '' and css == ''
-                compileLess filename, callback
-            else
-                fs.writeFile out_filename, css, callback
-
-compileDir = (dir, callback) ->
-    run "Building #{dir}/coffee/*.coffee into #{dir}/js/", "coffee --compile --bare --output #{dir}/js #{dir}/coffee", ->
-        run "Giving read rights to everyone on #{dir}/js", "chmod o+r #{dir}/js -R", ->
-            util.log "Compiling #{dir}/less/*.less into #{dir}/css"
-            run "Creating #{dir}/css directory", "mkdir #{dir}/css -p", ->
-                files = fs.readdirSync "#{dir}/less"
-                count = files.length
-                for file in files then do (file) ->
-                    compileLess "#{dir}/less/#{file}", ->
-                        count--
-                        if count == 0
-                            callback?()
-
-compileProject = (buildtype, callback) ->
-    compileDir APPNAME, ->
-        build buildtype, callback
+build = (type, callback) ->
+  run "mkdir algo/css -p && stylus algo/stylus -o algo/css", "Compiling Stylus stylesheets", ->
+    run "requirejs/build/build.sh #{type}.js", "Making #{type} RequireJS build", ->
+      run "rm algo/css -rf", "Removing leftover files", callback
 
 
 # Watch coffeescript files in dir and it's subdirectories
@@ -80,21 +55,6 @@ watch = (dir, buildtype) ->
                     run "Saw change in #{fullfile}, compiling to #{output}", "coffee --compile --output #{output} #{fullfile}", ->
                         build buildtype
 
-        else if file.match /[^.\#]+\.less$/
-            counts.dirs = 1
-            counts.files += 1
-
-            fs.watchFile "#{fullfile}", (curr, prev) ->
-                if +curr.mtime isnt +prev.mtime
-                    # Delay because sometimes the editor won't have finished writing the file to disk when we are here
-                    # coffee seems to handle this, but less just gives an empty file. Should file upstream as bug (not checked in HEAD)
-                    setTimeout ->
-                        output = dir.replace /less/g, 'css'
-                        util.log "Saw change in #{fullfile}, compiling to #{output}"
-                        compileLess fullfile, ->
-                            build buildtype
-                    , 100
-
     return counts
 # eof watch
 
@@ -103,17 +63,17 @@ watch = (dir, buildtype) ->
 # Tasks #
 #########
 
-task 'clean', '', ->
-    run 'Cleaning project', "rm #{APPNAME}/js -rf && rm #{APPNAME}/css -rf && rm development -rf && rm production -rf"
+task 'clean', 'Remove build directories', ->
+  run "rm development -rf && rm production -rf"
 
-task 'build', 'Build development version', ->
-    invoke 'clean'
-    compileProject 'development'
+task 'build:dev', 'Build development version', ->
+  invoke 'clean'
+  build 'dev'
+
+task 'build:test', 'Build development version and tests', ->
+  invoke 'clean'
+  build 'test'
 
 task 'build:prod', 'Build production version', ->
-    compileProject 'production'
-
-task 'watch', 'Watch CoffeeScript files, compile and instrument for testing as needed', ->
-    invoke 'build'
-    counts = watch APPNAME, 'development'
-    util.log 'Watching ' + counts.files + ' files in ' + counts.dirs + ' directories'
+  invoke 'clean'
+  build 'prod'

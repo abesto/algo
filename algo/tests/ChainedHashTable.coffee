@@ -1,4 +1,4 @@
-define ['lib/qunit', 'hashtables/ChainedHashTable', 'hashtables/UnorderedList'], (T, CHT, UL) ->
+define ['vendor/qunit', 'cs!s/hashtables/ChainedHashTable', 'cs!s/hashtables/UnorderedList'], (T, CHT, UL) ->
     T.module 'Chained hash table',
         setup: ->
             @h = new CHT()
