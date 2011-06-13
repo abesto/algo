@@ -1,28 +1,77 @@
+##
+# Chained hash table
+#
+# Constructor parameters:
+#  hashFunction: a HashFunction instance
+#  listClass: a class implementing the interface of UnorderedList
+#
+# Entry points and states:
+#  add(key, value) -> newHash -> insertItem -> ready
+#          |                                     ^
+#          ---------------------------------------
+#  *get(key) -> got -> ready
+#  *getFirst(key) -> got -> ready
+#
+# Entry points marked with a * set the 'result' property of the data object
+#
+# Data fields set in states:
+#  add, newHash, insertItem
+#   hash: actual hash
+#   element: Element instance
+#   params: [key, value
+#  got
+#   result: array of values
+#  gotFirst
+#   result: value
+##
+
 define ['vendor/jquery'
 'cs!StateMachine'
 'cs!./Element', 'cs!./HashFunction', 'cs!./UnorderedList'],
 ($, StateMachine, Element, HashFunction, UnorderedList) ->
-  class ChainedHashTable
+
+  # Entry points:
+  #  * add(key, value)x
+  class ChainedHashTable extends StateMachine
     constructor: (hashFunction, listClass) ->
+      # State machine init
+      super()
+      @_entryPoint 'add', 'get', 'getFirst'
+
+      # Hash table init
       @_hashFunction = hashFunction ? new HashFunction
          hash: (x) -> x
          inDomain: -> true
          inRange: -> true
       @_listClass = listClass ? UnorderedList
       @_heads = {}
+    # eof constructor
 
-    add: (key, value) ->
-      element = if key instanceof Element then key else new Element(key, value)
-      hash = @_hashFunction.hash element.key
-      if not @_heads[hash]?
-        @_heads[hash] = new @_listClass()
-        $(this).trigger 'new-hash', [hash]
-      @_heads[hash].add element
+    _next: (a, b) ->
+      switch @_current
+        when 'add'
+          @_data.element = new Element a, b
+          @_data.hash = @_hashFunction.hash @_data.element.key
+          if @_heads[@_data.hash]?
+            return 'insertItem'
+          else
+            return 'newHash'
+        when 'newHash'
+          return 'insertItem'
+        when 'insertItem', 'got', 'gotFirst'
+          return 'ready'
+        else
+          return @_current
 
-    get: (key) ->
+    _newHash: -> @_heads[@_data.hash] = new @_listClass()
+    _insertItem: -> @_heads[@_data.hash].add @_data.element
+
+    _get: (key) ->
+      @_current = 'got'
       return (@_heads[ @_hashFunction.hash key ]?.get key) ? []
 
-    getFirst: (key) ->
+    _getFirst: (key) ->
+      @_current = 'gotFirst'
       return @_heads[ @_hashFunction.hash key ]?.getFirst key
 
 

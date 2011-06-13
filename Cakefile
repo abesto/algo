@@ -10,12 +10,10 @@ run = (cmd, desc, cont) ->
   if not SILENT then util.log title
 
   exec cmd, (error, stdout, stderr) ->
-    if (stdout.split "\n").length > 1
-      stdout = "\n" + stdout
     if error
-      util.log "\"#{title}\" ended with error. STDOUT: \"#{stdout}\". Error object: \"#{error}\""
+      util.log "\"#{title}\" ended with error.n\nSTDOUT:\n#{stdout}\n\nSTDERR:\n#{stderr}\n\nError object:\n\"#{error}\""
     else
-      if not SILENT then util.log "\"#{title}\" finished. Output: \"#{stdout}\""
+      if not SILENT then util.log "\"#{title}\" finished. STDOUT:\n#{stdout}"
       cont?()
 # eof run
 
