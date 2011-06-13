@@ -59,6 +59,10 @@ define ['vendor/qunit', 'vendor/jquery', 'cs!StateMachine'], (T, $, SM) ->
     @s.bind 's1b', (event, data) -> T.strictEqual event.type, 's1b'
     @s.s1().step().step()
 
+  T.test 'Entry call when not in \'ready\' state raises exception', ->
+    @s.s1()
+    T.raises (-> @s.s1), 'Entry call can only be made when in \'ready\' state'
+
   T.test 'Run steps while not ready, and triggers \'ready\' exactly once', ->
     T.expect 3
     @s.bind 's1a', (event, data) -> T.strictEqual event.type, 's1a'

@@ -42,7 +42,7 @@ define ['vendor/jquery', 'vendor/underscore'], ($, _) ->
         do (name) =>
           @[name] = (args...) ->
             if @_current != 'ready'
-              throw 'Not ready yet'
+              throw 'Entry call can only be made when in \'ready\' state'
             @_data.params = args
             @_current = name
             @step()
