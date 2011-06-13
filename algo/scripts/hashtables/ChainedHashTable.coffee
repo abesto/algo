@@ -2,8 +2,8 @@
 # Chained hash table
 #
 # Constructor parameters:
-#  hashFunction: a HashFunction instance
-#  listClass: a class implementing the interface of UnorderedList
+#  hashFunction: a HashFunction instance, defaults to (x) -> x
+#  listClass: a class implementing the interface of UnorderedList, defaults to UnorderedList
 #
 # Entry points and states:
 #  add(key, value) -> newHash -> insertItem -> ready
@@ -30,8 +30,6 @@ define ['vendor/jquery'
 'cs!./Element', 'cs!./HashFunction', 'cs!./UnorderedList'],
 ($, StateMachine, Element, HashFunction, UnorderedList) ->
 
-  # Entry points:
-  #  * add(key, value)x
   class ChainedHashTable extends StateMachine
     constructor: (hashFunction, listClass) ->
       # State machine init

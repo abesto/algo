@@ -1,5 +1,5 @@
 ##
-# A specialized finit state machine used for representing algorithms / data structures
+# A specialized finite state machine used for representing algorithms / data structures
 # Every state of the machine is a state in the execution of the algorithm
 # Actions are run upon entry into a new state
 # An event (type=state name) is triggered upon entering a new state
@@ -22,7 +22,7 @@
 #  step: Take one step in the algorithm. Exactly one state transition, returns 'this' (fluid interface)
 #  run: Step until we reach the 'ready' state, firing the 'ready' event exactly once. Returns the
 #       result of the operation.
-#  bind: Convinience function, equivalent to jQuery(this).bind
+#  bind: Convenience function, equivalent to jQuery(this).bind
 ##
 
 define ['vendor/jquery', 'vendor/underscore'], ($, _) ->
