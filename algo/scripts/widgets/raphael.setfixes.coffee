@@ -1,0 +1,3 @@
+define ['vendor/raphael'], (R) ->
+  Set = R::set().constructor
+  Set::splice = (params...) -> @items.splice params...

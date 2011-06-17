@@ -1,1 +1,1 @@
-require({paths:{cs:'vendor/cs'}},['cs!csmain']);
+require({paths:{cs:'vendor/cs', order:'vendor/order'}},['cs!csmain']);

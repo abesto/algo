@@ -1,10 +1,34 @@
-define ['vendor/jquery', 'cs!loadcss', 'cs!hashtables/ChainedHashTable'], ($, css, H) ->
+define ['cs!loadcss', 'vendor/jquery', 'vendor/raphael', 'cs!widgets/LinkedList']
+, (css, $, Raphael, L) ->
   css 'reset', 'main'
-  $('body').append($('<div>').attr('id', 'main').html('Test harom!'))
-  h = new H()
-  for e in ['add', 'insertItem', 'newHash', 'got', 'gotFirst', 'ready']
-    h.bind e, (event, data) ->
-      console.log event.type, data
+  $ ->
+    $w = $(window)
+    [h, w] = [$w.height(), $w.width()]
+    $('#display').css
+      width: w
+      height: h
 
-  h.add 1, 'a'
-  console.log h
+    paper = Raphael 'display'
+
+    l = new L(paper, 100, 100)
+    l.push 'One', 'aaaaaaaa'
+    l.push 'Two', 'bbb'
+    l.push 'Three', 'cccc'
+    l.insertBefore 2, 'Two-and-a-half', 'ddddddddddd'
+    l.insertAfter 0, 'One-and-a-half', 'eeee'
+    l.unshift 'Zero', 'f'
+    l.insertBefore 1, 'Half'
+
+    l = new L(paper, 100, 200)
+    l.push 'One', 'aaaaaaaa'
+    l.push 'Two', 'bbb'
+    l.push 'Three', 'cccc'
+    l.insertBefore 2, 'Two-and-a-half', 'ddddddddddd'
+    l.insertAfter 0, 'One-and-a-half', 'eeee'
+    l.unshift 'Zero', 'f'
+    l.insertBefore 1, 'Half'
+
+    l.shift() # Zero
+    l.pop() # Three
+    l.removeAt 2 # One-and-a-half
+

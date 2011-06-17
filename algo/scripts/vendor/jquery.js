@@ -8938,7 +8938,6 @@ jQuery.each([ "Height", "Width" ], function( i, name ) {
 window.jQuery = window.$ = jQuery;
 })(window);
 
-$.noConflict();
-return jQuery;
+return window.jQuery;
 
 });
