@@ -2,14 +2,15 @@
     appDir: 'algo',
     baseUrl: 'scripts',
     dir: 'production',
+    //optimize: 'none',
 
     paths: {
-        cs: 'vendor/cs'
+		'cs': 'vendor/cs'
     },
 
-    modules: [
-        {
-            name: 'main'
+	modules: [
+		{
+            'name': 'main'
         }
-]
+    ]
 })

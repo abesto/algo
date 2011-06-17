@@ -1,6 +1,5 @@
 ({
-    appDir: 'algo',
-    baseUrl: 'scripts',
-    dir: 'development',
-    optimize: 'none'
+     appDir: 'algo',
+     baseUrl: 'scripts',
+     dir: 'development',
 })

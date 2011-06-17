@@ -11,14 +11,14 @@ run = (cmd, desc, cont) ->
 
   exec cmd, (error, stdout, stderr) ->
     if error
-      util.log "\"#{title}\" ended with error.n\nSTDOUT:\n#{stdout}\n\nSTDERR:\n#{stderr}\n\nError object:\n\"#{error}\""
+      util.log "\"#{title}\" ended with error.\nSTDOUT:\n#{stdout}\n\nSTDERR:\n#{stderr}\n\nError object:\n\"#{error}\""
     else
       if not SILENT then util.log "\"#{title}\" finished. STDOUT:\n#{stdout}"
       cont?()
 # eof run
 
 build = (type, cont) ->
-  run "mkdir algo/css -p && stylus algo/stylus -o algo/css", "Compiling Stylus stylesheets", ->
+  run "mkdir algo/css -p && stylus algo/stylus -o algo/css", "Compiling stylesheets", ->
     run "requirejs/build/build.sh #{type}.js", "Making #{type} RequireJS build", ->
       run "rm algo/css -rf", "Removing leftover files", cont
 
@@ -27,30 +27,31 @@ build = (type, cont) ->
 # Return the number of files and directories we watch, don't count directories without .coffee files
 # Do NOT watch for files or directories created after startup
 watch = (buildtype, dir=APPNAME) ->
-    counts =
-        files: 0
-        dirs: 0
+  counts =
+    files: 0
+    dirs: 0
 
-    for file in fs.readdirSync dir then do (file) ->
-        fullfile = "#{dir}/#{file}"
+  for file in fs.readdirSync dir then do (file) ->
+    fullfile = "#{dir}/#{file}"
 
-        if (fs.statSync fullfile).isDirectory()
-#           util.log "Recursing into #{fullfile}"
-            ret = watch buildtype, fullfile
-            counts.files += ret.files
-            counts.dirs += ret.dirs
+    if (fs.statSync fullfile).isDirectory()
+#      util.log "Recursing into #{fullfile}"
+      ret = watch buildtype, fullfile
+      counts.files += ret.files
+      counts.dirs += ret.dirs
 
-        else if file.match /[^.\#]+\.coffee$/ or file.match /[^.\#]+\.stylus$/
-            counts.dirs = 1
-            counts.files += 1
+    else if file.match(/^[^.\#].*\.coffee$/) or file.match(/^[^.\#]+\.styl$/)
+      counts.dirs = 1
+      counts.files += 1
+      util.log fullfile
 
-            fs.watchFile "#{fullfile}", (curr, prev) ->
-                if +curr.mtime isnt +prev.mtime
-                    output = dir.replace /coffee/g, 'js'
-                    util.log "#{fullfile} changed"
-                    invoke "build:#{buildtype}"
+      fs.watchFile "#{fullfile}", (curr, prev) ->
+        if +curr.mtime isnt +prev.mtime
+          output = dir.replace /coffee/g, 'js'
+          util.log "#{fullfile} changed"
+          invoke "build:#{buildtype}"
 
-    return counts
+  return counts
 # eof watch
 
 
@@ -74,6 +75,7 @@ task_watch = (type) ->
 task 'clean', 'Remove build directories', -> task_clean()
 
 task 'build:dev', 'Build development version', -> task_build 'dev'
+task 'build:dev-compile', 'Build and compile, but don\'t minify', -> task_build 'dev-compile'
 task 'build:test', 'Build development version and tests', -> task_build 'test'
 task 'build:prod', 'Build production version', -> task_build 'prod'
 
