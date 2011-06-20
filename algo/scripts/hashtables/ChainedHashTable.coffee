@@ -18,7 +18,9 @@
 #  add, newHash, insertItem
 #   hash: actual hash
 #   element: Element instance
-#   params: [key, value
+#   params: key, value
+#  insertItem
+#   result: index where the item was inserted (determined by the list type)
 #  got
 #   result: array of values
 #  gotFirst
