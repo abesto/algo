@@ -1,7 +1,12 @@
-define ['cs!loadcss', 'vendor/jquery', 'vendor/raphael', 'cs!widgets/LinkedList']
-, (css, $, Raphael, L) ->
+define ['cs!loadcss', 'vendor/jquery', 'vendor/raphael', 'cs!hashtables/ChainedHashTable', 'cs!widgets/ChainedHashTable', 'cs!hashtables/HashFunction', 'cs!hashtables/OrderedList']
+, (css, $, Raphael, Model, View, HashFunction, OrderedList) ->
   css 'reset', 'main'
   $ ->
+
+    hf = new HashFunction
+      hash: (x) -> x % 10
+    l = OrderedList( (x, y) -> x - y )
+
     $w = $(window)
     [h, w] = [$w.height(), $w.width()]
     $('#display').css
@@ -9,31 +14,15 @@ define ['cs!loadcss', 'vendor/jquery', 'vendor/raphael', 'cs!widgets/LinkedList'
       height: h
 
     paper = Raphael 'display'
+    m = new Model(hf, l)
+    v = new View(paper, m, 50, 50)
 
-    l = new L(paper, 100, 100)
-    l.push 'One', 'aaaaaaaa'
-    l.push 'Two', 'bbb'
-    l.push 'Three', 'cccc'
-    l.insertBefore 2, 'Two-and-a-half', 'ddddddddddd'
-    l.insertAfter 0, 'One-and-a-half', 'eeee'
-    l.unshift 'Zero', 'f'
-    l.insertBefore 1, 'Half'
+    m.add(21, 'twentyone').run()
+    m.add(1, 'one').run()
 
-    l = new L(paper, 100, 200)
-    l.push 'One', 'aaaaaaaa'
-    l.push 'Two', 'bbb'
-    l.push 'Three', 'cccc'
-    l.insertBefore 2, 'Two-and-a-half', 'ddddddddddd'
-    l.insertAfter 0, 'One-and-a-half', 'eeee'
-    l.unshift 'Zero', 'f'
-    l.insertBefore 1, 'Half'
+    m.add(22, 'twentytwo').run()
+    m.add(2, 'two').run()
 
-    window.l = l
+    m.add(11, 'eleven').run()
 
-    l.shift() # Zero
-
-    l.pop() # Three
-
-    l.removeAt 2 # One-and-a-half
-
-
+    window.m = m

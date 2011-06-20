@@ -1,5 +1,7 @@
 ##
-# Extend the set to actualy behave like an ordered set, plus add string-indexed sub-sets.
+# Extend Set with methods that behave like an ordered set, plus add string-indexed sub-sets.
+# The original API is left intact. (If not, that's a bug)
+#
 # The items are ordered as they were added.
 # The performance is not optimal, but it's not intended to be.
 # Subsets can be accessed as setObject.key
@@ -15,15 +17,21 @@ define ['vendor/raphael', 'vendor/underscore'], (R, _) ->
 
   Set = R::set().constructor
 
+  Set::splice = (args...) ->
+    @items.splice args...
+    @length = @items.length
+    for v, i in @items
+      @[i] = v
+
   # Is item in the set?
   Set::has = (item) -> _(@items).indexOf(item) > -1
 
   # Does a subset with the key exist?
-  Set::hasSubset = (key) -> @[key]?
+  Set::hasSubset = (key) -> @[key]? and @[key] instanceof Set
 
   # Add item to the set
   Set::add = (item) ->
-    if not @has item then @items.push item
+    if not @has item then @push item
     return item
 
   # Add item to the set and to the subset indexed by key, creating it if needed

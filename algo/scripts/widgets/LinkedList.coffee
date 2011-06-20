@@ -1,7 +1,7 @@
 define ['vendor/underscore', 'cs!widgets/rectext', 'cs!widgets/raphael.setfixes', 'cs!widgets/raphael.line'], (_) ->
   class LinkedListWidget
     constructor: (@_paper, @_x, @_y, @_padding=20, @_pointer_width=15) ->
-      @_items = []
+      @_items = @_paper.set()
 
     _createItem: (x, y, fields...) ->
       item = @_paper.set()
@@ -48,7 +48,7 @@ define ['vendor/underscore', 'cs!widgets/rectext', 'cs!widgets/raphael.setfixes'
       if position < @_items.length
         @_last item, false
         offset = item.getBBox().width
-        for next in @_items[position..]
+        for next in _(@_items).toArray()[position..]
           next.translate offset, 0
       else
         @_last item, true
@@ -72,3 +72,9 @@ define ['vendor/underscore', 'cs!widgets/rectext', 'cs!widgets/raphael.setfixes'
 
     shift: -> @removeAt 0
     pop: -> @removeAt -1
+
+    getBBox: ->
+      if @_items.length == 0 then return {x:@_x, y:@_y, width:0, height:0}
+      else return @_items.getBBox()
+    translate: (args...) -> @_items.translate args...
+    height: -> @_paper.rectextHeight()

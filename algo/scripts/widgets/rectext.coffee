@@ -9,6 +9,12 @@ define ['vendor/raphael', 'vendor/underscore'], (R, _) ->
     s.push t, r
     return s
 
+  R.fn.rectextHeight = (padding=5) ->
+    r = @rectext 0, 0, 'x', padding
+    b = r.getBBox()
+    r.remove()
+    return b.height
+
   R.fn.rectextafter = (rect, text) ->
     b = rect.getBBox()
     if not _.isNumber text
