@@ -6,7 +6,7 @@ define ['cs!./UnorderedList'], (UL) ->
 
         _insertIndex: (element) ->
             i = 0
-            while i < @_array.length && @_array[i].key <= element.key
+            while i < @_array.length and (@_compare(@_array[i].key, element.key) <= 0)
                 i++
             return i
 
@@ -16,6 +16,7 @@ define ['cs!./UnorderedList'], (UL) ->
                 @_array.push element
             else if i != null
                 @_array.splice i, 0, element
+            return i
 
     return (compare) ->
         class OrderedList extends GenericOrderedList
