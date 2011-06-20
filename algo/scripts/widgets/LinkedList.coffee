@@ -5,42 +5,35 @@ define ['vendor/underscore', 'cs!widgets/rectext', 'cs!widgets/raphael.setfixes'
 
     _createItem: (x, y, fields...) ->
       item = @_paper.set()
-      item.push @_paper.rectext(x, y, fields.shift())
+      last = item.addToSubset 'fields', @_paper.rectext(x, y, fields.shift())
       while fields.length > 0
-        item.push @_paper.rectextafter item[ item.length-1 ], fields.shift()
-      item.pointer = @_paper.rectextafter item[ item.length-1 ], @_pointer_width
-      item.push item.pointer
+        last = item.addToSubset 'fields', @_paper.rectextafter last, fields.shift()
+      item.addToSubset 'pointer', @_paper.rectextafter last, @_pointer_width
       item.translate x - item.getBBox().x, 0
       return item
     #eof _createItem
 
-    # Do two things:
-    #  Strike out the pointer box
-    #  Draw an arrow, connecting to the next item
+    # Ensure exactly one of two things:
+    #  The last (pointer) box is striked out
+    #  An arrow points out of the last box
     _last: (item, bool) ->
-      if not bool? then return +item.lstrike?
-      b = item.pointer.getBBox()
+      if not bool? then return item.hasSubset 'lstrike'
+      b = item.get('pointer').getBBox()
 
       # bool=true: strike-out=true, arrow=false
       if bool
-        if item.out?
-          item.splice(_.indexOf(item, item.out), 1)
-          item.out.remove()
-        if not item.lstrike?
-          item.lstrike = @_paper.path "M#{b.x} #{b.y + b.height}L#{b.x + b.width} #{b.y}"
-          item.push item.lstrike
+        item.removeSubset 'out'
+        if not item.hasSubset 'lstrike'
+          item.addToSubset('lstrike', @_paper.path "M#{b.x} #{b.y + b.height}L#{b.x + b.width} #{b.y}")
 
       # bool=false: strike-out=false, arrow=true
-      else if not bool
-        if not item.out?
-          item.out = @_paper.line b.x+b.width-@_pointer_width/2, b.y+(b.height/2), b.x+b.width+@_padding, b.y+(b.height/2), {
+      else
+        item.removeSubset 'lstrike'
+        if not item.hasSubset 'out'
+          item.addToSubset('out', @_paper.line b.x+b.width-@_pointer_width/2, b.y+(b.height/2), b.x+b.width+@_padding, b.y+(b.height/2), {
             size: @_padding/2.6
             angle: 20
-          }
-          item.push item.out
-        if item.lstrike?
-          item.splice(_.indexOf(item, item.lstrike), 1)
-          item.lstrike.remove()
+          })
     # eof _createItem
 
     insertBefore: (position, fields...) ->
@@ -51,7 +44,6 @@ define ['vendor/underscore', 'cs!widgets/rectext', 'cs!widgets/raphael.setfixes'
         item = @_createItem b.x + b.width, b.y + b.height/2, fields...
       else
         item = @_createItem @_x, @_y, fields...
-
 
       if position < @_items.length
         @_last item, false

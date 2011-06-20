@@ -28,7 +28,12 @@ define ['cs!loadcss', 'vendor/jquery', 'vendor/raphael', 'cs!widgets/LinkedList'
     l.unshift 'Zero', 'f'
     l.insertBefore 1, 'Half'
 
+    window.l = l
+
     l.shift() # Zero
+
     l.pop() # Three
+
     l.removeAt 2 # One-and-a-half
+
 

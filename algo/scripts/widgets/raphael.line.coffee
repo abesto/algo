@@ -11,4 +11,4 @@ define ['vendor/jquery', 'vendor/raphael'], ($, R) ->
     arrowPath = @path("M#{x2} #{y2}L#{x2 - size} #{y2 - size/divisor}#{back}#{x2 - size} #{y2 + size/divisor}L#{x2} #{y2}").rotate((90+angle),x2,y2)
     if arrowProps.filled then arrowPath.attr('fill', 'black')
     linePath = @path("M#{x1} #{y1}L#{x2} #{y2}")
-    return @set(linePath,arrowPath)
+    return @set(linePath, arrowPath)
