@@ -1,12 +1,13 @@
-define ['vendor/raphael', 'vendor/underscore'], (R, _) ->
-  R.fn.rectext = (x, y, text, padding=5) ->
+define ['vendor/raphael', 'vendor/underscore', 'cs!widgets/raphael.setfixes'], (R, _) ->
+  R.fn.rectext = (x, y, text, padding=10) ->
     t = @text x, y, text
     b = t.getBBox()
     r = @rect b.x-padding, b.y-padding, b.width+(2*padding), b.height+(2*padding)
     r.attr(fill: '#efefef')
     r.toBack()
     s = @set()
-    s.push t, r
+    s.addToSubset 'rect', r
+    s.addToSubset 'text', t
     return s
 
   R.fn.rectextHeight = (padding=5) ->

@@ -1,11 +1,11 @@
 define ['vendor/underscore', 'cs!widgets/rectext', 'cs!widgets/raphael.setfixes', 'cs!widgets/raphael.line'], (_) ->
   class LinkedListWidget
-    constructor: (@_paper, @_x, @_y, @_padding=20, @_pointer_width=15) ->
+    constructor: (@_paper, @_x, @_y, @_padding=10, @_pointer_width=15) ->
       @_items = @_paper.set()
 
     _createItem: (x, y, fields...) ->
       item = @_paper.set()
-      last = item.addToSubset 'fields', @_paper.rectext(x, y, fields.shift())
+      last = item.addToSubset 'fields', @_paper.rectext(x, y, fields.shift(), @_padding)
       while fields.length > 0
         last = item.addToSubset 'fields', @_paper.rectextafter last, fields.shift()
       item.addToSubset 'pointer', @_paper.rectextafter last, @_pointer_width

@@ -4,7 +4,7 @@ define ['cs!loadcss', 'vendor/jquery', 'vendor/raphael', 'cs!hashtables/ChainedH
   $ ->
 
     hf = new HashFunction
-      hash: (x) -> x % 10
+      hash: (x) -> x % 300
     l = OrderedList( (x, y) -> x - y )
 
     $w = $(window)
