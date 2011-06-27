@@ -27,59 +27,47 @@ define ['vendor/raphael', 'vendor/underscore'], (R, _) ->
   Set::has = (item) -> _(@items).indexOf(item) > -1
 
   # Does a subset with the key exist?
-  Set::hasSubset = (key) -> @[key]? and @[key] instanceof Set
+  Set::hasSubset = (key) -> if @[key]? then (@[key] instanceof Set) else false
 
-  # Add item to the set
+  # Add item to the set and its superset, if applicable
   Set::add = (item) ->
     if not @has item then @push item
+    @superset?.add item
     return item
 
-  # Add item to the set and to the subset indexed by key, creating it if needed
-  Set::addToSubset = (key, item) ->
-    if not @keys? then @keys = []
-    if not @hasSubset key
-      @[key] = R::set()
-      @keys.push key
-    @[key].add item
-    @add item
-    return item
-
-  # Remove item from the set and all subsets, and their subsets, and ...
-  Set::removeItem = (item) ->
-    i = _(@items).indexOf(item)
+  # Remove item from the set and all subsets recursively
+  Set::removeItem = (item, recursive=false) ->
+    i = _(@).indexOf(item)
     if i > -1
-      @items.splice i, 1
+      @splice i, 1
       for key in @keys
-        @[key].removeItem item
-      item.remove()
+        @[key].removeItem item, true
+      @superset?.removeItem item, true
+      if not recursive then item.remove()
 
   # Remove the subset indexed by key, and all the items contained in it
-  Set::removeSubset = (key) ->
+  # Implicitly removes the items from subsets of the subset, recursively
+  # Explicitly removes the subsets of the subset, recursively
+  Set::removeSubset = (key, recursive=false) ->
     if @hasSubset key
+      for subset in @[key].keys
+        @[key].removeSubset subset, true
       for item in @[key].items
-        @removeItem item
+        @removeItem item, recursive
       @[key].remove()
       @keys.splice _(@keys).indexOf(key), 1
       delete @[key]
 
-  # If key is defined, return the count of items in the subset indexed
-  # by key (possibly zero). If key is not defineed, return the count of
-  # items in the set.
-  Set::count = (key) ->
-    if key?
-      if @hasSubset key then return @[key].count() else return 0
-    else
-      return @items.length
-
-  # Retrieve an item by index, possibly recursing into subsets.
-  # If the first argument is the index of an element, that element is returned.
-  # If the first argument is the key of a subset, we recurse into that subset with the rest of the arguments.
-  # If the last argument is a subset, then the first (index 0) element of that subset is returned
-  # If none of these conditions is met, this[key] is returned.
   Set::get = (keys...) ->
     key = keys.shift()
     if @hasSubset key
       if keys.length > 0 then return @[key].get keys...
-      else return @[key].get 0
+      else return @[key]
     else if @items[key]? then return @items[key]
-    else return @[key]
+    else if not _.isNumber(key)
+      @[key] = R::set()
+      @[key].superset = @
+      @keys.push key
+      return @[key]
+    else
+      throw 'No item found with index ' + key + '. Subset names cannot be numbers.'
