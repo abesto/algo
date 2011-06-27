@@ -1,27 +1,35 @@
-define ['vendor/raphael', 'vendor/underscore', 'cs!widgets/raphael.setfixes'], (R, _) ->
-  R.fn.rectext = (x, y, text, padding=10) ->
-    t = @text x, y, text
-    b = t.getBBox()
-    r = @rect b.x-padding, b.y-padding, b.width+(2*padding), b.height+(2*padding)
-    r.attr(fill: '#efefef')
-    r.toBack()
-    s = @set()
-    s.addToSubset 'rect', r
-    s.addToSubset 'text', t
-    return s
+define ['vendor/underscore', 'cs!widgets/raphael.class', 'vendor/jquery', 'cs!widgets/raphael.setfixes'], (_, RC, $) ->
+  defaults =
+    x: 0
+    y: 0
+    text: 'RecText'
+    padding: 10  # Between the text and the box
+    centerX: false # If true, x is taken to be the center, instead of the leftmost position
+    centerY: false # If true, y is taken to be the center, instead of the topmost position
 
-  R.fn.rectextHeight = (padding=5) ->
-    r = @rectext 0, 0, 'x', padding
-    b = r.getBBox()
-    r.remove()
-    return b.height
+  RC class RecText
+    constructor: (@_paper, opts) ->
+      opts = $.extend defaults, opts
 
-  R.fn.rectextafter = (rect, text) ->
-    b = rect.getBBox()
-    if not _.isNumber text
-      r = @rectext(b.x + b.width, b.y + (b.height / 2), text)
-      r.translate r.getBBox().width/2, 0
-    else
-      r = @rect b.x + b.width, b.y, text, b.height
+      # Create the primitives
+      t = @_paper.text 0, 0, opts.text
+      b = t.getBBox()
+      r = @_paper.rect b.x-opts.padding, b.y-opts.padding, b.width+(2*opts.padding), b.height+(2*opts.padding)
       r.attr(fill: '#efefef')
-    return r
+      r.toBack()
+
+      # Make them a set
+      @_set = @_paper.set()
+      @_set.get('rect').add(r)
+      @_set.get('text').add(t)
+
+      # Position based on the parameters
+      @_set.translate opts.x, opts.y
+      b = @_set.getBBox()
+      if not opts.centerX
+        @_set.translate b.width/2
+      if not opts.centerY
+        @_set.translate b.height/2
+    # eof constructor
+
+    translate: (args...) -> @_set.translate args...
