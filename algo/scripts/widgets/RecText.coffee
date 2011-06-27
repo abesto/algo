@@ -9,10 +9,10 @@ define ['vendor/underscore', 'cs!widgets/raphael.class', 'vendor/jquery', 'cs!wi
 
   RC class RecText
     constructor: (@_paper, opts) ->
-      opts = $.extend defaults, opts
+      opts = $.extend {}, defaults, opts
 
       # Create the primitives
-      t = @_paper.text 0, 0, opts.text
+      t = @_paper.text opts.x, opts.y, opts.text
       b = t.getBBox()
       r = @_paper.rect b.x-opts.padding, b.y-opts.padding, b.width+(2*opts.padding), b.height+(2*opts.padding)
       r.attr(fill: '#efefef')
@@ -24,12 +24,12 @@ define ['vendor/underscore', 'cs!widgets/raphael.class', 'vendor/jquery', 'cs!wi
       @_set.get('text').add(t)
 
       # Position based on the parameters
-      @_set.translate opts.x, opts.y
       b = @_set.getBBox()
       if not opts.centerX
-        @_set.translate b.width/2
+        @_set.translate b.width/2, 0
       if not opts.centerY
-        @_set.translate b.height/2
+        @_set.translate 0, b.height/2
     # eof constructor
 
     translate: (args...) -> @_set.translate args...
+    getBBox: -> @_set.getBBox()
