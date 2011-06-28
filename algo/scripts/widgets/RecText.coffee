@@ -11,9 +11,17 @@ define ['vendor/underscore', 'cs!widgets/raphael.class', 'vendor/jquery', 'cs!wi
     constructor: (@_paper, opts) ->
       opts = $.extend {}, defaults, opts
 
-      # Create the primitives
-      t = @_paper.text opts.x, opts.y, opts.text
-      b = t.getBBox()
+      # Support for empty boxes (rationale: we don't know the height)
+      if opts.text == null or opts.text == ''
+        t = @_paper.text opts.x, opts.y, 'E'
+        b = t.getBBox()
+        b.width = 0
+        t.remove()
+      else
+        t = @_paper.text opts.x, opts.y, opts.text
+        b = t.getBBox()
+
+      # Draw a rect the text it
       r = @_paper.rect b.x-opts.padding, b.y-opts.padding, b.width+(2*opts.padding), b.height+(2*opts.padding)
       r.attr(fill: '#efefef')
       r.toBack()
@@ -23,8 +31,8 @@ define ['vendor/underscore', 'cs!widgets/raphael.class', 'vendor/jquery', 'cs!wi
       @_set.get('rect').add(r)
       @_set.get('text').add(t)
 
-      # Position based on the parameters
-      b = @_set.getBBox()
+      # Un-center if needed (text is created with center coordinates)
+      b = @getBBox()
       if not opts.centerX
         @_set.translate b.width/2, 0
       if not opts.centerY
@@ -32,4 +40,4 @@ define ['vendor/underscore', 'cs!widgets/raphael.class', 'vendor/jquery', 'cs!wi
     # eof constructor
 
     translate: (args...) -> @_set.translate args...
-    getBBox: -> @_set.getBBox()
+    getBBox: -> @_set.get('rect').getBBox()

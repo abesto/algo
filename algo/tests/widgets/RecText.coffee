@@ -56,3 +56,20 @@ define ['vendor/qunit', 'vendor/raphael', 'cs!widgets/RecText'], (T, R) ->
     T.equal tb.y - rb.y, 23, 'Top'
     T.equal (tb.x + tb.width) - (rb.x + rb.width), -23, 'Right'
     T.equal (tb.y + tb.height) - (rb.y + rb.height), -23, 'Bottom'
+
+  T.test 'RecTexts with the same padding should have uniform height', ->
+    r = @p.RecText
+      text: 'a'
+    q = @p.RecText
+      text: 'E'
+    T.equal r.getBBox().height, q.getBBox().height
+
+  T.test 'RecText with text null should have width 2*padding, and the same height as other RecTexts', ->
+    r = @p.RecText
+      padding: 7
+      text: null
+    q = @p.RecText
+      text: 'fooA'
+      padding: 7
+    T.equal r.getBBox().width, 14
+    T.equal r.getBBox().height, q.getBBox().height
