@@ -23,6 +23,7 @@ define ['vendor/qunit', 'vendor/raphael', 'cs!widgets/RecText'], (T, R) ->
     x = @p.RecText
       x: 20
       y: 30
+      padding: 7
       centerX: true
     b = x.getBBox()
     T.equal b.y, 30
@@ -31,6 +32,7 @@ define ['vendor/qunit', 'vendor/raphael', 'cs!widgets/RecText'], (T, R) ->
     y = @p.RecText
       x: 20
       y: 30
+      padding: 90
       centerY: true
     b = y.getBBox()
     T.equal b.x, 20
@@ -44,3 +46,13 @@ define ['vendor/qunit', 'vendor/raphael', 'cs!widgets/RecText'], (T, R) ->
     b = r.getBBox()
     T.equal b.x, 70
     T.equal b.y, 85
+
+  T.test 'Padding should be the distance between text and rect', ->
+    r = @p.RecText
+      padding: 23
+    tb = r._set.get('text').getBBox()
+    rb = r._set.get('rect').getBBox()
+    T.equal tb.x - rb.x, 23, 'Left'
+    T.equal tb.y - rb.y, 23, 'Top'
+    T.equal (tb.x + tb.width) - (rb.x + rb.width), -23, 'Right'
+    T.equal (tb.y + tb.height) - (rb.y + rb.height), -23, 'Bottom'
