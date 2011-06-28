@@ -1,9 +1,8 @@
 define [
   'vendor/qunit', 'vendor/jquery'
-  'cs!t/StateMachine', 'cs!t/ChainedHashTable'
-  'cs!t/UnorderedList', 'cs!t/OrderedList', 'cs!t/OrderedUniqueList'
-  'cs!t/raphael.setfixes'
-  'cs!t/RecText'
+  'cs!t/StateMachine',
+  'cs!t/hashtables/ChainedHashTable', 'cs!t/hashtables/UnorderedList', 'cs!t/hashtables/OrderedList', 'cs!t/hashtables/OrderedUniqueList'
+  'cs!t/widgets/raphael.setfixes', 'cs!t/widgets/RecText'
 ],
   (QUnit, $) ->
     QUnit.QUnit.done = -> $('#testpaper').remove()
