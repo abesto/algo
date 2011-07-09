@@ -71,3 +71,12 @@ define ['vendor/raphael', 'vendor/underscore'], (R, _) ->
       return @[key]
     else
       throw 'No item found with index ' + key + '. Subset names cannot be numbers.'
+
+  # Simple override; original version accepts only Set and Element items
+  Set::push = (items...) ->
+    for item in items
+      @items.push item
+      @[@items.length-1] = item
+    @length = @items.length
+
+

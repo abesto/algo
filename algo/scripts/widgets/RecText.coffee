@@ -15,13 +15,13 @@ define ['vendor/underscore', 'cs!widgets/raphael.class', 'vendor/jquery', 'cs!wi
       if opts.text == null or opts.text == ''
         t = @_paper.text opts.x, opts.y, 'E'
         b = t.getBBox()
-        b.width = 0
+        [b.width, b.x, b.y] = [0, opts.x, opts.y]
         t.remove()
       else
         t = @_paper.text opts.x, opts.y, opts.text
         b = t.getBBox()
 
-      # Draw a rect the text it
+      # Draw a rect around the text
       r = @_paper.rect b.x-opts.padding, b.y-opts.padding, b.width+(2*opts.padding), b.height+(2*opts.padding)
       r.attr(fill: '#efefef')
       r.toBack()
@@ -34,9 +34,9 @@ define ['vendor/underscore', 'cs!widgets/raphael.class', 'vendor/jquery', 'cs!wi
       # Un-center if needed (text is created with center coordinates)
       b = @getBBox()
       if not opts.centerX
-        @_set.translate b.width/2, 0
+        @_set.translate opts.x - b.x, 0
       if not opts.centerY
-        @_set.translate 0, b.height/2
+        @_set.translate 0, opts.y - b.y
     # eof constructor
 
     translate: (args...) -> @_set.translate args...

@@ -64,12 +64,21 @@ define ['vendor/qunit', 'vendor/raphael', 'cs!widgets/RecText'], (T, R) ->
       text: 'E'
     T.equal r.getBBox().height, q.getBBox().height
 
-  T.test 'RecText with text null should have width 2*padding, and the same height as other RecTexts', ->
+  T.test 'RecText with text null should have width 2*padding, and the same height as other RecTexts; x and y should be honored', ->
     r = @p.RecText
       padding: 7
       text: null
+      x: 30
+      y: 50
     q = @p.RecText
       text: 'fooA'
       padding: 7
     T.equal r.getBBox().width, 14
     T.equal r.getBBox().height, q.getBBox().height
+    T.equal r.getBBox().x, 30
+    T.equal r.getBBox().y, 50
+
+  T.test 'RecText should be addable to Set', ->
+    s = @p.set()
+    r = s.add(@p.RecText())
+    T.ok s.has(r)
