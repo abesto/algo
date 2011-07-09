@@ -61,7 +61,7 @@ define ['vendor/qunit', 'vendor/raphael', 'cs!widgets/RecText'], (T, R) ->
     r = @p.RecText
       text: 'a'
     q = @p.RecText
-      text: 'E'
+      text: null
     T.equal r.getBBox().height, q.getBBox().height
 
   T.test 'RecText with text null should have width 2*padding, and the same height as other RecTexts; x and y should be honored', ->

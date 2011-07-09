@@ -1,15 +1,45 @@
-define ['vendor/underscore', 'cs!widgets/rectext', 'cs!widgets/raphael.setfixes', 'cs!widgets/raphael.line'], (_) ->
-  class LinkedListWidget
-    constructor: (@_paper, @_x, @_y, @_padding=10, @_pointer_width=15) ->
-      @_items = @_paper.set()
+define [
+  'vendor/underscore', 'vendor/jquery', 'cs!widgets/raphael.class', 'cs!widgets/RecText'
+  'cs!widgets/raphael.setfixes', 'cs!widgets/raphael.line'
+], (_, $, RC) ->
+  defaults =
+    x: 0
+    y: 0
+    centerY: false
+    fieldInnerPadding: 10  # Space between text and rectangle of fields
+    pointerBoxWidth: 15    # Width of the last box, where the pointer arrow starts if there's a next item
+    pointerArrowLength: 20
 
-    _createItem: (x, y, fields...) ->
+  RC class LinkedList
+    constructor: (@_paper, opts) ->
+      @_items = @_paper.set()
+      @_options = $.extend {}, defaults, opts
+
+    _createItem: (x, y, fieldstrings...) ->
       item = @_paper.set()
-      last = item.addToSubset 'fields', @_paper.rectext(x, y, fields.shift(), @_padding)
-      while fields.length > 0
-        last = item.addToSubset 'fields', @_paper.rectextafter last, fields.shift()
-      item.addToSubset 'pointer', @_paper.rectextafter last, @_pointer_width
-      item.translate x - item.getBBox().x, 0
+      fields = item.get('fields')
+
+      # Create the fields - first field
+      last = fields.add @_paper.RecText
+        x: x
+        y: y
+        text: fieldstrings.shift()
+        padding: @_options.fieldInnerPadding
+        centerY: @_options.centerY and (@_items.length == 0)
+
+      # Create fields - rest of the fields with text
+      while fieldstrings.length > 0
+        b = last.getBBox()
+        last = fields.add @_paper.RecText
+          x: b.x+b.width
+          y: b.y
+          text: fieldstrings.shift()
+          padding: @_options.fieldInnerPadding
+
+      # Create fields - pointer box
+      b = last.getBBox()
+      item.get('pointer-box').add @_paper.rect(b.x+b.width, b.y, @_options.pointerBoxWidth, b.height)
+
       return item
     #eof _createItem
 
@@ -17,21 +47,22 @@ define ['vendor/underscore', 'cs!widgets/rectext', 'cs!widgets/raphael.setfixes'
     #  The last (pointer) box is striked out
     #  An arrow points out of the last box
     _last: (item, bool) ->
-      if not bool? then return item.hasSubset 'lstrike'
-      b = item.get('pointer').getBBox()
+      if not bool? then return item.hasSubset 'strike-out'
+      b = item.get('pointer-box', 0).getBBox()
+      console.log b
 
       # bool=true: strike-out=true, arrow=false
       if bool
-        item.removeSubset 'out'
-        if not item.hasSubset 'lstrike'
-          item.addToSubset('lstrike', @_paper.path "M#{b.x} #{b.y + b.height}L#{b.x + b.width} #{b.y}")
+        item.removeSubset 'pointer'
+        if not item.hasSubset 'strike-out'
+          item.get('strike-out').add(@_paper.path "M#{b.x} #{b.y + b.height}L#{b.x + b.width} #{b.y}")
 
       # bool=false: strike-out=false, arrow=true
       else
-        item.removeSubset 'lstrike'
-        if not item.hasSubset 'out'
-          item.addToSubset('out', @_paper.line b.x+b.width-@_pointer_width/2, b.y+(b.height/2), b.x+b.width+@_padding, b.y+(b.height/2), {
-            size: @_padding/2.6
+        item.removeSubset 'strike-out'
+        if not item.hasSubset 'pointer'
+          item.get('pointer').add(@_paper.line b.x+b.width-@_options.pointerBoxWidth/2, b.y+(b.height/2), b.x+b.width+@_options.pointerArrowLength, b.y+(b.height/2), {
+            size: @_options.pointerArrowLength/2.6
             angle: 20
           })
     # eof _createItem
@@ -41,9 +72,9 @@ define ['vendor/underscore', 'cs!widgets/rectext', 'cs!widgets/raphael.setfixes'
         prev = @_items[position-1]
         if position == @_items.length then @_last prev, false
         b = prev.getBBox()
-        item = @_createItem b.x + b.width, b.y + b.height/2, fields...
+        item = @_createItem b.x + b.width, b.y, fields...
       else
-        item = @_createItem @_x, @_y, fields...
+        item = @_createItem @_options.x, @_options.y, fields...
 
       if position < @_items.length
         @_last item, false
@@ -54,6 +85,7 @@ define ['vendor/underscore', 'cs!widgets/rectext', 'cs!widgets/raphael.setfixes'
         @_last item, true
 
       @_items.splice position, 0, item
+      return item
 
     push: (fields...) -> @insertBefore @_items.length, fields...
     unshift: (fields...) -> @insertBefore 0, fields...
@@ -77,4 +109,3 @@ define ['vendor/underscore', 'cs!widgets/rectext', 'cs!widgets/raphael.setfixes'
       if @_items.length == 0 then return {x:@_x, y:@_y, width:0, height:0}
       else return @_items.getBBox()
     translate: (args...) -> @_items.translate args...
-    height: -> @_paper.rectextHeight()
