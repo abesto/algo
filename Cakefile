@@ -22,6 +22,9 @@ build = (type, cont) ->
     run "requirejs/build/build.sh #{type}.js", "Making #{type} RequireJS build", ->
       run "rm algo/css -rf", "Removing leftover files", cont
 
+is_hidden = (filename) -> filename[0] == '.'
+extension = (filename) -> filename.split('.').pop()
+
 # Watch coffeescript files in dir and it's subdirectories
 # Compile them into the appropriate folder on change, and prepare them for code coverage analysis
 # Return the number of files and directories we watch, don't count directories without .coffee files
@@ -40,7 +43,7 @@ watch = (buildtype, dir=APPNAME) ->
       counts.files += ret.files
       counts.dirs += ret.dirs
 
-    else if file.match(/^[^.\#].*\.coffee$/) or file.match(/^[^.\#]+\.styl$/)
+    else if not is_hidden(file) and extension(file) in ['coffee', 'styl']
       counts.dirs = 1
       counts.files += 1
       util.log fullfile
