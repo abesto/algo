@@ -1,0 +1,15 @@
+define ['vendor/jquery', 'cs!loadcss', 'cs!hashtables/ChainedHashTable'], ($, css, H) ->
+  css 'reset', 'main'
+<<<<<<< Updated upstream
+  $('body').append($('<div>').attr('id', 'main').html('Test harom!'))
+  h = new H()
+  for e in ['add', 'insertItem', 'newHash', 'got', 'gotFirst', 'ready']
+    h.bind e, (event, data) ->
+      console.log event.type, data
+=======
+  $ ->
+    $('#main').wijcalendar()
+>>>>>>> Stashed changes
+
+  h.add 1, 'a'
+  console.log h
