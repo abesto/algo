@@ -19,6 +19,6 @@ define ['vendor/jquery', 'app/HashTables', 'app/widgets/ChainedHashTable'],
       paper.ChainedHashTable model
       $('#add-button').click ->
         model.add($('#add-key').val(), $('#add-value').val())
-    return model.step.bind(model)
+    return model.step
       
       

@@ -27,44 +27,52 @@
 
 define ['vendor/jquery', 'vendor/underscore'], ($, _) ->
   class StateMachine
-    constructor: ->
-      @_data = {params: []}
-      @_current = 'ready'
-
-    _trigger: ->
-      $(@).trigger @_current, [$.extend({}, @_data)]
-
-    _next: -> throw 'Not implemented'
-    _ready: -> return @_data.result
-
-    _entryPoint: (names...) ->
-      for name in names
+    constructor: (@_opts) ->
+      @_state = 'ready'
+      @_data = {}
+      
+      @_opts.transitions.unshift {from: ['ready'], to: @_opts.entryPoints}
+      for name in @_opts.entryPoints
         do (name) =>
-          @[name] = (args...) ->
-            if @_current != 'ready'
+          @[name] = (params...) ->
+            if @_state != 'ready'
               throw 'Entry call can only be made when in \'ready\' state'
-            @_data.params = args
-            @_current = name
-            @step()
-            return @
-
-    step: ->
-      @_current = @_next(@_data.params...)
-      @_data.result = @['_'+@_current](@_data.params...)
-      @_trigger()
-      return @
-
-    run: ->
-      while @_current != 'ready'
-        @step()
-
-      result = @_data.result
-      if typeof result == 'object'
-        if _.isArray result
-          return $.extend(true, [], result)
-        else
-          return $.extend({}, result)
+            @_data.params = params
+            @step {stepRequest: name}
+            return this
+      
+    _guardCheck: (to) ->
+      if @_opts.guards and @_opts.guards[@_state] and @_opts.guards[@_state][to]
+        @_opts.guards[@_state][to]()
       else
-        return result
+        true
 
+    step: (to) =>
+      to = if _.isUndefined(to) or _.isUndefined(to.stepRequest) then null else to.stepRequest
+      candidates = _.flatten (transition.to for transition in @_opts.transitions when @_state in transition.from)
+      candidates = (c for c in candidates when @_guardCheck(c))
+      if candidates.length == 1
+        if to != null and to not in candidates
+          throw "Couldn't transition into requested state"
+        else
+          @_state = candidates[0]
+      else if candidates.length > 1
+        if to != null
+          if to in candidates
+            @_state = to
+          else
+            throw "Couldn't transition into requested state #{to}. Candidates were #{candidates}"
+        else
+          throw "Couldn't figure out where to go from #{@_state}. Candidates were #{candidates}"
+      @_data.result = @_opts[@_state]?(@_data.params...)
+      $(this).trigger @_state, [$.extend({}, @_data)]
+      return this
+      
+    run: ->
+      ret = null
+      while @_state != 'ready'
+        ret = @_data.result
+        @step()
+      return ret
+      
     bind: (type, handler) -> $(@).bind type, handler

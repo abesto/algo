@@ -1,21 +1,18 @@
 define ['vendor/qunit', 'vendor/jquery', 'app/StateMachine'], (T, $, SM) ->
   class S extends SM
     constructor: ->
-      super()
-      @_entryPoint 's1', 's2', 's3'
-
-    _next: ->
-      switch @_current
-        when 's1'  then return 's1a'
-        when 's1a' then return 's1b'
-        when 's1b' then return 'ready'
-        when 's2'  then return 'ready'
-        when 's3'  then return 's3a'
-        when 's3a' then return 'ready'
-
-    _s1a: -> return {test: 1}
-    _s1b: -> return {test: 2}
-    _s3a: -> return [1, 2]
+      super
+        entryPoints: ['s1', 's2', 's3'],
+        transitions: [
+          {from: ['s1'], to: ['s1a']}
+          {from: ['s1a'], to: ['s1b']}
+          {from: ['s3'], to: ['s3a']}
+          {from: ['s1b', 's2', 's3a'], to: ['ready']}
+        ]
+        s1: -> [1]
+        s1a: -> {test: 1}
+        s1b: -> {test: 2}
+        s3a: -> [1, 2]
 
   T.module 'State machine',
     setup: ->
@@ -26,32 +23,26 @@ define ['vendor/qunit', 'vendor/jquery', 'app/StateMachine'], (T, $, SM) ->
     T.ok @s.s2
 
   T.test 'Initial state is \'ready\'', ->
-    T.equal @s._current, 'ready'
+    T.equal @s._state, 'ready'
 
-  T.test 'Entry point goes straight to an inner state as defined by _next', ->
+  T.test 'Entry point goes to state with the same name', ->
     @s.s1()
-    T.equal @s._current, 's1a'
-
-  T.test 'Entry point can go straight to \'ready\' state', ->
-    @s.s2()
-    T.equal @s._current, 'ready'
+    T.equal @s._state, 's1'
 
   T.test 'Fuild interface: entry calls and step', ->
     T.strictEqual @s.s1(), @s
     T.strictEqual @s.step(), @s
 
-  T.test 'Run returns data.result', ->
-    T.deepEqual @s.s1().run(), @s._data.result
-    T.deepEqual @s.s3().run(), @s._data.result
-
-  T.test 'The return value of \'run\' is decoupled from the state machine', ->
-    result = @s.s1().run()
-    result.test = 3
-    T.strictEqual @s._data.result.test, 2
-
-    result = @s.s3().run()
-    result.push 4
-    T.deepEqual @s._data.result, [1,2]
+  T.test 'Run returns data.result (before switching to ready)', ->
+    T.deepEqual @s.s1().run(), {test: 2}
+    T.deepEqual @s.s3().run(), [1, 2]
+    
+  T.test 'data.result is always the result of the last action; undefined in ready state', ->
+    T.strictEqual @s._data.result, undefined
+    T.deepEqual @s.s1()._data.result, [1]
+    T.deepEqual @s.step()._data.result, {test: 1}
+    T.deepEqual @s.step()._data.result, {test: 2}
+    T.strictEqual @s.step()._data.result, undefined
 
   T.test 'State change triggers appropriate event', ->
     T.expect 2

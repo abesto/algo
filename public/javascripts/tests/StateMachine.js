@@ -12,38 +12,41 @@
     S = (function() {
       __extends(S, SM);
       function S() {
-        S.__super__.constructor.call(this);
-        this._entryPoint('s1', 's2', 's3');
+        S.__super__.constructor.call(this, {
+          entryPoints: ['s1', 's2', 's3'],
+          transitions: [
+            {
+              from: ['s1'],
+              to: ['s1a']
+            }, {
+              from: ['s1a'],
+              to: ['s1b']
+            }, {
+              from: ['s3'],
+              to: ['s3a']
+            }, {
+              from: ['s1b', 's2', 's3a'],
+              to: ['ready']
+            }
+          ],
+          s1: function() {
+            return [1];
+          },
+          s1a: function() {
+            return {
+              test: 1
+            };
+          },
+          s1b: function() {
+            return {
+              test: 2
+            };
+          },
+          s3a: function() {
+            return [1, 2];
+          }
+        });
       }
-      S.prototype._next = function() {
-        switch (this._current) {
-          case 's1':
-            return 's1a';
-          case 's1a':
-            return 's1b';
-          case 's1b':
-            return 'ready';
-          case 's2':
-            return 'ready';
-          case 's3':
-            return 's3a';
-          case 's3a':
-            return 'ready';
-        }
-      };
-      S.prototype._s1a = function() {
-        return {
-          test: 1
-        };
-      };
-      S.prototype._s1b = function() {
-        return {
-          test: 2
-        };
-      };
-      S.prototype._s3a = function() {
-        return [1, 2];
-      };
       return S;
     })();
     T.module('State machine', {
@@ -56,32 +59,32 @@
       return T.ok(this.s.s2);
     });
     T.test('Initial state is \'ready\'', function() {
-      return T.equal(this.s._current, 'ready');
+      return T.equal(this.s._state, 'ready');
     });
-    T.test('Entry point goes straight to an inner state as defined by _next', function() {
+    T.test('Entry point goes to state with the same name', function() {
       this.s.s1();
-      return T.equal(this.s._current, 's1a');
-    });
-    T.test('Entry point can go straight to \'ready\' state', function() {
-      this.s.s2();
-      return T.equal(this.s._current, 'ready');
+      return T.equal(this.s._state, 's1');
     });
     T.test('Fuild interface: entry calls and step', function() {
       T.strictEqual(this.s.s1(), this.s);
       return T.strictEqual(this.s.step(), this.s);
     });
-    T.test('Run returns data.result', function() {
-      T.deepEqual(this.s.s1().run(), this.s._data.result);
-      return T.deepEqual(this.s.s3().run(), this.s._data.result);
+    T.test('Run returns data.result (before switching to ready)', function() {
+      T.deepEqual(this.s.s1().run(), {
+        test: 2
+      });
+      return T.deepEqual(this.s.s3().run(), [1, 2]);
     });
-    T.test('The return value of \'run\' is decoupled from the state machine', function() {
-      var result;
-      result = this.s.s1().run();
-      result.test = 3;
-      T.strictEqual(this.s._data.result.test, 2);
-      result = this.s.s3().run();
-      result.push(4);
-      return T.deepEqual(this.s._data.result, [1, 2]);
+    T.test('data.result is always the result of the last action; undefined in ready state', function() {
+      T.strictEqual(this.s._data.result, void 0);
+      T.deepEqual(this.s.s1()._data.result, [1]);
+      T.deepEqual(this.s.step()._data.result, {
+        test: 1
+      });
+      T.deepEqual(this.s.step()._data.result, {
+        test: 2
+      });
+      return T.strictEqual(this.s.step()._data.result, void 0);
     });
     T.test('State change triggers appropriate event', function() {
       T.expect(2);

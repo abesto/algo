@@ -27,52 +27,38 @@
 #   result: value
 ##
 
-define ['vendor/jquery'
+
+define ['vendor/jquery', 'vendor/underscore'
 '../StateMachine'
 './Element', './UnorderedList'],
-($, StateMachine, Element, UnorderedList) ->
-
+($, _, StateMachine, Element, UnorderedList) ->
   class ChainedHashTable extends StateMachine
     constructor: (hashFunction, listClass) ->
       # State machine init
-      super()
-      @_entryPoint 'add', 'get', 'getFirst'
+      super
+        entryPoints: ['add', 'get', 'getFirst']  
+        transitions: [
+          {from: ['add'],        to: ['insertItem', 'newHash']}
+          {from: ['newHash'],    to: ['insertItem']}
+          {from: ['insertItem', 'get', 'getFirst'], to: ['ready']}          
+        ]
+        guards:
+          add:
+            newHash: => _.isUndefined @_heads[@_data.hash]
+            insertItem: => not _.isUndefined @_heads[@_data.hash]
+        add: (a, b) =>
+          @_data.element = new Element a, b
+          @_data.hash = @_hashFunction @_data.element.key
+        newHash: => @_heads[@_data.hash] = new @_listClass()
+        insertItem: => @_heads[@_data.hash].add @_data.element
+        get: (key) =>
+          @_data.hash = @_hashFunction key
+          if _.isUndefined(@_heads[@_data.hash]) then [] else @_heads[@_data.hash].get key
+        getFirst: (key) =>
+          @_data.hash = @_hashFunction key
+          if _.isUndefined(@_heads[@_data.hash]) then undefined else @_heads[@_data.hash].getFirst key          
 
       # Hash table init
       @_hashFunction = hashFunction ? (x) -> x
       @_listClass = listClass ? UnorderedList
       @_heads = {}
-    # eof constructor
-
-    _next: (a, b) ->
-      r = ['insertItem', 'got', 'gotFirst']
-      
-      f =
-        'add': =>
-          @_data.element = new Element a, b
-          @_data.hash = @_hashFunction @_data.element.key
-          if @_heads[@_data.hash]?
-            return 'insertItem'
-          else
-            return 'newHash'
-        'newHash': => 'insertItem'
-      
-      if f[@_current]?
-        f[@_current]()
-      else if @_current in r
-        return 'ready'
-      else
-        return @_current
-
-    _newHash: -> @_heads[@_data.hash] = new @_listClass()
-    _insertItem: -> @_heads[@_data.hash].add @_data.element
-
-    _get: (key) ->
-      @_current = 'got'
-      return (@_heads[ @_hashFunction key ]?.get key) ? []
-
-    _getFirst: (key) ->
-      @_current = 'gotFirst'
-      return @_heads[ @_hashFunction key ]?.getFirst key
-
-
