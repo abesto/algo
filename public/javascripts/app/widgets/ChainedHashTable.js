@@ -53,7 +53,7 @@
         }
       };
       ChainedHashTable.prototype._insertItem = function(hash, index, element) {
-        return this._lists[hash].insertBefore(index + 1, element.key, element.value);
+        return this._lists[hash].insertBefore(index, element.key, element.value);
       };
       return ChainedHashTable;
     })());

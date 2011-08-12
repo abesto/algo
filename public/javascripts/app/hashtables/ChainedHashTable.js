@@ -6,47 +6,48 @@
     child.prototype = new ctor;
     child.__super__ = parent.prototype;
     return child;
+  }, __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __indexOf = Array.prototype.indexOf || function(item) {
+    for (var i = 0, l = this.length; i < l; i++) {
+      if (this[i] === item) return i;
+    }
+    return -1;
   };
-  define(['vendor/jquery', '../StateMachine', './Element', './HashFunction', './UnorderedList'], function($, StateMachine, Element, HashFunction, UnorderedList) {
+  define(['vendor/jquery', '../StateMachine', './Element', './UnorderedList'], function($, StateMachine, Element, UnorderedList) {
     var ChainedHashTable;
     return ChainedHashTable = (function() {
       __extends(ChainedHashTable, StateMachine);
       function ChainedHashTable(hashFunction, listClass) {
         ChainedHashTable.__super__.constructor.call(this);
         this._entryPoint('add', 'get', 'getFirst');
-        this._hashFunction = hashFunction != null ? hashFunction : new HashFunction({
-          hash: function(x) {
-            return x;
-          },
-          inDomain: function() {
-            return true;
-          },
-          inRange: function() {
-            return true;
-          }
-        });
+        this._hashFunction = hashFunction != null ? hashFunction : function(x) {
+          return x;
+        };
         this._listClass = listClass != null ? listClass : UnorderedList;
         this._heads = {};
       }
       ChainedHashTable.prototype._next = function(a, b) {
-        switch (this._current) {
-          case 'add':
+        var f, r, _ref;
+        r = ['insertItem', 'got', 'gotFirst'];
+        f = {
+          'add': __bind(function() {
             this._data.element = new Element(a, b);
-            this._data.hash = this._hashFunction.hash(this._data.element.key);
+            this._data.hash = this._hashFunction(this._data.element.key);
             if (this._heads[this._data.hash] != null) {
               return 'insertItem';
             } else {
               return 'newHash';
             }
-            break;
-          case 'newHash':
+          }, this),
+          'newHash': __bind(function() {
             return 'insertItem';
-          case 'insertItem':
-          case 'got':
-          case 'gotFirst':
-            return 'ready';
-          default:
-            return this._current;
+          }, this)
+        };
+        if (f[this._current] != null) {
+          return f[this._current]();
+        } else if (_ref = this._current, __indexOf.call(r, _ref) >= 0) {
+          return 'ready';
+        } else {
+          return this._current;
         }
       };
       ChainedHashTable.prototype._newHash = function() {
@@ -58,12 +59,12 @@
       ChainedHashTable.prototype._get = function(key) {
         var _ref, _ref2;
         this._current = 'got';
-        return (_ref = (_ref2 = this._heads[this._hashFunction.hash(key)]) != null ? _ref2.get(key) : void 0) != null ? _ref : [];
+        return (_ref = (_ref2 = this._heads[this._hashFunction(key)]) != null ? _ref2.get(key) : void 0) != null ? _ref : [];
       };
       ChainedHashTable.prototype._getFirst = function(key) {
         var _ref;
         this._current = 'gotFirst';
-        return (_ref = this._heads[this._hashFunction.hash(key)]) != null ? _ref.getFirst(key) : void 0;
+        return (_ref = this._heads[this._hashFunction(key)]) != null ? _ref.getFirst(key) : void 0;
       };
       return ChainedHashTable;
     })();

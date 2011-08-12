@@ -1,10 +1,10 @@
-div#container
-div#main
-  div#left
-    p Controls here
-  div#right
-    div#top
-      div#display
-    div#bottom
-      p Bottom
+table#container
+  tr
+    td(rowspan=2)#left
+      div#controls
+      input#step(type='button', value='Step')
+    td#display
+  tr
+    td#bottom
+    
 <script data-main="javascripts/main" src="javascripts/vendor/require.js"></script>

@@ -2,7 +2,7 @@
 # Chained hash table
 #
 # Constructor parameters:
-#  hashFunction: a HashFunction instance, defaults to (x) -> x
+#  hashFunction: a function, defaults to (x) -> x
 #  listClass: a class implementing the interface of UnorderedList, defaults to UnorderedList
 #
 # Entry points and states:
@@ -29,8 +29,8 @@
 
 define ['vendor/jquery'
 '../StateMachine'
-'./Element', './HashFunction', './UnorderedList'],
-($, StateMachine, Element, HashFunction, UnorderedList) ->
+'./Element', './UnorderedList'],
+($, StateMachine, Element, UnorderedList) ->
 
   class ChainedHashTable extends StateMachine
     constructor: (hashFunction, listClass) ->
@@ -39,39 +39,40 @@ define ['vendor/jquery'
       @_entryPoint 'add', 'get', 'getFirst'
 
       # Hash table init
-      @_hashFunction = hashFunction ? new HashFunction
-         hash: (x) -> x
-         inDomain: -> true
-         inRange: -> true
+      @_hashFunction = hashFunction ? (x) -> x
       @_listClass = listClass ? UnorderedList
       @_heads = {}
     # eof constructor
 
     _next: (a, b) ->
-      switch @_current
-        when 'add'
+      r = ['insertItem', 'got', 'gotFirst']
+      
+      f =
+        'add': =>
           @_data.element = new Element a, b
-          @_data.hash = @_hashFunction.hash @_data.element.key
+          @_data.hash = @_hashFunction @_data.element.key
           if @_heads[@_data.hash]?
             return 'insertItem'
           else
             return 'newHash'
-        when 'newHash'
-          return 'insertItem'
-        when 'insertItem', 'got', 'gotFirst'
-          return 'ready'
-        else
-          return @_current
+        'newHash': => 'insertItem'
+      
+      if f[@_current]?
+        f[@_current]()
+      else if @_current in r
+        return 'ready'
+      else
+        return @_current
 
     _newHash: -> @_heads[@_data.hash] = new @_listClass()
     _insertItem: -> @_heads[@_data.hash].add @_data.element
 
     _get: (key) ->
       @_current = 'got'
-      return (@_heads[ @_hashFunction.hash key ]?.get key) ? []
+      return (@_heads[ @_hashFunction key ]?.get key) ? []
 
     _getFirst: (key) ->
       @_current = 'gotFirst'
-      return @_heads[ @_hashFunction.hash key ]?.getFirst key
+      return @_heads[ @_hashFunction key ]?.getFirst key
 
 

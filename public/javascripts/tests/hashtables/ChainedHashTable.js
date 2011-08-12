@@ -17,7 +17,7 @@
       while (i < 100) {
         r = Math.random();
         lin.push(r);
-        lout.push(this.h._hashFunction.hash(r));
+        lout.push(this.h._hashFunction(r));
         i++;
       }
       return T.deepEqual(lout, lin);

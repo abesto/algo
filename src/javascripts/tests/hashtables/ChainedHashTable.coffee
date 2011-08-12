@@ -14,7 +14,7 @@ define ['vendor/qunit', 'vendor/jquery', 'app/hashtables/ChainedHashTable', 'app
       while i < 100
         r = Math.random()
         lin.push r
-        lout.push @h._hashFunction.hash(r)
+        lout.push @h._hashFunction(r)
         i++
       T.deepEqual lout, lin
 

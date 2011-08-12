@@ -35,7 +35,9 @@ app.get '/', (req, res) ->
     title: 'ORLY'
   })
 
-
+app.get '/controls/:module', (req, res) ->
+  res.render('controls/' + req.params.module, {layout: false})
+  
 app.get('/tests', (req, res) ->
     res.render('tests', {
         title: 'Tests'
