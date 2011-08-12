@@ -12,11 +12,6 @@
 #  ready: The machine is ready for a new entry point. Entry point calls when not in this state
 #         will throw an exception. This state can only be left when an entry point is called.
 #
-# The transition function is called _next. This must be implemented in the subclasses.
-# It receives the parameters of the last entry point call as arguments. The current
-# state name is accessible via this._current. It must return the name of the state
-# we must transition into.
-#
 # The public interface has four parts:
 #  entry points: The public API of the algorithm. See above.
 #  step: Take one step in the algorithm. Exactly one state transition, returns 'this' (fluid interface)
