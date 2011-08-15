@@ -36,7 +36,7 @@ define ['vendor/qunit', 'vendor/raphael', 'app/widgets/RecText'], (T, R) ->
       centerY: true
     b = y.getBBox()
     T.equal b.x, 20
-    T.equal b.y, (30 - b.height/2), 'centerY'
+    T.equal b.y.toFixed(2), (30 - b.height/2).toFixed(2), 'centerY'
 
   T.test 'Translate should move the RecText', ->
     r = @p.RecText

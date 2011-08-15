@@ -19,7 +19,7 @@ define ['vendor/qunit', 'vendor/raphael', 'app/widgets/LinkedList'], (T, R) ->
       centerY: true
     l.push 'a'
     T.equal l.getBBox().x, 20
-    T.equal l.getBBox().y, 50 - l.getBBox().height/2
+    T.equal l.getBBox().y.toFixed(2), (50 - l.getBBox().height/2).toFixed(2)
 
   T.test 'Height should be the height of any RecText', ->
     l = @p.LinkedList
@@ -73,6 +73,19 @@ define ['vendor/qunit', 'vendor/raphael', 'app/widgets/LinkedList'], (T, R) ->
     l.resizeBox 0, 1, newWidth
     T.deepEqual (l.getBox(0, i).getBBox().x for i in [0..3]), after
 
+  T.test 'removeAt(i) removes the item at i', ->
+    l = @p.LinkedList()
+    a = l.push 'a'
+    b = l.push 'b'
+    c = l.push 'c'
+    d = l.push 'd'
+    
+    l.removeAt 1
+    T.deepEqual (item.id for item in l._items), (item.id for item in [a, c, d])
+    l.pop()
+    T.deepEqual (item.id for item in l._items), (item.id for item in [a, c])
+    l.shift()
+    T.deepEqual (item.id for item in l._items), (item.id for item in [c])
 
   T.test 'resizeBox(i, j, w) should translate the pointer-box and the pointer or the strike-out', ->
     l = @p.LinkedList()
@@ -100,6 +113,16 @@ define ['vendor/qunit', 'vendor/raphael', 'app/widgets/LinkedList'], (T, R) ->
 
     T.equal l._items[0].get('pointer', 0).getBBox().x, pointerBefore + offset, 'Pointer'
 
+  T.test 'truncate should truncate, still have to be able to insert', ->
+    l = @p.LinkedList()
+    l.push 'foo', 'bar'
+    
+    l.truncate()
+    T.equal l._items.length, 0, 'No items'
+  
+    l.push 'foo'
+    T.equal l._items.length, 1, 'Can add afterwards'
+    
 
 
 

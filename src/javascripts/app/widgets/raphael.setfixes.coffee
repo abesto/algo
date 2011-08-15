@@ -22,6 +22,8 @@ define ['vendor/raphael', 'vendor/underscore'], (R, _) ->
     @length = @items.length
     for v, i in @items
       @[i] = v
+  
+  Set::slice = (args...) -> @items.slice(args...)
 
   # Is item in the set?
   Set::has = (item) -> _(@items).indexOf(item) > -1

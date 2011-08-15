@@ -96,7 +96,7 @@ define [
       offset = -@_items[position].getBBox().width
       @_items[position].remove()
       @_items.splice position, 1
-      if position == @_items.length
+      if position == @_items.length && @_items.length > 0
         @_last @_items[position-1], true
       for item in @_items[position .. @_items.length-1]
         item.translate offset, 0

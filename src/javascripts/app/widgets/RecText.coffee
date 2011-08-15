@@ -45,3 +45,4 @@ define ['vendor/underscore', './raphael.class', 'vendor/jquery', './raphael.setf
 
     translate: (args...) -> @_set.translate args...
     getBBox: -> @_set.get('rect').getBBox()
+    remove: -> @_set.remove()
