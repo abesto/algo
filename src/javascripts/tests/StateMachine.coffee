@@ -71,3 +71,24 @@ define ['vendor/qunit', 'vendor/jquery', 'app/StateMachine'], (T, $, SM) ->
       data.result = 'foo'
       T.deepEqual @s._data.result, {test: 1}
     @s.s1().run()
+    
+  T.test 'Guards are checked at transition', ->
+    s = new SM
+      entryPoints: ['a']
+      transitions: [
+        {from: ['a'], to: ['b', 'c']},
+        {from: ['b', 'c'], to: ['ready']}
+      ]
+      guards:
+        a:
+          b: -> @x == 0
+          c: -> @x == 1
+          
+    s.x = 0
+    s.a().step()
+    T.equal s._state, 'b'
+    s.step()
+    
+    s.x = 1
+    s.a().step()
+    T.equal s._state, 'c'

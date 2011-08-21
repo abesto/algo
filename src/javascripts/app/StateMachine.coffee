@@ -22,9 +22,10 @@
 
 define ['vendor/jquery', 'vendor/underscore'], ($, _) ->
   class StateMachine
-    constructor: (@_opts) ->
+    constructor: (opts) ->
       @_state = 'ready'
       @_data = {}
+      @_opts = $.extend({entryPoints: [], transitions: [], guards: {}}, opts)
       
       @_opts.transitions.unshift {from: ['ready'], to: @_opts.entryPoints}
       for name in @_opts.entryPoints
@@ -38,9 +39,11 @@ define ['vendor/jquery', 'vendor/underscore'], ($, _) ->
       
     _guardCheck: (to) ->
       if @_opts.guards and @_opts.guards[@_state] and @_opts.guards[@_state][to]
-        @_opts.guards[@_state][to]()
+        @_opts.guards[@_state][to].call(this)
       else
         true
+        
+    trigger: (eventType, data=@_data) -> $(this).trigger eventType, [$.extend({}, data)]
 
     step: (to) =>
       to = if _.isUndefined(to) or _.isUndefined(to.stepRequest) then null else to.stepRequest
@@ -59,8 +62,8 @@ define ['vendor/jquery', 'vendor/underscore'], ($, _) ->
             throw "Couldn't transition into requested state #{to}. Candidates were #{candidates}"
         else
           throw "Couldn't figure out where to go from #{@_state}. Candidates were #{candidates}"
-      @_data.result = @_opts[@_state]?(@_data.params...)
-      $(this).trigger @_state, [$.extend({}, @_data)]
+      @_data.result = @_opts[@_state]?.apply(this, @_data.params)
+      @trigger @_state
       return this
       
     run: ->
