@@ -120,11 +120,16 @@ define [
       for item in _(@_items)[position+1..]
         item.translate offset
 
+    truncate: ->
+      while @_items.length > 0
+        @pop()
 
     getBBox: ->
       if @_items.length == 0 then return {x:@_x, y:@_y, width:0, height:0}
       else return @_items.getBBox()
     translate: (args...) -> @_items.translate args...
+    
+    remove: -> @_items.remove()
 
   return {
     'class': LinkedList,

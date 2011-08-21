@@ -7,19 +7,25 @@ define ['./LinkedList', 'vendor/jquery', './raphael.class'], (List, $, RC) ->
     linkedListOptions: {}     # Passed on to linked lists
 
   RC class ChainedHashTable
+    init: () ->
+      {x: @_x, y: @_y} = @_options
+      @_y += @_options.hashContainerPadding
+      @_lists = {}    # Lists of values, one per hash
+      @_headWidth = 0 # Maximal hash box width
+  
     constructor: (@_paper, @model, opts) ->
       @_options = $.extend {}, defaults, opts
       $.extend @_options.linkedListOptions, List.defaults
-      @_x = @_options.x
-      @_y = @_options.y
-
-      @_heads = {}    # Boxes for the hash values
-      @_lists = {}    # Lists of values, one per hash
-      @_headWidth = 0 # Maximal hash box width
-      @_y += @_options.hashContainerPadding
-
+      @init()
+      
       @model.bind 'newHash', (e, d) => @_newHash d.hash
       @model.bind 'insertItem', (e, d) => @_insertItem d.hash, d.result, d.element
+      @model.bind 'clear', (e, d) =>
+        for hash, list of @_lists
+          list.remove()
+        @init()
+        
+
     # eof constructor
 
     _newHash: (hash) ->
@@ -48,4 +54,4 @@ define ['./LinkedList', 'vendor/jquery', './raphael.class'], (List, $, RC) ->
      # eof _newHash
 
     _insertItem: (hash, index, element) ->
-      @_lists[hash].insertBefore index, element.key, element.value
+      @_lists[hash].insertBefore index+1, element.key, element.value if index isnt null

@@ -11,7 +11,7 @@ define ['vendor/qunit', 'vendor/jquery', 'app/hashtables/ChainedHashTable', 'app
       lin = []
       lout = []
       i = 0
-      while i < 100
+      while i < 10
         r = Math.random()
         lin.push r
         lout.push @h._hashFunction(r)
@@ -22,7 +22,6 @@ define ['vendor/qunit', 'vendor/jquery', 'app/hashtables/ChainedHashTable', 'app
       T.strictEqual UL, @h._listClass
 
     T.test 'Added elements are found', ->
-
       @h.get(1).run()
       T.deepEqual @h.get(1).run(), ['1a', '1b']
       T.deepEqual @h.get(2).run(), ['2a']

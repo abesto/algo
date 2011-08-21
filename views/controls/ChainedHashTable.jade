@@ -1,0 +1,23 @@
+h1 Chained Hash Table
+label
+  | List implementation
+  select#list-class
+    option(value='UnorderedList') Unordered list
+    option(value='OrderedList') Ordered list
+    option(value='ReversedList') Reverse-ordered list
+br
+label
+  | Hash function
+  select#hash-function
+    option(value='identity') Identity (x -> x)
+    option(value='xmod10') x -> x mod 10
+
+fieldset
+  legend Add item
+  label
+    | Key
+    input#add-key(value="5")
+  label
+    | Value
+    input#add-value(value='foo')
+  input#add-button(type='button', value='Add')
