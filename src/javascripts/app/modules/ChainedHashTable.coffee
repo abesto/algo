@@ -1,5 +1,7 @@
-define ['vendor/jquery', 'app/HashTables', 'app/widgets/ChainedHashTable'],
-($, HashTables, View) ->
+define ['vendor/jquery', 'app/EventLogger', 'app/HashTables', 'app/widgets/ChainedHashTable'],
+($, EventLogger, HashTables, View) ->
+  EventLogger($)
+  
   lists =
     UnorderedList: HashTables.UnorderedList
     OrderedList: new HashTables.OrderedList( (x, y) -> x - y )
