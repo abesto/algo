@@ -1,4 +1,4 @@
-# Patch jQuery to log all events fired via trigger
+# Patch jQuery to log all events fired via `jQuery.trigger`
 
 define ->
   (jQuery) ->

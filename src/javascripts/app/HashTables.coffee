@@ -1,3 +1,5 @@
+# Export all hash table modules to make code using them cleaner
+
 names = [
   'ChainedHashTable'
   'Element'

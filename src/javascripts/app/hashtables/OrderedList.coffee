@@ -1,9 +1,20 @@
+# _Store key-value pairs (`Element`s) in an ordered list_
+#
+# This class only implements insertion sort; the comparison function
+# is given as the parameter to the exported class' constructor. The
+# comparison function is expected to return a number such that
+#
+#  * f(a,b) < 0 if a < b,
+#  * f(a,b) == 0 if a == b, and
+#  * f(a,b) > 0 if a > b
+
+#
 define ['./UnorderedList'], (UL) ->
     class GenericOrderedList extends UL
-        constructor: (compare) ->
+        constructor: (@compare) ->
             super()
-            @_compare = compare
 
+        # Find the index where the new item will be inserted.
         _insertIndex: (element) ->
             i = 0
             while i < @_array.length and (@_compare(@_array[i].key, element.key) <= 0)

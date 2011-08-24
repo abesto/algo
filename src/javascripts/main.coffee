@@ -8,5 +8,4 @@ define [
     $display = $('#display')
     paper = Raphael 'display', $display.width(), $display.height() 
     $('#step').click(Module $('#controls'), paper)
-      
-    
+

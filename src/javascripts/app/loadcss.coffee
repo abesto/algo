@@ -1,3 +1,5 @@
+# Load CSS files asynchronously
+
 define ['vendor/jquery'], ($) ->
     (urls...) ->
         $ ->

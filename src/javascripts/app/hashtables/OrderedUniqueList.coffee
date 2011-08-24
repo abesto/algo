@@ -1,3 +1,8 @@
+# _Store key-value pairs (`Element`s) in a unique ordered list_
+#
+# Each key can only appear once in this list. The API is accordingly modified:
+# `add` will return `null` if the key was already present.
+
 define ['./OrderedList'], (OL) ->
     return (compare) ->
         L = new OL(compare)

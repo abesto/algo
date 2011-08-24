@@ -1,0 +1,88 @@
+ <!DOCTYPE html>  <html> <head>   <title>ChainedHashTable.coffee</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="../docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="../hashtables/OrderedList.html">                 <span class="base_path">hashtables/</span><span class="file_name">OrderedList.coffee</span>               </a>                                           <a class="source" href="../hashtables/OrderedUniqueList.html">                 <span class="base_path">hashtables/</span><span class="file_name">OrderedUniqueList.coffee</span>               </a>                                           <a class="source" href="../hashtables/ChainedHashTable.html">                 <span class="base_path">hashtables/</span><span class="file_name">ChainedHashTable.coffee</span>               </a>                                           <a class="source" href="../hashtables/UnorderedList.html">                 <span class="base_path">hashtables/</span><span class="file_name">UnorderedList.coffee</span>               </a>                                           <a class="source" href="../hashtables/Element.html">                 <span class="base_path">hashtables/</span><span class="file_name">Element.coffee</span>               </a>                                           <a class="source" href="../loadcss.html">                 <span class="base_path"></span><span class="file_name">loadcss.coffee</span>               </a>                                           <a class="source" href="../EventLogger.html">                 <span class="base_path"></span><span class="file_name">EventLogger.coffee</span>               </a>                                           <a class="source" href="../widgets/ChainedHashTable.html">                 <span class="base_path">widgets/</span><span class="file_name">ChainedHashTable.coffee</span>               </a>                                           <a class="source" href="../widgets/raphael.setfixes.html">                 <span class="base_path">widgets/</span><span class="file_name">raphael.setfixes.coffee</span>               </a>                                           <a class="source" href="../widgets/RecText.html">                 <span class="base_path">widgets/</span><span class="file_name">RecText.coffee</span>               </a>                                           <a class="source" href="../widgets/raphael.class.html">                 <span class="base_path">widgets/</span><span class="file_name">raphael.class.coffee</span>               </a>                                           <a class="source" href="../widgets/LinkedList.html">                 <span class="base_path">widgets/</span><span class="file_name">LinkedList.coffee</span>               </a>                                           <a class="source" href="../widgets/raphael.line.html">                 <span class="base_path">widgets/</span><span class="file_name">raphael.line.coffee</span>               </a>                                           <a class="source" href="../StateMachine.html">                 <span class="base_path"></span><span class="file_name">StateMachine.coffee</span>               </a>                                           <a class="source" href="../HashTables.html">                 <span class="base_path"></span><span class="file_name">HashTables.coffee</span>               </a>                                           <a class="source" href="../modules/ChainedHashTable.html">                 <span class="base_path">modules/</span><span class="file_name">ChainedHashTable.coffee</span>               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               ChainedHashTable.coffee             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>               <p><em>A chained hash table implemented in terms of a StateMachine</em></p>
+
+<p>This class delegates hashing to a hash function and list operations
+to a list class; these can be switched at runtime, resulting in a rehashing
+of all data.</p>
+
+<h2>States</h2>
+
+<h3>Entry points</h3>
+
+<ul>
+<li><strong>add(key, value)</strong>: a new item is to be added</li>
+<li><strong>get(key)</strong>: find the values added with a key</li>
+<li><strong>getFirst(key)</strong>: find the 'first' value with a key. This is not the item that was the
+first in, but rather the one at the first position as ordered by the current list implementation.</li>
+<li><strong>setListClass(clazz)</strong>: set the class with the list implementation. Triggers a rehashing.</li>
+<li><strong>setHashFunction(fun)</strong>: set the hash function. Triggers a rehashing.</li>
+</ul>
+
+<h3>Breakpoint states</h3>
+
+<ul>
+<li><strong>newHash</strong>: a new hash value has been found, resulting in the creation of a new list</li>
+<li><strong>insertItem</strong>: a new item has been inserted into an already existing list</li>
+</ul>
+
+<h3>Data fields set in states</h3>
+
+<ul>
+<li><strong>add, newHash, insertItem</strong>
+<ul><li>hash: actual hash</li>
+<li>element: Element instance</li>
+<li>params: key, value</li></ul></li>
+<li><strong>insertItem</strong>
+<ul><li>result: index where the item was inserted (determined by the list type)</li></ul></li>
+<li><strong>get</strong>
+<ul><li>result: array of values</li></ul></li>
+<li><strong>getFirst</strong>
+<ul><li>result: value</li></ul></li>
+</ul>
+
+<p>A special <code>clear</code> event is fired before the data is rehashed; normal <code>newHash</code> and <code>insertItem</code>
+events follow it, representing the rehashing procedure..</p>             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre><span class="nx">define</span> <span class="p">[</span><span class="s1">&#39;vendor/jquery&#39;</span><span class="p">,</span> <span class="s1">&#39;vendor/underscore&#39;</span>
+<span class="s1">&#39;../StateMachine&#39;</span>
+<span class="s1">&#39;./Element&#39;</span><span class="p">,</span> <span class="s1">&#39;./UnorderedList&#39;</span><span class="p">],</span>
+<span class="nf">($, _, StateMachine, Element, UnorderedList) -&gt;</span>
+  <span class="k">class</span> <span class="nx">ChainedHashTable</span> <span class="k">extends</span> <span class="nx">StateMachine</span></pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>First set data specific to this data structure</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nv">constructor: </span><span class="p">(</span><span class="vi">@_hashFunction = </span><span class="p">(</span><span class="nf">(x) -&gt;</span> <span class="nx">x</span><span class="p">),</span> <span class="vi">@_listClass = </span><span class="nx">UnorderedList</span><span class="p">)</span> <span class="o">-&gt;</span>
+      <span class="vi">@_heads = </span><span class="p">{}</span></pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Then define it using StateMachine</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="k">super</span>
+        <span class="nv">entryPoints: </span><span class="p">[</span><span class="s1">&#39;add&#39;</span><span class="p">,</span> <span class="s1">&#39;get&#39;</span><span class="p">,</span> <span class="s1">&#39;getFirst&#39;</span><span class="p">,</span> <span class="s1">&#39;setListClass&#39;</span><span class="p">,</span> <span class="s1">&#39;setHashFunction&#39;</span><span class="p">]</span>
+        <span class="nv">transitions: </span><span class="p">[</span>
+          <span class="p">{</span><span class="nv">from: </span><span class="p">[</span><span class="s1">&#39;add&#39;</span><span class="p">],</span>        <span class="nv">to: </span><span class="p">[</span><span class="s1">&#39;insertItem&#39;</span><span class="p">,</span> <span class="s1">&#39;newHash&#39;</span><span class="p">]}</span>
+          <span class="p">{</span><span class="nv">from: </span><span class="p">[</span><span class="s1">&#39;newHash&#39;</span><span class="p">],</span>    <span class="nv">to: </span><span class="p">[</span><span class="s1">&#39;insertItem&#39;</span><span class="p">]}</span>
+          <span class="p">{</span>
+            <span class="nv">from: </span><span class="p">[</span><span class="s1">&#39;insertItem&#39;</span><span class="p">,</span> <span class="s1">&#39;get&#39;</span><span class="p">,</span> <span class="s1">&#39;getFirst&#39;</span><span class="p">],</span>
+            <span class="nv">to: </span><span class="p">[</span><span class="s1">&#39;ready&#39;</span><span class="p">]</span>
+          <span class="p">}</span>
+        <span class="p">]</span></pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>A new list needs to be created for the item if a list for the appropriate hash doesn't yet exist</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="nv">guards:</span>
+          <span class="nv">add:</span>
+            <span class="nv">newHash: </span><span class="o">-&gt;</span> <span class="nx">_</span><span class="p">.</span><span class="nx">isUndefined</span> <span class="nx">@_heads</span><span class="p">[</span><span class="nx">@_data</span><span class="p">.</span><span class="nx">hash</span><span class="p">]</span>
+            <span class="nv">insertItem: </span><span class="o">-&gt;</span> <span class="o">not</span> <span class="nx">_</span><span class="p">.</span><span class="nx">isUndefined</span> <span class="nx">@_heads</span><span class="p">[</span><span class="nx">@_data</span><span class="p">.</span><span class="nx">hash</span><span class="p">]</span>
+
+        <span class="nv">add: </span><span class="nf">(a, b) -&gt;</span>
+          <span class="vi">@_data.element = </span><span class="k">new</span> <span class="nx">Element</span> <span class="nx">a</span><span class="p">,</span> <span class="nx">b</span>
+          <span class="vi">@_data.hash = </span><span class="nx">@_hashFunction</span> <span class="nx">@_data</span><span class="p">.</span><span class="nx">element</span><span class="p">.</span><span class="nx">key</span>
+
+        <span class="nv">newHash: </span>   <span class="o">-&gt;</span> <span class="nx">@_heads</span><span class="p">[</span><span class="nx">@_data</span><span class="p">.</span><span class="nx">hash</span><span class="p">]</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">@_listClass</span><span class="p">()</span>
+        <span class="nv">insertItem: </span><span class="o">-&gt;</span> <span class="nx">@_heads</span><span class="p">[</span><span class="nx">@_data</span><span class="p">.</span><span class="nx">hash</span><span class="p">].</span><span class="nx">add</span> <span class="nx">@_data</span><span class="p">.</span><span class="nx">element</span>
+
+        <span class="nv">get: </span><span class="nf">(key) -&gt;</span>
+          <span class="vi">@_data.hash = </span><span class="nx">@_hashFunction</span> <span class="nx">key</span>
+          <span class="k">if</span> <span class="nx">_</span><span class="p">.</span><span class="nx">isUndefined</span><span class="p">(</span><span class="nx">@_heads</span><span class="p">[</span><span class="nx">@_data</span><span class="p">.</span><span class="nx">hash</span><span class="p">])</span> <span class="k">then</span> <span class="p">[]</span> <span class="k">else</span> <span class="nx">@_heads</span><span class="p">[</span><span class="nx">@_data</span><span class="p">.</span><span class="nx">hash</span><span class="p">].</span><span class="nx">get</span> <span class="nx">key</span>
+
+        <span class="nv">getFirst: </span><span class="nf">(key) -&gt;</span>
+          <span class="vi">@_data.hash = </span><span class="nx">@_hashFunction</span> <span class="nx">key</span>
+          <span class="k">if</span> <span class="nx">_</span><span class="p">.</span><span class="nx">isUndefined</span><span class="p">(</span><span class="nx">@_heads</span><span class="p">[</span><span class="nx">@_data</span><span class="p">.</span><span class="nx">hash</span><span class="p">])</span> <span class="k">then</span> <span class="kc">undefined</span> <span class="k">else</span> <span class="nx">@_heads</span><span class="p">[</span><span class="nx">@_data</span><span class="p">.</span><span class="nx">hash</span><span class="p">].</span><span class="nx">getFirst</span> <span class="nx">key</span>
+
+        <span class="nv">setListClass: </span><span class="nf">(@_listClass) -&gt;</span> <span class="nx">@_rebuild</span><span class="p">()</span>
+        <span class="nv">setHashFunction: </span><span class="nf">(@_hashFunction) -&gt;</span> <span class="nx">@_rebuild</span><span class="p">()</span></pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Re-hash the data by removing everything, and running the elements through the normal add->(newHash)->insertItem flow.
+Fast forward for now, probably not exciting enough to step through manually. All the events are fired normally, so
+the application knows exactly what's happening.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nv">_rebuild: </span><span class="o">-&gt;</span>
+      <span class="nx">@trigger</span> <span class="s1">&#39;clear&#39;</span>
+      <span class="vi">@_state = </span><span class="s1">&#39;ready&#39;</span>
+      <span class="k">for</span> <span class="nx">hash</span><span class="p">,</span> <span class="nx">list</span> <span class="k">of</span> <span class="nx">@_heads</span>
+        <span class="k">delete</span> <span class="nx">@_heads</span><span class="p">[</span><span class="nx">hash</span><span class="p">]</span>
+        <span class="k">for</span> <span class="nx">element</span> <span class="k">in</span> <span class="nx">list</span><span class="p">.</span><span class="nx">toArray</span><span class="p">()</span>
+          <span class="nx">@add</span><span class="p">(</span><span class="nx">element</span><span class="p">.</span><span class="nx">key</span><span class="p">,</span> <span class="nx">element</span><span class="p">.</span><span class="nx">value</span><span class="p">).</span><span class="nx">run</span><span class="p">()</span>
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html>  
