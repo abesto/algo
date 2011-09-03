@@ -3,6 +3,8 @@ define [
   'tests/StateMachine',
   'tests/hashtables/ChainedHashTable', 'tests/hashtables/UnorderedList', 'tests/hashtables/OrderedList', 'tests/hashtables/OrderedUniqueList'
   'tests/widgets/raphael.setfixes', 'tests/widgets/RecText', 'tests/widgets/LinkedList', 'tests/widgets/ChainedHashTable'
+  'tests/widgets/raphael.setfixes', 'tests/widgets/RecText', 'tests/widgets/LinkedList', 'tests/widgets/ChainedHashTable',
+  'tests/UID'
 ],
   (QUnit, $) ->
     QUnit.QUnit.done = -> $('#testpaper').remove()
