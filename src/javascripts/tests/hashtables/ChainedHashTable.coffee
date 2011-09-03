@@ -1,4 +1,7 @@
-define ['vendor/qunit', 'vendor/jquery', 'app/hashtables/ChainedHashTable', 'app/hashtables/UnorderedList'], (T, $, CHT, UL) ->
+define ['vendor/qunit', 'vendor/jquery', 
+'app/modules/ChainedHashTable/model/ChainedHashTable', 
+'app/modules/ChainedHashTable/model/UnorderedList'],
+(T, $, CHT, UL) ->
     T.module 'Chained hash table',
       setup: ->
         @h = new CHT()

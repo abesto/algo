@@ -1,6 +1,6 @@
 define [
-  'vendor/underscore', 'vendor/jquery', './raphael.class', './RecText'
-  './raphael.setfixes', './raphael.line'
+  'vendor/underscore', 'vendor/jquery', 'app/common/raphael/raphael.class', 'app/common/raphael/RecText'
+  'app/common/raphael/raphael.setfixes', 'app/common/raphael/raphael.line'
 ], (_, $, RC) ->
   defaults =
     x: 0
@@ -128,7 +128,7 @@ define [
       if @_items.length == 0 then return {x:@_x, y:@_y, width:0, height:0}
       else return @_items.getBBox()
     translate: (args...) -> @_items.translate args...
-    
+
     remove: -> @_items.remove()
 
   return {

@@ -11,7 +11,7 @@
 #
 define ['./UnorderedList'], (UL) ->
     class GenericOrderedList extends UL
-        constructor: (@compare) ->
+        constructor: (@_compare) ->
             super()
 
         # Find the index where the new item will be inserted.

@@ -1,4 +1,5 @@
-define ['vendor/qunit', 'vendor/raphael', 'app/widgets/LinkedList'], (T, R) ->
+define ['vendor/qunit', 'vendor/raphael', 
+'app/modules/ChainedHashTable/raphael/LinkedList'], (T, R) ->
   T.module 'Widgets: LinkedList',
     setup: ->
       @p = R('testpaper')

@@ -1,19 +1,23 @@
-define ['vendor/jquery', 'app/EventLogger', 'app/HashTables', 'app/widgets/ChainedHashTable'],
-($, EventLogger, HashTables, View) ->
+define ['vendor/jquery', 'app/common/EventLogger',
+'./ChainedHashTable/model/ChainedHashTable', './ChainedHashTable/model/OrderedList',
+'./ChainedHashTable/model/OrderedUniqueList', './ChainedHashTable/model/UnorderedList',
+'./ChainedHashTable/raphael/ChainedHashTableWidget'
+],
+($, EventLogger, ChainedHashTable, OrderedList, OrderedUniqueList, UnorderedList) ->
   EventLogger($)
 
   lists =
-    UnorderedList: HashTables.UnorderedList
-    OrderedList: new HashTables.OrderedList( (x, y) -> x - y )
-    ReversedList: new HashTables.OrderedList( (x, y) -> y - x )
-    OrderedUniqueList: new HashTables.OrderedUniqueList( (x, y) -> x - y )
+    UnorderedList: UnorderedList
+    OrderedList: new OrderedList( (x, y) -> x - y )
+    ReversedList: new OrderedList( (x, y) -> y - x )
+    OrderedUniqueList: new OrderedUniqueList( (x, y) -> x - y )
 
   hashes =
     'identity': (x) -> x
     'xmod10': (x) -> x % 10
 
   # Test
-  model = new HashTables.ChainedHashTable(hashes['identity'])
+  model = new ChainedHashTable(hashes['identity'])
   window.m = model
 
   ($controlContainer, paper) ->

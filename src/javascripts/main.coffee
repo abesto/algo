@@ -1,11 +1,17 @@
 define [
-  'app/loadcss', 'vendor/jquery', 'vendor/raphael',
-  'app/modules/ChainedHashTable']
-, (css, $, Raphael, Module) ->
+  'app/common/loadcss', 'vendor/jquery', 'vendor/raphael', 'vendor/underscore'
+  ]
+, (css, $, Raphael, _) ->
   css 'main'
-  
+
+  class Module
+    constructor: (name, path) ->
+      @name = name.replace('.', '_')
+      @path = path[1..] + '/' + name
+
   $ ->
-    $display = $('#display')
-    paper = Raphael 'display', $display.width(), $display.height() 
-    $('#step').click(Module $('#controls'), paper)
+    require ['app/modules/ChainedHashTable'], (CHT) ->
+      $display = $('#display')
+      paper = Raphael 'display', $display.width(), $display.height()
+      $('#step').click(CHT $('#controls'), paper)
 

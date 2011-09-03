@@ -1,4 +1,4 @@
-define ['vendor/qunit', 'vendor/jquery', 'app/StateMachine'], (T, $, SM) ->
+define ['vendor/qunit', 'vendor/jquery', 'app/common/StateMachine'], (T, $, SM) ->
   class S extends SM
     constructor: ->
       super

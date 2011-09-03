@@ -1,4 +1,4 @@
-define ['vendor/qunit', 'vendor/raphael', 'app/widgets/RecText'], (T, R) ->
+define ['vendor/qunit', 'vendor/raphael', 'app/common/raphael/RecText'], (T, R) ->
   T.module 'Widgets: RecText',
     setup: ->
       @p = R('testpaper')

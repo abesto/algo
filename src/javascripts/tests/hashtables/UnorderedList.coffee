@@ -1,4 +1,6 @@
-define ['vendor/qunit', 'app/hashtables/Element', 'app/hashtables/UnorderedList'], (T, E, L) ->
+define ['vendor/qunit', 
+'app/modules/ChainedHashTable/model/Element',
+'app/modules/ChainedHashTable/model/UnorderedList'], (T, E, L) ->
     T.module 'Chained hash table: Unordered list',
         setup: ->
             @l = new L()

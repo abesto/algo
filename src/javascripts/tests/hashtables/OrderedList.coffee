@@ -1,4 +1,7 @@
-define ['vendor/qunit', 'app/hashtables/Element', 'app/hashtables/OrderedList'], (T, E, OL) ->
+define ['vendor/qunit', 
+'app/modules/ChainedHashTable/model/Element', 
+'app/modules/ChainedHashTable/model/OrderedList'], 
+(T, E, OL) ->
   T.module 'Chained hash table: Ordered list',
     setup: ->
       @L = OL( (x, y) -> x - y )

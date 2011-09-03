@@ -40,7 +40,7 @@
 
 #
 define ['vendor/jquery', 'vendor/underscore'
-'../StateMachine'
+'app/common/StateMachine'
 './Element', './UnorderedList'],
 ($, _, StateMachine, Element, UnorderedList) ->
   class ChainedHashTable extends StateMachine

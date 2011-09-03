@@ -1,4 +1,4 @@
-define ['./LinkedList', 'vendor/jquery', './raphael.class'], (List, $, RC) ->
+define ['./LinkedList', 'vendor/jquery', 'app/common/raphael/raphael.class'], (List, $, RC) ->
   defaults =
     x: 0
     y: 0
@@ -12,19 +12,19 @@ define ['./LinkedList', 'vendor/jquery', './raphael.class'], (List, $, RC) ->
       @_y += @_options.hashContainerPadding
       @_lists = {}    # Lists of values, one per hash
       @_headWidth = 0 # Maximal hash box width
-  
+
     constructor: (@_paper, @model, opts) ->
       @_options = $.extend {}, defaults, opts
       $.extend @_options.linkedListOptions, List.defaults
       @init()
-      
+
       @model.bind 'newHash', (e, d) => @_newHash d.hash
       @model.bind 'insertItem', (e, d) => @_insertItem d.hash, d.result, d.element
       @model.bind 'clear', (e, d) =>
         for hash, list of @_lists
           list.remove()
         @init()
-        
+
 
     # eof constructor
 
