@@ -1,0 +1,16 @@
+{
+  "chained-hash-table": "Chained Hash Table",
+  "list-implementation": "List implementation",
+  "hash-function": "Hash function",
+  "unordered-list": "Unordered list",
+  "ordered-list": "Ordered list",
+  "reverse-ordered-list": "Reverse ordered list",
+  "add-item": "Add item",
+  "add-button": "Add",
+  "key": "Key",
+  "value": "Value",
+  "ready": "Ready, waiting for next action",
+  "add": "We will now add item #{element.key}:#{element.value} with hash #{hash}",
+  "newHash": "This is the first occurence of the hash #{hash}; creating list head",
+  "insertItem": "Inserting item #{element.key}:#{element.value}"
+}

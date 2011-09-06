@@ -2,7 +2,9 @@ table#container
   tr
     td(rowspan=2)#left
       div#controls
-      input#step(type='button', value='Step')
+      input#step(type='button')
+      div#hu(onclick='require(["app/common/i18n"], function(i18n) { i18n.setLanguage("hu"); })')
+      div#en(onclick='require(["app/common/i18n"], function(i18n) { i18n.setLanguage("en"); })')
     td#display
   tr
     td#bottom

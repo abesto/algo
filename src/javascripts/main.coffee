@@ -1,7 +1,8 @@
 define [
-  'app/common/loadcss', 'vendor/jquery', 'vendor/raphael', 'vendor/underscore'
+  'app/common/loadcss', 'vendor/jquery', 'vendor/raphael', 'vendor/underscore',
+  'app/common/i18n'
   ]
-, (css, $, Raphael, _) ->
+, (css, $, Raphael, _, i18n) ->
   css 'main'
 
   class Module
@@ -10,8 +11,11 @@ define [
       @path = path[1..] + '/' + name
 
   $ ->
+    i18n.createUpdater 'SimpleUpdater', '#step', 'index', 'step'
+    i18n.createUpdater 'SimpleUpdater', '#en', 'index', 'en'
+    i18n.createUpdater 'SimpleUpdater', '#hu', 'index', 'hu'
     require ['app/modules/ChainedHashTable'], (CHT) ->
       $display = $('#display')
       paper = Raphael 'display', $display.width(), $display.height()
-      $('#step').click(CHT $('#controls'), paper)
+      $('#step').click(CHT $('#controls'), $('#bottom'), paper)
 

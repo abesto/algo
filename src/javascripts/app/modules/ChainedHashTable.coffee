@@ -21,11 +21,18 @@ define ['vendor/jquery', 'app/common/EventLogger',
   model = new ChainedHashTable(hashes['identity'])
   window.m = model
 
-  ($controlContainer, paper) ->
+  ($controlContainer, $statusContainer, paper) ->
     $controlContainer.load '/controls/ChainedHashTable', null, ->
-      i18n.createUpdater('JqueryEventUpdater', '#status', model, 'ready add insertItem newHash')
-      i18n.setDataProvider 'DummyDataProvider'
-      i18n.setLanguage('hun')
+      i18n.createUpdater('JqueryEventUpdater', $statusContainer, 'ChainedHashTable', model, 'ready add insertItem newHash')
+      simple = [
+        'chained-hash-table',
+        'list-implementation', 'hash-function', 'unordered-list', 'ordered-list',
+        'reverse-ordered-list', 'add-item', 'add-button', 'key', 'value'
+      ]
+      for id in simple
+        i18n.createUpdater('SimpleUpdater', '#' + id, 'ChainedHashTable', id)
+      i18n.setDataProvider 'AsyncJsonDataProvider'
+      i18n.setLanguage('en')
       
       paper.ChainedHashTable model
       $('#add-button').click -> model.add($('#add-key').val(), $('#add-value').val())

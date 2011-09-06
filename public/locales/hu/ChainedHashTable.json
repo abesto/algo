@@ -1,0 +1,16 @@
+{
+  "chained-hash-table": "Láncolt Hasítótábla",
+  "list-implementation": "Listák megvalósítása",
+  "hash-function": "Hasító függvény",
+  "unordered-list": "Rendezetlen lista",
+  "ordered-list": "Rendezett lista",
+  "reverse-ordered-list": "Fordítva rendezett lista",
+  "add-item": "Elem hozzáadása",
+  "add-button": "Hozzáadás",
+  "key": "Kulcs",
+  "value": "Érték",
+  "ready": "Kész, várom a következő műveletet",
+  "add": "Most fel fogjuk venni a #{element.key}:#{element.value} elemet, amire a hasítófüggény a(z) #{hash} értéket adta",
+  "newHash": "Ez a #{hash} hasított kulcs első előfordulása; létrehozzk a lista-fejet",
+  "insertItem": "Beszúrjuk a(z) #{element.key}:#{element.value} elemet"
+}

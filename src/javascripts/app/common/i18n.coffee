@@ -4,11 +4,19 @@ define ['vendor/underscore', 'app/common/UID'],
   language = 'en'
   dataProvider = null
   updaters = {}
+  updateQueue = []  # Queue while dataProvider is not registered
 
-  update = ($el, key, data) ->
-    dataProvider.get language, key, data, (string) ->
+  update = (params...) ->
+    if dataProvider != null
+      doUpdate params...
+    else
+      updateQueue.push params
+    
+  doUpdate = ($el, module, key, data) ->
+    dataProvider.get language, module, key, data, (string) ->
       nodename = $el[0].nodeName.toUpperCase()
-      if nodename == 'INPUT'
+      type = $el[0].type?.toUpperCase()
+      if nodename == 'INPUT' and type == 'BUTTON'
         $el.val string
       else
         $el.html string
@@ -35,5 +43,7 @@ define ['vendor/underscore', 'app/common/UID'],
     setDataProvider: (name, params...) ->
       require ['app/common/i18n/DataProviders/' + name], (DP) ->
         dataProvider = new DP(params...)
+        while updateQueue.length > 0
+          doUpdate(updateQueue.pop()...)
 }
   
