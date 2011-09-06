@@ -36,8 +36,8 @@ define ['vendor/jquery', 'app/common/EventLogger',
       
       paper.ChainedHashTable model
       $('#add-button').click -> model.add($('#add-key').val(), $('#add-value').val())
-      $('#list-class').change -> model.setListClass lists[$(this).val()]
-      $('#hash-function').change -> model.setHashFunction hashes[$(this).val()]
+      $('#list-implementation-select').change -> model.setListClass lists[$(this).val()]
+      $('#hash-function-select').change -> model.setHashFunction hashes[$(this).val()]
     return model.step
 
 
