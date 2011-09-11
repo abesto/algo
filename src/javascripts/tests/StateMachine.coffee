@@ -65,6 +65,11 @@ define ['vendor/qunit', 'vendor/jquery', 'app/common/StateMachine'], (T, $, SM) 
     @s.bind 's1a', (event, data) -> T.strictEqual data.result.test, 1
     @s.bind 's1b', (event, data) -> T.strictEqual data.result.test, 2
     @s.s1().run()
+    
+  T.test 'Can bind to all events', ->
+    expected = ['s1', 's1a', 's1b', 'ready']
+    @s.bind 'transition', (event, data) -> T.strictEqual event.type, expected.shift()
+    @s.s1().run()
 
   T.test 'The data object passed to state change event handlers is decoupled from the state machine', ->
     @s.bind 's1a', (event, data) =>

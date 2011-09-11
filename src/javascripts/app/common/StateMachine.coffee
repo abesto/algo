@@ -59,7 +59,7 @@ define ['vendor/jquery', 'vendor/underscore'], ($, _) ->
         true
 
     # **trigger**: Convinience method to fire a jQuery event
-    trigger: (eventType, data=@_data) -> $(this).trigger eventType, [$.extend({}, data)]
+    trigger: (eventType, data=@_data) -> $(this).trigger 'transition', [$.extend({eventType:eventType}, data)]
 
     # **step**: Try to take a step in the algorithm.
     #
@@ -103,4 +103,12 @@ define ['vendor/jquery', 'vendor/underscore'], ($, _) ->
       return ret
 
     # Convenience method for binding to events fired on state changes
-    bind: (type, handler) -> $(this).bind type, handler
+    # Handlers bound with this method will get the actual event type in event.type,
+    # instead of 'transition'
+    #
+    # If type is 'transition', then handler will be called for all events
+    bind: (type, handler) -> 
+      $(this).bind 'transition', (event, data, others...) ->
+        event.type = data.eventType
+        if type.split('.')[0] == 'transition' or type == event.type
+          handler event, data, others...

@@ -23,7 +23,7 @@ define ['vendor/jquery', 'app/common/EventLogger',
 
   ($controlContainer, $statusContainer, paper) ->
     $controlContainer.load '/controls/ChainedHashTable', null, ->
-      i18n.createUpdater('JqueryEventUpdater', $statusContainer, 'ChainedHashTable', model, 'ready add insertItem newHash')
+      i18n.createUpdater('JqueryEventUpdater', $statusContainer, 'ChainedHashTable', model, 'transition')
       simple = [
         'chained-hash-table',
         'list-implementation', 'hash-function', 'unordered-list', 'ordered-list',
