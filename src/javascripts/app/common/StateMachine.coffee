@@ -34,10 +34,10 @@
 #    into the state with the same name (before the event is fired).
 define ['vendor/jquery', 'vendor/underscore'], ($, _) ->
   class StateMachine
-    constructor: (opts) ->
+    constructor: ->
       @_state = 'ready'
       @_data = {}
-      @_opts = $.extend({entryPoints: [], transitions: [], guards: {}}, opts)
+      @_opts = $.extend({entryPoints: [], transitions: [], guards: {}}, @constructor.StateMachineDefinition)
 
       @_opts.transitions.unshift {from: ['ready'], to: @_opts.entryPoints}
 
@@ -50,6 +50,41 @@ define ['vendor/jquery', 'vendor/underscore'], ($, _) ->
             @_data.params = params
             @step {stepRequest: name}
             return this
+
+    result: (d) ->
+      if not _(d).isUndefined()
+        if d == 'undefined'
+          @_data.result = undefined
+        else
+          @_data.result = d
+      else
+        @_data.result
+
+    # Chain StateMachines. This StateMachine will first keep stepping sm
+    # until it's ready, then continue with its own operation.
+    _chain: (sm, entrypoint, entrypointParameters...) ->
+      if not sm instanceof StateMachine
+        throw 'Only StateMachine instances can be chained'
+
+      # Fire events of sm through this
+      sm.trigger = (eventType, data=@_data) =>
+        if eventType != 'ready'
+          @trigger(eventType, data)
+
+      @step = (params...) ->
+        # First enter sm...
+        entrypoint.apply sm, entrypointParameters
+        # Next step through sm
+        @step = (params...) ->
+          sm.step params...
+          @result sm.result()
+          # Finally take back control flow
+          if sm._state == 'ready'
+            sm.trigger = StateMachine.prototype.step
+            @step = StateMachine.prototype.step
+            @step params...
+
+      return undefined
 
     # Can we go from where we are to the `to` state, based on the guards we have?
     _guardCheck: (to) ->
@@ -70,7 +105,7 @@ define ['vendor/jquery', 'vendor/underscore'], ($, _) ->
     # These are then filtered with `@_opts.guards`, using `@_data`.
     #
     # If the next state could be determined, then the appropriate part of the modeled algorithm is run (`@_opts[state]`),
-    # if such a method exists. The result of this is assigned to `@_data.result`. Finally an event is fired to notify
+    # if such a method exists. This method can call @result to set @_data.result.. Finally an event is fired to notify
     # the rest of the application about what happened.
     step: (to) =>
       to = if _.isUndefined(to) or _.isUndefined(to.stepRequest) then null else to.stepRequest
@@ -89,25 +124,23 @@ define ['vendor/jquery', 'vendor/underscore'], ($, _) ->
             throw "Couldn't transition into requested state #{to}. Candidates were #{candidates}"
         else
           throw "Couldn't figure out where to go from #{@_state}. Candidates were #{candidates}"
-      @_data.result = @_opts[@_state]?.apply(this, @_data.params)
+      @_opts[@_state]?.apply(this, @_data.params)
       @trigger @_state
       return this
 
-    # Keep `step`ping until until the `ready` state is reached; return the result of the last algorithm-part.
+    # Keep `step`ping until until the `ready` state is reached; return the last set result.
     # Use this if you want to run the algorithm without the breakpoints.
     run: ->
-      ret = null
       while @_state != 'ready'
-        ret = @_data.result
         @step()
-      return ret
+      return @result()
 
     # Convenience method for binding to events fired on state changes
     # Handlers bound with this method will get the actual event type in event.type,
     # instead of 'transition'
     #
     # If type is 'transition', then handler will be called for all events
-    bind: (type, handler) -> 
+    bind: (type, handler) ->
       $(this).bind 'transition', (event, data, others...) ->
         event.type = data.eventType
         if type.split('.')[0] == 'transition' or type == event.type

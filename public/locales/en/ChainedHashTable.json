@@ -12,5 +12,10 @@
   "ready": "Ready, waiting for next action",
   "add": "We will now add item #{element.key}:#{element.value} with hash #{hash}",
   "newHash": "This is the first occurence of the hash #{hash}; creating list head",
-  "insertItem": "Inserting item #{element.key}:#{element.value}"
+  "willInsertItem": "The list for hash #{hash} exists. We'll now insert the item based on the selected list implementation.",
+  "unordered-append": "The list is an unordered list, so we just append the item.",
+  "ordered-prepend": "The new item has the lowest sort order (#{element.key}), so we'll prepend it to the list.",
+  "ordered-append": "The new item has the highest sort order (#{element.key}), so we'll append it to the list.",
+  "ordered-insert": "The new item will be inserted at position #{result+1}.",
+  "insertItem": "Inserted item #{element.key}:#{element.value}"
 }

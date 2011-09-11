@@ -9,27 +9,40 @@
 #  * f(a,b) > 0 if a > b
 
 #
-define ['./UnorderedList'], (UL) ->
-    class GenericOrderedList extends UL
-        constructor: (@_compare) ->
-            super()
+define ['vendor/jquery', 'app/common/StateMachine', './UnorderedList'], ($, StateMachine, UL) ->
+  class GenericOrderedList extends UL
+    @StateMachineDefinition = $.extend {}, UL.StateMachineDefinition
+    @StateMachineDefinition.add = (element) ->
+      @result @_insertIndex element
+      @step()
 
-        # Find the index where the new item will be inserted.
-        _insertIndex: (element) ->
-            i = 0
-            while i < @_array.length and (@_compare(@_array[i].key, element.key) <= 0)
-                i++
-            return i
+    @StateMachineDefinition['ordered-append'] = (element) -> @_array.push element
+    @StateMachineDefinition['ordered-prepend'] = (element) -> @_array.unshift element
+    @StateMachineDefinition['ordered-insert'] = (element) -> @_array.splice @result(), 0, element
 
-        add: (element) ->
-            i = @_insertIndex element
-            if i == @_array.length
-                @_array.push element
-            else if i != null
-                @_array.splice i, 0, element
-            return i
+    @StateMachineDefinition.transitions = [
+      {from: ['add'], to: ['ordered-append', 'ordered-prepend', 'ordered-insert']},
+      {from: ['ordered-append', 'ordered-prepend', 'ordered-insert'], to: ['ready']}
+    ]
 
-    return (compare) ->
-        class OrderedList extends GenericOrderedList
-            constructor: ->
-                super compare
+    @StateMachineDefinition.guards = {
+      add:
+        'ordered-append': -> @result() == @_array.length
+        'ordered-prepend': -> @result() == 0 and @_array.length > 0
+        'ordered-insert': -> 0 < @result() < @_array.length
+    }
+
+    constructor: (@_compare) ->
+      super()
+
+    # Find the index where the new item will be inserted.
+    _insertIndex: (element) ->
+      i = 0
+      while i < @_array.length and (@_compare(@_array[i].key, element.key) <= 0)
+        i++
+      return i
+
+  return (compare) ->
+    class OrderedList extends GenericOrderedList
+      constructor: ->
+        super compare

@@ -33,11 +33,11 @@ define ['vendor/jquery', 'app/common/EventLogger',
         i18n.createUpdater('SimpleUpdater', '#' + id, 'ChainedHashTable', id)
       i18n.setDataProvider 'AsyncJsonDataProvider'
       i18n.setLanguage('en')
-      
+
       paper.ChainedHashTable model
       $('#add-button').click -> model.add($('#add-key').val(), $('#add-value').val())
       $('#list-implementation-select').change -> model.setListClass lists[$(this).val()]
       $('#hash-function-select').change -> model.setHashFunction hashes[$(this).val()]
-    return model.step
+    return model
 
 

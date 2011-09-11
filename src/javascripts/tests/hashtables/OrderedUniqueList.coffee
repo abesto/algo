@@ -1,10 +1,9 @@
-define ['vendor/qunit', 
+define ['vendor/qunit',
 'app/modules/ChainedHashTable/model/Element',
 'app/modules/ChainedHashTable/model/OrderedUniqueList'], (T, E, OUL) ->
     T.module 'Chained hash table: Ordered unique list',
         setup: ->
             @l = new (OUL( (x, y) -> x ))
-            window.l = @l
 
     T.test 'toArray gives a sorted unique array of elements', ->
         [a, b, c] = [
@@ -12,11 +11,7 @@ define ['vendor/qunit',
             new E(2, 'b')
             new E(1, 'c')
         ]
-        @l.add a
-        @l.add a
-        @l.add b
-        @l.add c
-        @l.add c
+        @l.add(x).run() for x in [a,a,b,c,c]
 
         T.deepEqual @l.toArray(), [a, c, b]
 

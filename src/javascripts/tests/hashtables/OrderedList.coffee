@@ -1,6 +1,6 @@
-define ['vendor/qunit', 
-'app/modules/ChainedHashTable/model/Element', 
-'app/modules/ChainedHashTable/model/OrderedList'], 
+define ['vendor/qunit',
+'app/modules/ChainedHashTable/model/Element',
+'app/modules/ChainedHashTable/model/OrderedList'],
 (T, E, OL) ->
   T.module 'Chained hash table: Ordered list',
     setup: ->
@@ -13,20 +13,20 @@ define ['vendor/qunit',
       new E(2, 'b')
       new E(1, 'c')
     ]
-    @l.add a
-    @l.add b
-    @l.add c
+    @l.add(a).run()
+    @l.add(b).run()
+    @l.add(c).run()
 
-    T.deepEqual @l.toArray(), [a, c, b]
+    T.deepEqual (e.value for e in @l.toArray()), (e.value for e in [a,c,b])
 
   T.test 'fromArray(l.toArray()) == l', ->
-    @l.add new E(1, 'a')
-    @l.add new E(1, 'b')
-    @l.add new E(1, 'c')
-    @l.add new E(2, 'd')
+    @l.add(new E(1, 'a')).run()
+    @l.add(new E(1, 'b')).run()
+    @l.add(new E(1, 'c')).run()
+    @l.add(new E(2, 'd')).run()
 
     lc = @L.fromArray @l.toArray()
-    T.deepEqual lc, @l
+    T.deepEqual (e.value for e in lc.toArray()), (e.value for e in @l.toArray())
 
   T.test 'Inverting the compare function inverts the sort order (assuming unique keys)', ->
     LI = OL( (x, y) -> y - x )
@@ -37,7 +37,8 @@ define ['vendor/qunit',
       new E(1, 'b')
       new E(3, 'c')
     ]
-    @l.add a; @l.add b; @l.add c
-    li.add a; li.add b; li.add c
+    for x in [a, b, c]
+      @l.add(x).run()
+      li.add(x).run()
 
-    T.deepEqual @l.toArray(), li.toArray().reverse()
+    T.deepEqual (e.value for e in @l.toArray()), (e.value for e in li.toArray().reverse())

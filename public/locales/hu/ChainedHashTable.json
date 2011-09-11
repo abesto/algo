@@ -12,5 +12,10 @@
   "ready": "Kész, várom a következő műveletet",
   "add": "Most fel fogjuk venni a #{element.key}:#{element.value} elemet, amire a hasítófüggény a(z) #{hash} értéket adta",
   "newHash": "Ez a #{hash} hasított kulcs első előfordulása; létrehozzk a lista-fejet",
-  "insertItem": "Beszúrjuk a(z) #{element.key}:#{element.value} elemet"
+  "willInsertItem": "A #{hash} kulcs listája márlétezik. Most beszúrjuk az elemet a kiválasztott lista-megvalósításnak megfelelően.",
+  "unordered-append": "Rendezetlen listával dolgozunk, tehát egyszerűen a lista végéhez csatoljuk az elemet.",
+  "ordered-prepend": "Az új elemet a rendezés szerint a lista elejére tesszük.",
+  "ordered-append": "Az új elemet a rendezés szerint a lista végére tesszük.",
+  "ordered-insert": "Az új elemet a #{result+1} indexű helyre szúrjuk be.",
+  "insertItem": "Végül ténylegesen felvesszük a(z) #{element.key}:#{element.value} elemet."
 }

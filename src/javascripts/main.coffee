@@ -17,5 +17,6 @@ define [
     require ['app/modules/ChainedHashTable'], (CHT) ->
       $display = $('#display')
       paper = Raphael 'display', $display.width(), $display.height()
-      $('#step').click(CHT $('#controls'), $('#bottom'), paper)
+      model = CHT($('#controls'), $('#bottom'), paper)
+      $('#step').click(-> model.step())
 

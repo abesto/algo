@@ -44,45 +44,52 @@ define ['vendor/jquery', 'vendor/underscore'
 './Element', './UnorderedList'],
 ($, _, StateMachine, Element, UnorderedList) ->
   class ChainedHashTable extends StateMachine
-    # First set data specific to this data structure
+    @StateMachineDefinition:
+      entryPoints: ['add', 'get', 'getFirst', 'setListClass', 'setHashFunction']
+      transitions: [
+        {from: ['add'],        to: ['willInsertItem', 'newHash']}
+        {from: ['newHash'],    to: ['willInsertItem']}
+        {from: ['willInsertItem'], to: ['insertItem']},
+        {
+          from: ['insertItem', 'get', 'getFirst'],
+          to: ['ready']
+        }
+      ]
+
+      # A new list needs to be created for the item if a list for the appropriate hash doesn't yet exist
+      guards:
+        add:
+          newHash: -> _.isUndefined @_heads[@_data.hash]
+          willInsertItem: -> not _.isUndefined @_heads[@_data.hash]
+
+      add: (a, b) ->
+        @_data.element = new Element a, b
+        @_data.hash = @_hashFunction @_data.element.key
+
+      newHash:    -> @_heads[@_data.hash] = new @_listClass()
+      willInsertItem: ->
+        list = @_heads[@_data.hash]
+        @_chain list, list.add, @_data.element
+
+      get: (key) ->
+        @_data.hash = @_hashFunction key
+        if _.isUndefined(@_heads[@_data.hash]) then @result [] else
+          list = @_heads[@_data.hash]
+          @_chain list, list.get, key
+
+      getFirst: (key) ->
+        @_data.hash = @_hashFunction key
+        if _.isUndefined(@_heads[@_data.hash]) then @result 'undefined' else
+          list = @_heads[@_data.hash]
+          @_chain list, list.getFirst, key
+
+      setListClass: (@_listClass) -> @_rebuild()
+      setHashFunction: (@_hashFunction) -> @_rebuild()
+
+    # First set data specific to this data structure, then initialize the StateMachine
     constructor: (@_hashFunction = ((x) -> x), @_listClass = UnorderedList) ->
       @_heads = {}
-
-      # Then define it using StateMachine
-      super
-        entryPoints: ['add', 'get', 'getFirst', 'setListClass', 'setHashFunction']
-        transitions: [
-          {from: ['add'],        to: ['insertItem', 'newHash']}
-          {from: ['newHash'],    to: ['insertItem']}
-          {
-            from: ['insertItem', 'get', 'getFirst'],
-            to: ['ready']
-          }
-        ]
-
-        # A new list needs to be created for the item if a list for the appropriate hash doesn't yet exist
-        guards:
-          add:
-            newHash: -> _.isUndefined @_heads[@_data.hash]
-            insertItem: -> not _.isUndefined @_heads[@_data.hash]
-
-        add: (a, b) ->
-          @_data.element = new Element a, b
-          @_data.hash = @_hashFunction @_data.element.key
-
-        newHash:    -> @_heads[@_data.hash] = new @_listClass()
-        insertItem: -> @_heads[@_data.hash].add @_data.element
-
-        get: (key) ->
-          @_data.hash = @_hashFunction key
-          if _.isUndefined(@_heads[@_data.hash]) then [] else @_heads[@_data.hash].get key
-
-        getFirst: (key) ->
-          @_data.hash = @_hashFunction key
-          if _.isUndefined(@_heads[@_data.hash]) then undefined else @_heads[@_data.hash].getFirst key
-
-        setListClass: (@_listClass) -> @_rebuild()
-        setHashFunction: (@_hashFunction) -> @_rebuild()
+      super()
 
     # Re-hash the data by removing everything, and running the elements through the normal add->(newHash)->insertItem flow.
     # Fast forward for now, probably not exciting enough to step through manually. All the events are fired normally, so
