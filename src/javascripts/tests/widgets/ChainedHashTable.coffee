@@ -1,5 +1,5 @@
-define ['vendor/qunit', 'vendor/raphael', 
-'app/modules/ChainedHashTable/raphael/ChainedHashTable'], (T, R) ->
+define ['vendor/qunit', 'vendor/raphael',
+'app/modules/ChainedHashTable/raphael/ChainedHashTableWidget'], (T, R) ->
   T.module 'Widgets: ChainedHashTable',
     setup: ->
       @p = R('testpaper')
