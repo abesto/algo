@@ -11,7 +11,8 @@
 #  * **Starts** in the special `"ready"` state
 #  * An **entry method** gets called (eg. `hashTable.add(key, value)`, where `add` is the entry method).
 #    `step(state)` is called.
-#  * Waits for a **step** or a **run** call (step runs until the next state is reached; run until the `ready` state is reached).
+#  * Waits for a **step** or a **run** call (step runs until the next state is reached; run until the 
+#  `ready` state is reached).
 #
 #### Properties:
 #
@@ -30,6 +31,8 @@
 #     where `s1` and `s2` are states that are valid transitions from the `ready` state
 #  * `guards`: an object like `{ready: {s2: -> @_data['number'] == 5}, ...}`. This means that
 #    we can transition from state `s1` to `s2` only if `@_data['number']` is `5`.
+#  * `skip`: a list of strings; states included here will automatically be stepped over. Useful
+#     for states that are not interesting for the user, but needed for clarity of the implementation.
 #  * Methods with the name of a state will be run on the StateMachine when it transitions
 #    into the state with the same name (before the event is fired).
 define ['vendor/jquery', 'vendor/underscore'], ($, _) ->
@@ -37,7 +40,7 @@ define ['vendor/jquery', 'vendor/underscore'], ($, _) ->
     constructor: ->
       @_state = 'ready'
       @_data = {}
-      @_opts = $.extend({entryPoints: [], transitions: [], guards: {}}, @constructor.StateMachineDefinition)
+      @_opts = $.extend({entryPoints: [], transitions: [], skip: [], guards: {}}, @constructor.StateMachineDefinition)
 
       @_opts.transitions.unshift {from: ['ready'], to: @_opts.entryPoints}
 
@@ -126,6 +129,9 @@ define ['vendor/jquery', 'vendor/underscore'], ($, _) ->
           throw "Couldn't figure out where to go from #{@_state}. Candidates were #{candidates}"
       @_opts[@_state]?.apply(this, @_data.params)
       @trigger @_state
+
+      if @_state in @_opts.skip
+        @step()
       return this
 
     # Keep `step`ping until until the `ready` state is reached; return the last set result.

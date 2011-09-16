@@ -131,3 +131,21 @@ define ['vendor/qunit', 'vendor/jquery', 'app/common/StateMachine'], (T, $, SM) 
     T.strictEqual top.a1().run(), 42
     T.deepEqual got, expected
 
+  T.test 'Skipping state', ->
+    class A extends SM
+      @StateMachineDefinition:
+        entryPoints: ['a1'],
+        transitions: [
+          {from: ['a1'], to: ['a2']},
+          {from: ['a2'], to: ['a3']},
+          {from: ['a3'], to: ['ready']}
+        ],
+        skip: ['a1', 'a2']
+
+    sm = new A
+    got = []
+    sm.bind 'transition', (event, data) -> got.push event.type
+    sm.a1()
+    T.deepEqual got, ['a1', 'a2', 'a3']
+    sm.step()
+    T.deepEqual got, ['a1', 'a2', 'a3', 'ready']
