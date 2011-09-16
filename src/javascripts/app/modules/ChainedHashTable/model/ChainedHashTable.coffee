@@ -54,7 +54,8 @@ define ['vendor/jquery', 'vendor/underscore'
           from: ['insertItem', 'get', 'getFirst'],
           to: ['ready']
         }
-      ]
+      ],
+      skip: ['willInsertItem', 'insertItem']
 
       # A new list needs to be created for the item if a list for the appropriate hash doesn't yet exist
       guards:
