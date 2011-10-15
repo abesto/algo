@@ -14,9 +14,9 @@ define [
     i18n.createUpdater 'SimpleUpdater', '#step', 'index', 'step'
     i18n.createUpdater 'SimpleUpdater', '#en', 'index', 'en'
     i18n.createUpdater 'SimpleUpdater', '#hu', 'index', 'hu'
-    require ['app/modules/ChainedHashTable'], (CHT) ->
+    require ['app/modules/Graph'], (G) ->
       $display = $('#display')
       paper = Raphael 'display', $display.width(), $display.height()
-      model = CHT($('#controls'), $('#bottom'), paper)
+      model = G($('#controls'), $('#bottom'), paper, $display)
       $('#step').click(-> model.step())
 

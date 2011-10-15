@@ -68,6 +68,7 @@ define ['app/common/UID', 'app/common/UIDMap', 'vendor/jquery', 'vendor/undersco
     createNode: ->
       n = new Node
       @_nodes.add n
+      @_trigger 'created-node', n
       return n
 
     createEdge: (from, to, weight=null) ->
@@ -85,14 +86,14 @@ define ['app/common/UID', 'app/common/UIDMap', 'vendor/jquery', 'vendor/undersco
       @_edges.add e
       from.addEdge e
       to.addEdge e
-      @_trigger 'created-edge', {edge: e}
+      @_trigger 'created-edge', e
 
       if not @_options.directed
         e2 = new Edge(to, from, weight)
         @_edges.add e2
         from.addEdge e2
         to.addEdge e2
-        @_trigger 'created-edge', {edge: e}
+        @_trigger 'created-edge', e
 
       return e
 
@@ -104,13 +105,13 @@ define ['app/common/UID', 'app/common/UIDMap', 'vendor/jquery', 'vendor/undersco
       @_checkNodeInGraph node
       @removeEdge(edge) for edge in node.inEdges.items() + node.outEdges.items()
       @_nodes.remove node
-      @_trigger 'removed-node', {node: node}
+      @_trigger 'removed-node', node
 
     removeEdge: (edge) ->
       @_checkEdgeInGraph edge
       node.removeEdge(edge) for node in [edge.from, edge.to]
       @_edges.remove edge
-      @_trigger 'removed-edge', {edge: edge}
+      @_trigger 'removed-edge', edge
 
     stronglyAdjacent: (from, to) -> (edge for edge in from.outEdges.items() when edge.to == to).length > 0
     adjacent: (a, b) -> @stronglyAdjacent(a, b) and @stronglyAdjacent(b, a)
