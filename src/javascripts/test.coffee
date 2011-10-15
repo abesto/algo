@@ -1,11 +1,14 @@
-define [
-  'vendor/qunit', 'vendor/jquery'
-  'tests/StateMachine',
-  'tests/hashtables/ChainedHashTable', 'tests/hashtables/UnorderedList', 'tests/hashtables/OrderedList', 'tests/hashtables/OrderedUniqueList'
-  'tests/widgets/raphael.setfixes', 'tests/widgets/RecText', 'tests/widgets/LinkedList', 'tests/widgets/ChainedHashTable'
-  'tests/widgets/raphael.setfixes', 'tests/widgets/RecText', 'tests/widgets/LinkedList', 'tests/widgets/ChainedHashTable',
-  'tests/UID'
-],
-  (QUnit, $) ->
-    QUnit.QUnit.done = -> $('#testpaper').remove()
-    QUnit.start()
+define Array.concat(
+  ['vendor/qunit', 'vendor/jquery'],
+
+  'tests/common/' + m for m in \
+  ['StateMachine', 'UID', 'raphael/raphael.setfixes'],
+
+  'tests/modules/ChainedHashTable/model/' + m for m in \
+  ['ChainedHashTable', 'OrderedList', 'OrderedUniqueList', 'UnorderedList'],
+
+  'tests/modules/ChainedHashTable/raphael/' + m for m in \
+  ['ChainedHashTable', 'LinkedList', 'RecText']
+), (QUnit, $) ->
+  QUnit.QUnit.done = -> $('#testpaper').remove()
+  QUnit.start()
