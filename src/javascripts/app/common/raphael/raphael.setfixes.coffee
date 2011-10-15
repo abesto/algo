@@ -7,7 +7,6 @@
 # Subsets can be accessed as setObject.key
 # Subsets are sets too.
 ##
-
 define ['vendor/raphael', 'vendor/underscore'], (R, _) ->
   f = R::set
   R::set = (args...) ->
@@ -80,5 +79,3 @@ define ['vendor/raphael', 'vendor/underscore'], (R, _) ->
       @items.push item
       @[@items.length-1] = item
     @length = @items.length
-
-

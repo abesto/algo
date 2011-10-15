@@ -41,7 +41,7 @@ define ['vendor/underscore', './raphael.class', 'vendor/jquery', './raphael.setf
 
     resizeX: (width) ->
         @_set.get('rect').attr 'width', width
-        @_set.get('text').attr 'x', @getBBox().x + @getBBox().width/2
+        @_set.get('text').attr 'x', @getBBox().x
 
     translate: (args...) -> @_set.translate args...
     getBBox: -> @_set.get('rect').getBBox()
