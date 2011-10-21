@@ -11,6 +11,8 @@ define ['app/common/UID', 'app/common/UIDMap', 'vendor/jquery', 'vendor/undersco
 
     isLoopEdge: -> @from == @to
 
+    toString: -> "Edge-#{@UID}"
+
   # A node is a UID with a list of in edges and out edges
   class Node
     constructor: -> 
@@ -34,6 +36,8 @@ define ['app/common/UID', 'app/common/UIDMap', 'vendor/jquery', 'vendor/undersco
       if edge.from != this and edge.to != this
         throw "Tried to remove edge #{edge.UID} to node #{@UID}, but the node is not an endpoint of the edge"
 
+    toString: -> "Node-#{@UID}"
+
 
 
   # Represents a whole graph: a collection of nodes and edges
@@ -55,7 +59,7 @@ define ['app/common/UID', 'app/common/UIDMap', 'vendor/jquery', 'vendor/undersco
       @_nodes = new UIDMap
       @_edges = new UIDMap
 
-    _trigger: (type, data={}) -> $(this).trigger type, data
+    _trigger: (type, data=[]) -> $(this).trigger type, data
 
     _checkNodeInGraph: (node) ->
       if not @_nodes.exists node
@@ -65,10 +69,10 @@ define ['app/common/UID', 'app/common/UIDMap', 'vendor/jquery', 'vendor/undersco
       if not @_edges.exists edge
         throw "Can only work with edges already in the graph; edge #{edge.UID} is not."
 
-    createNode: ->
+    createNode: (x, y) ->
       n = new Node
       @_nodes.add n
-      @_trigger 'created-node', n
+      @_trigger 'created-node', [x, y, n]
       return n
 
     createEdge: (from, to, weight=null) ->
