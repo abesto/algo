@@ -1,25 +1,25 @@
-h1#chained-hash-table
+h1#chained-hash-table(class='i18n-simple')
 label
-  span#list-implementation
+  span#list-implementation(class='i18n-simple')
   select#list-implementation-select
-    option(value='UnorderedList')#unordered-list
-    option(value='OrderedList')#ordered-list
-    option(value='ReversedList')#reverse-ordered-list
+    option(value='UnorderedList', class='i18n-simple')#unordered-list
+    option(value='OrderedList', class='i18n-simple')#ordered-list
+    option(value='ReversedList', class='i18n-simple')#reverse-ordered-list
 br
 label
-  span#hash-function
+  span#hash-function(class='i18n-simple')
   select#hash-function-select
     option(value='identity')#identityIdentity x &#8614; x
     option(value='xmod10') x &#8614; x mod 10
 
 fieldset
-  legend#add-item
+  legend#add-item(class='i18n-simple')
   label
-    span#key
+    span#key(class='i18n-simple')
     input#add-key(value="5")
   label
-    span#value
+    span#value(class='i18n-simple')
     input#add-value(value='foo')
-  input#add-button(type='button')
+  input#add-button(type='button', class='i18n-simple')
 
 dev#status

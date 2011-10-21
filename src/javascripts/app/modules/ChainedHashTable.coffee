@@ -24,13 +24,7 @@ define ['vendor/jquery', 'app/common/EventLogger',
   ($controlContainer, $statusContainer, paper) ->
     $controlContainer.load '/controls/ChainedHashTable', null, ->
       i18n.createUpdater('JqueryEventUpdater', $statusContainer, 'ChainedHashTable', model, 'transition')
-      simple = [
-        'chained-hash-table',
-        'list-implementation', 'hash-function', 'unordered-list', 'ordered-list',
-        'reverse-ordered-list', 'add-item', 'add-button', 'key', 'value'
-      ]
-      for id in simple
-        i18n.createUpdater('SimpleUpdater', '#' + id, 'ChainedHashTable', id)
+      $('.i18n-simple').each -> i18n.createUpdater('SimpleUpdater', $(this), 'ChainedHashTable', this.id)
       i18n.setDataProvider 'AsyncJsonDataProvider'
       i18n.setLanguage('en')
 

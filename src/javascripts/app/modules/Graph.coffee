@@ -7,11 +7,7 @@ define ['vendor/jquery', 'app/common/i18n', 'app/modules/Graph/model/Graph', 'ap
 
     $controlContainer.load '/controls/Graph', null, ->
       #i18n.createUpdater('JqueryEventUpdater', $statusContainer, 'Graph', model, 'transition')
-      simple = [
-        'graph', 'create-node', 'remove-node', 'move-node'
-      ]
-      for id in simple
-        i18n.createUpdater('SimpleUpdater', '#' + id, 'Graph', id)
+      $('.i18n-simple').each -> i18n.createUpdater('SimpleUpdater', $(this), 'Graph', this.id)
       i18n.setDataProvider 'AsyncJsonDataProvider'
       i18n.setLanguage('en')
 
