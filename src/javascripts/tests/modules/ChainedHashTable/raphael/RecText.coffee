@@ -89,4 +89,4 @@ define ['vendor/qunit', 'vendor/raphael', 'app/common/raphael/RecText'], (T, R) 
     r.resizeX 300
     rb = r._set.get('rect', 0).getBBox()
     T.equal rb.width, 300
-    T.equal r._set.get('text', 0).attr('x'), rb.x + rb.width/2
+    T.equal r._set.get('text', 0).attr('x'), rb.x
