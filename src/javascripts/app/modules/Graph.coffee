@@ -3,7 +3,8 @@ define ['vendor/jquery', 'app/common/i18n', 'app/modules/Graph/model/Graph', 'ap
     model = new G
     view = paper.GraphWidget($display)
     controller = new GC model, view
-    window.g = view
+    window.g = model
+    window.c = controller
 
     $controlContainer.load '/controls/Graph', null, ->
       #i18n.createUpdater('JqueryEventUpdater', $statusContainer, 'Graph', model, 'transition')
@@ -11,7 +12,7 @@ define ['vendor/jquery', 'app/common/i18n', 'app/modules/Graph/model/Graph', 'ap
       i18n.setDataProvider 'AsyncJsonDataProvider'
       i18n.setLanguage('en')
 
-      $('input[name="graph-action"]').click -> controller.action = @value
+      $('input[name="graph-action"]').click -> controller.setAction(@value)
 
 
     return model

@@ -107,7 +107,7 @@ define ['app/common/UID', 'app/common/UIDMap', 'vendor/jquery', 'vendor/undersco
 
     removeNode: (node) ->
       @_checkNodeInGraph node
-      @removeEdge(edge) for edge in node.inEdges.items() + node.outEdges.items()
+      @removeEdge(edge) for edge in node.inEdges.items().concat( node.outEdges.items() )
       @_nodes.remove node
       @_trigger 'removed-node', node
 

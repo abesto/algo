@@ -2,5 +2,7 @@
     "graph": "Graph",
     "create-node": "Create node",
     "remove-node": "Remove node",
-    "move-node": "Move node"
+    "move-node": "Move node",
+    "create-edge": "Create edge",
+    "remove-edge": "Remove edge"
 }
