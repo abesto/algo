@@ -14,7 +14,7 @@ define ['vendor/jquery', 'vendor/raphael', 'vendor/underscore', 'app/common/raph
     }
 
     constructor: (@_paper, @_display, opts) ->
-      $(@_display).click (e) => $(this).trigger('clicked-paper', [e.offsetX, e.offsetY])
+      $(@_display).click (e) => $(this).trigger('clicked-paper', [e.layerX, e.layerY])
       @_options = $.extend {}, @constructor.default_options, opts
       @_nodes = @_paper.set()
       @_edges = @_paper.set()
@@ -106,7 +106,8 @@ define ['vendor/jquery', 'vendor/raphael', 'vendor/underscore', 'app/common/raph
       if _.isUndefined(@_paper.tempedge)
         @_paper.tempedge = null
       {cx: x1, cy: y1} = nodeview.attr ['cx', 'cy']
-      @_paper.tempedge = @_paper.line x1, y1, x2, y2, {size: 5}, @_paper.tempedge
+      if x1 != x2 and y1 != y2
+        @_paper.tempedge = @_paper.line x1, y1, x2, y2, {size: 5}, @_paper.tempedge
 
     removeTemporaryEdge: -> 
       if not _.isUndefined(@_paper.tempedge)
