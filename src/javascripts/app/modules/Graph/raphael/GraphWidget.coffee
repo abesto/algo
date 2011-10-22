@@ -12,6 +12,7 @@ define ['vendor/jquery', 'vendor/raphael', 'vendor/underscore', 'app/common/raph
       'edge_width': 2
       'edge_color': '#000'
       'edge_weight_is_length': true
+      'edge_arrow_size': 5
     }
 
     constructor: (@_paper, @_display, opts) ->
@@ -67,7 +68,7 @@ define ['vendor/jquery', 'vendor/raphael', 'vendor/underscore', 'app/common/raph
 
     createEdge: (model) ->
       {x1: x1, x2: x2, y1: y1, y2: y2} = @edgeEndPoints model
-      view = @_paper.line x1, y1, x2, y2, {size: 5}
+      view = @_paper.line x1, y1, x2, y2, if @model.options.directed then {size: @_options.edge_arrow_size} else {}
       @_edges.push view
       view.attr
         stroke: @_options.edge_color
@@ -114,10 +115,12 @@ define ['vendor/jquery', 'vendor/raphael', 'vendor/underscore', 'app/common/raph
 
     updateEdges: (nodeview) ->
       for edgemodel in nodeview.model.inEdges.items().concat( nodeview.model.outEdges.items() )
+        if _.isUndefined(edgemodel.view) then continue
         {x1: x1, x2: x2, y1: y1, y2: y2} = @edgeEndPoints edgemodel
         @_paper.line x1, y1, x2, y2, {}, edgemodel.view
-        {x: x, y: y} = G.middlepoint(x1, y1, x2, y2)
+
         if @model.options.weighted
+          {x: x, y: y} = G.middlepoint(x1, y1, x2, y2)
           edgemodel.view.label.moveTo(x, y)
           if @_options.edge_weight_is_length
             w = Math.round(G.pythagoras(x2-x1, y2-y1))
@@ -129,7 +132,10 @@ define ['vendor/jquery', 'vendor/raphael', 'vendor/underscore', 'app/common/raph
         @_paper.tempedge = null
       {cx: x1, cy: y1} = nodeview.attr ['cx', 'cy']
       if x1 != x2 and y1 != y2
-        @_paper.tempedge = @_paper.line x1, y1, x2, y2, {size: 5}, @_paper.tempedge
+        @_paper.tempedge = @_paper.line(x1, y1, x2, y2, 
+          if @model.options.directed then {size: @_options.edge_arrow_size} else {}, 
+          @_paper.tempedge
+        )
 
     removeTemporaryEdge: -> 
       if not _.isUndefined(@_paper.tempedge)
@@ -142,7 +148,7 @@ define ['vendor/jquery', 'vendor/raphael', 'vendor/underscore', 'app/common/raph
       nodeview.animate {'stroke': @_options.node_color, 'fill': @_options.node_color, 'fill-opacity': @_options.node_opacity}, ms
 
     highlightEdge: (edgeview, color, ms=100) -> edgeview.animate {'stroke': color}, ms
-    unhighlightEdge: (edgeview, color, ms=100) -> edgeview.animate {'stroke': '#000000'}, ms
+    unhighlightEdge: (edgeview, color, ms=100) -> edgeview.animate {'stroke': @_options.edge_color}, ms
 
     removeEdge: (edge) -> edge.remove()
     removeNode: (node) -> node.remove()

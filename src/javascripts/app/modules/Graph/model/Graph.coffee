@@ -96,7 +96,6 @@ define ['app/common/UID', 'app/common/UIDMap', 'vendor/jquery', 'vendor/undersco
         @_edges.add e2
         from.addEdge e2
         to.addEdge e2
-        @_trigger 'created-edge', e
 
       return e
 

@@ -1,7 +1,11 @@
 define ['vendor/qunit', 'vendor/jquery', 'app/modules/Graph/model/Graph'], (T, $, G) ->
   T.module 'Graph model',
     setup: ->
-      @g = new G()
+      @g = new G
+        directed: true
+        allow_parallel_edges: true
+        allow_loop_edges: true
+        weighted: false
 
   T.test 'Nodes can be added and removed', ->
     n1 = @g.createNode()
@@ -41,6 +45,6 @@ define ['vendor/qunit', 'vendor/jquery', 'app/modules/Graph/model/Graph'], (T, $
   T.test 'Undirected graphs create edges both ways', ->
     n1 = @g.createNode()
     n2 = @g.createNode()
-    @g._options.directed = false
+    @g.options.directed = false
     @g.createEdge(n1, n2)
     T.ok (@g.adjacent n1, n2)
