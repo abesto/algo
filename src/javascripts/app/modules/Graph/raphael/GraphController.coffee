@@ -33,7 +33,7 @@ define ['vendor/jquery', 'vendor/underscore'], ($, _) ->
         delete @x
         delete @y        
         if toview isnt null and toview != fromview
-          @model.createEdge fromview.model, toview.model
+          @model.createEdge fromview.model, toview.model, 0
     removeEdge:
       'entered-edge': ($event, view, revent) -> @view.highlightEdge view, '#ff0000'
       'left-edge': ($event, view, revent) -> @view.unhighlightEdge view

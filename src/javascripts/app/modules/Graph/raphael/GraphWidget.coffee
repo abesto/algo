@@ -1,4 +1,4 @@
-define ['vendor/jquery', 'vendor/raphael', 'vendor/underscore', 'app/common/raphael/raphael.class', 'app/common/raphael/raphael.line'], ($, Raphael, _, RC) ->
+define ['vendor/jquery', 'vendor/raphael', 'vendor/underscore', 'app/common/raphael/raphael.class', 'app/common/Geometry', 'app/common/raphael/raphael.line', 'app/common/raphael/RecText'], ($, Raphael, _, RC, G) ->
   RC class GraphWidget
     @default_options = {
       'background_color': '#fff'
@@ -11,6 +11,7 @@ define ['vendor/jquery', 'vendor/raphael', 'vendor/underscore', 'app/common/raph
 
       'edge_width': 2
       'edge_color': '#000'
+      'edge_weight_is_length': true
     }
 
     constructor: (@_paper, @_display, opts) ->
@@ -20,6 +21,7 @@ define ['vendor/jquery', 'vendor/raphael', 'vendor/underscore', 'app/common/raph
       @_edges = @_paper.set()
 
     setModel: (model) ->
+      @model = model
       $model = $(model)
       $model.bind 'created-node', (event, x, y, model) => @createNode(x, y, model)
       $model.bind 'removed-node', (event, model) => @removeNode(model.view)
@@ -70,7 +72,21 @@ define ['vendor/jquery', 'vendor/raphael', 'vendor/underscore', 'app/common/raph
       view.attr
         stroke: @_options.edge_color
         'stroke-width': @_options.edge_width
-      model.view = view
+
+      if @model.options.weighted
+        view.label = @_paper.RecText(
+          $.extend {}, G.middlepoint(x1, y1, x2, y2), {
+            centerX: true
+            centerY: true
+            text: Math.round(G.pythagoras(x2-x1, y2-y1))
+            padding: 4
+            fill_color: '#fff'
+          }
+        )
+        view.label._set.toFront()
+        view.push view.label._set
+
+      model.view = view 
       view.model = model
 
       view.hover(
@@ -88,8 +104,7 @@ define ['vendor/jquery', 'vendor/raphael', 'vendor/underscore', 'app/common/raph
       {cx: x1, cy: y1} = model.from.view.attr ['cx', 'cy']
       {cx: x2, cy: y2} = model.to.view.attr ['cx', 'cy']
       [x, y] = [x2 - x1, y2 - y1]
-      d = Math.sqrt(Math.pow(x,2) + Math.pow(y,2))
-      ratio = @_options.node_radius / d
+      ratio = @_options.node_radius / G.pythagoras(x, y)
       return {
         x1: x1 + ratio * x
         x2: x2 - ratio * x
@@ -101,6 +116,13 @@ define ['vendor/jquery', 'vendor/raphael', 'vendor/underscore', 'app/common/raph
       for edgemodel in nodeview.model.inEdges.items().concat( nodeview.model.outEdges.items() )
         {x1: x1, x2: x2, y1: y1, y2: y2} = @edgeEndPoints edgemodel
         @_paper.line x1, y1, x2, y2, {}, edgemodel.view
+        {x: x, y: y} = G.middlepoint(x1, y1, x2, y2)
+        if @model.options.weighted
+          edgemodel.view.label.moveTo(x, y)
+          if @_options.edge_weight_is_length
+            w = Math.round(G.pythagoras(x2-x1, y2-y1))
+            edgemodel.weight = w
+            edgemodel.view.label._set.get('text').attr('text', w)
 
     temporaryEdge: (nodeview, x2, y2) ->
       if _.isUndefined(@_paper.tempedge)

@@ -6,6 +6,8 @@ define ['vendor/underscore', './raphael.class', 'vendor/jquery', './raphael.setf
     padding: 10  # Between the text and the box
     centerX: false # If true, x is taken to be the center, instead of the leftmost position
     centerY: false # If true, y is taken to be the center, instead of the topmost position
+    fill_color: '#efefef'
+    opacity: 1
 
   RC class RecText
     constructor: (@_paper, opts) ->
@@ -20,10 +22,11 @@ define ['vendor/underscore', './raphael.class', 'vendor/jquery', './raphael.setf
       else
         t = @_paper.text opts.x, opts.y, opts.text
         b = t.getBBox()
+      t.attr 'stroke-width', 0
 
       # Draw a rect around the text
       r = @_paper.rect b.x-opts.padding, b.y-opts.padding, b.width+(2*opts.padding), b.height+(2*opts.padding)
-      r.attr(fill: '#efefef')
+      r.attr {fill: opts.fill_color, 'fill-opacity': opts.opacity}
       r.toBack()
 
       # Make them a set
@@ -42,6 +45,14 @@ define ['vendor/underscore', './raphael.class', 'vendor/jquery', './raphael.setf
     resizeX: (width) ->
         @_set.get('rect').attr 'width', width
         @_set.get('text').attr 'x', @getBBox().x
+
+    moveTo: (x, y) ->
+      [t, r] = [@_set.get('text'), @_set.get('rect')]
+      t.attr {x: x, y: y}
+      b = r.getBBox()
+      r.attr
+        x: x - b.width / 2
+        y: y - b.height / 2
 
     translate: (args...) -> @_set.translate args...
     getBBox: -> @_set.get('rect').getBBox()

@@ -44,18 +44,17 @@ define ['app/common/UID', 'app/common/UIDMap', 'vendor/jquery', 'vendor/undersco
   # Fires events when the model changes
   class Graph
 
-    # Default is the most generial graph
-    @default_options = {
+    @defaultoptions = {
       'directed': true,
-      'allow_loop_edges': true,
-      'allow_parallel_edges': true,
-      'weighted': false
+      'allow_loop_edges': false,
+      'allow_parallel_edges': false,
+      'weighted': true
     }
 
     constructor: (opts={}) ->
-      @_options = $.extend {}, @constructor.default_options, opts
-      if not @_options.allow_parallel_edges
-        @_options.allow_loop_edges = false
+      @options = $.extend {}, @constructor.defaultoptions, opts
+      if not @options.allow_parallel_edges
+        @options.allow_loop_edges = false
       @_nodes = new UIDMap
       @_edges = new UIDMap
 
@@ -77,12 +76,12 @@ define ['app/common/UID', 'app/common/UIDMap', 'vendor/jquery', 'vendor/undersco
 
     createEdge: (from, to, weight=null) ->
       @_checkNodeInGraph node for node in [from, to]
-      if @_options.weighted and weight is null
+      if @options.weighted and weight is null
         throw "A weight parameter is required when creating an edge on a weighted graph"
-      if not @_options.allow_parallel_edges
-        check = @stronglyAdjacent if @_options.directed else @adjacent
+      if not @options.allow_parallel_edges
+        check = if @options.directed then @stronglyAdjacent else @adjacent
         throw "Parallel edges are not allowed" if check.call(this, from, to)
-      if not @_options.allow_loop_edges and from == to
+      if not @options.allow_loop_edges and from == to
         throw "Loop edges are not allowed"
       # The edge can be created
 
@@ -92,7 +91,7 @@ define ['app/common/UID', 'app/common/UIDMap', 'vendor/jquery', 'vendor/undersco
       to.addEdge e
       @_trigger 'created-edge', e
 
-      if not @_options.directed
+      if not @options.directed
         e2 = new Edge(to, from, weight)
         @_edges.add e2
         from.addEdge e2
@@ -117,5 +116,6 @@ define ['app/common/UID', 'app/common/UIDMap', 'vendor/jquery', 'vendor/undersco
       @_edges.remove edge
       @_trigger 'removed-edge', edge
 
-    stronglyAdjacent: (from, to) -> (edge for edge in from.outEdges.items() when edge.to == to).length > 0
+    stronglyAdjacent: (from, to) -> 
+      (edge for edge in from.outEdges.items() when edge.to == to).length > 0
     adjacent: (a, b) -> @stronglyAdjacent(a, b) and @stronglyAdjacent(b, a)
