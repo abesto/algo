@@ -12,7 +12,7 @@ define ['vendor/jquery', 'vendor/underscore'], ($, _) ->
       'left-node': (event, nodeview) -> @view.unhighlightNode nodeview
       'grabbed-node': ($event, x, y, view, revent) -> 
         @view.highlightNode view, '#000', 0.1
-        {cx: @ox, cy: @oy} = view.attr ['cx', 'cy']
+        {cx: @ox, cy: @oy} = view[0].attr ['cx', 'cy']
         @view.highlightNode view, '#000'
       'dropped-node': ($event, view, revent) ->
         @view.highlightNode view, '#000', 100, 0.1
@@ -22,6 +22,8 @@ define ['vendor/jquery', 'vendor/underscore'], ($, _) ->
         view.attr
           cx: @ox + dx
           cy: @oy + dy
+          x: @ox + dx
+          y: @oy + dy
         @view.updateEdges view
     createEdge:
       'moved-node': ($event, dx, dy, x, y, view, revent) ->
@@ -29,7 +31,7 @@ define ['vendor/jquery', 'vendor/underscore'], ($, _) ->
         [@x, @y] = [x, y]
       'dropped-node': ($event, fromview, revent) ->
         @view.removeTemporaryEdge()
-        toview = @view._paper.getElementByPoint @x, @y
+        toview = (@view._paper.getElementByPoint @x, @y).view
         delete @x
         delete @y        
         if toview isnt null and toview != fromview

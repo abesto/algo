@@ -2,23 +2,34 @@ define ['app/common/UID', 'app/common/UIDMap', 'vendor/jquery', 'vendor/undersco
 
   # An edge is an ordered pair of two Node instances with a weight and a UID
   class Edge
-    constructor: (@from, @to, @weight) ->
+    constructor: (@graph, @from, @to, @weight) ->
       if @from not instanceof Node
         throw 'Edge can only connect Node instances; tried to pass in ' + @from + ' as from parameter'
       if @to not instanceof Node
         throw 'Edge can only connect Node instances; tried to pass in ' + @to + ' as to parameter'
       @UID = UID('edge')
+      @_color = 'none'
 
     isLoopEdge: -> @from == @to
-
     toString: -> "Edge-#{@UID}"
+    color: (color) ->
+      if _.isUndefined(color)
+        return @_color
+      else
+        @_color = color
+        if color == 'none'
+          $(@graph).trigger 'uncolored-edge', this
+        else
+          $(@graph).trigger 'colored-edge', [this, color]
 
   # A node is a UID with a list of in edges and out edges
   class Node
-    constructor: -> 
+    constructor: (@graph) -> 
       @UID = UID('node')
       @inEdges = new UIDMap
       @outEdges = new UIDMap
+      @_label = ''
+      @_color = 'none'
 
     addEdge: (edge) -> 
       if edge.from == this
@@ -37,6 +48,23 @@ define ['app/common/UID', 'app/common/UIDMap', 'vendor/jquery', 'vendor/undersco
         throw "Tried to remove edge #{edge.UID} to node #{@UID}, but the node is not an endpoint of the edge"
 
     toString: -> "Node-#{@UID}"
+
+    label: (label) ->
+      if _.isUndefined(label)
+        return @_label
+      else
+        @_label = label
+        $(@graph).trigger 'labeled-node', [this, label]
+
+    color: (color) ->
+      if _.isUndefined(color)
+        return @_color
+      else
+        @_color = color
+        if color == 'none'
+          $(@graph).trigger 'uncolored-node', this
+        else
+          $(@graph).trigger 'colored-node', [this, color]
 
 
 
@@ -69,7 +97,7 @@ define ['app/common/UID', 'app/common/UIDMap', 'vendor/jquery', 'vendor/undersco
         throw "Can only work with edges already in the graph; edge #{edge.UID} is not."
 
     createNode: (x, y) ->
-      n = new Node
+      n = new Node(this)
       @_nodes.add n
       @_trigger 'created-node', [x, y, n]
       return n
@@ -85,7 +113,7 @@ define ['app/common/UID', 'app/common/UIDMap', 'vendor/jquery', 'vendor/undersco
         throw "Loop edges are not allowed"
       # The edge can be created
 
-      e = new Edge(from, to, weight)
+      e = new Edge(this, from, to, weight)
       @_edges.add e
       from.addEdge e
       to.addEdge e

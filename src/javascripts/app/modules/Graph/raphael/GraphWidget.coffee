@@ -28,17 +28,27 @@ define ['vendor/jquery', 'vendor/raphael', 'vendor/underscore', 'app/common/raph
       $model.bind 'removed-node', (event, model) => @removeNode(model.view)
       $model.bind 'created-edge', (event, model) => @createEdge(model)
       $model.bind 'removed-edge', (event, model) => @removeEdge(model.view)
+      $model.bind 'colored-edge', (event, model, color) => @highlightEdge(model.view, color)
+      $model.bind 'uncolored-edge', (event, model) => @unhighlightEdge(model.view)
+      $model.bind 'colored-node', (event, model, color) => @highlightNode(model.view, color)
+      $model.bind 'uncolored-node', (event, model) => @unhighlightNode(model.view)
+      $model.bind 'labeled-node', (event, model, label) -> model.view[1].attr('text', label)
 
     createNode: (x, y, model) ->
-      view = @_paper.ellipse x, y, @_options.node_radius, @_options.node_radius
-      @_nodes.push view
-      view.attr
+      circle = @_paper.ellipse x, y, @_options.node_radius, @_options.node_radius
+      circle.attr
         stroke: @_options.node_color
         fill: @_options.node_color
         'fill-opacity': @_options.node_opacity
         'stroke-width': @_options.node_border_width
+      text = @_paper.text x, y, ''
+      text.attr 'stroke-width', 0
+      view = @_paper.set(circle, text)
+      circle.view = view
+      text.view = view
       view.model = model
       model.view = view
+      @_nodes.push view
 
       view.hover(
         (e) -> $(this).trigger('entered-node', [view, e]),
@@ -102,8 +112,8 @@ define ['vendor/jquery', 'vendor/raphael', 'vendor/underscore', 'app/common/raph
       )
 
     edgeEndPoints: (model) ->
-      {cx: x1, cy: y1} = model.from.view.attr ['cx', 'cy']
-      {cx: x2, cy: y2} = model.to.view.attr ['cx', 'cy']
+      {cx: x1, cy: y1} = model.from.view[0].attr ['cx', 'cy']
+      {cx: x2, cy: y2} = model.to.view[0].attr ['cx', 'cy']
       [x, y] = [x2 - x1, y2 - y1]
       ratio = @_options.node_radius / G.pythagoras(x, y)
       return {
@@ -130,7 +140,7 @@ define ['vendor/jquery', 'vendor/raphael', 'vendor/underscore', 'app/common/raph
     temporaryEdge: (nodeview, x2, y2) ->
       if _.isUndefined(@_paper.tempedge)
         @_paper.tempedge = null
-      {cx: x1, cy: y1} = nodeview.attr ['cx', 'cy']
+      {cx: x1, cy: y1} = nodeview[0].attr ['cx', 'cy']
       if x1 != x2 and y1 != y2
         @_paper.tempedge = @_paper.line(x1, y1, x2, y2, 
           if @model.options.directed then {size: @_options.edge_arrow_size} else {}, 
@@ -143,9 +153,11 @@ define ['vendor/jquery', 'vendor/raphael', 'vendor/underscore', 'app/common/raph
         delete @_paper.tempedge
 
     highlightNode: (nodeview, color, ms=100, opacity=@_options.node_highlight_opacity) -> 
-      nodeview.animate {'stroke': color, 'fill': color, 'fill-opacity': opacity}, ms
+      nodeview.animate {'stroke': color, 'fill': color}, ms
+      nodeview[0].animate {'fill-opacity': opacity}, ms
     unhighlightNode: (nodeview, color, ms=100) -> 
-      nodeview.animate {'stroke': @_options.node_color, 'fill': @_options.node_color, 'fill-opacity': @_options.node_opacity}, ms
+      nodeview.animate {'stroke': @_options.node_color, 'fill': @_options.node_color}, ms
+      nodeview[0].animate {'fill-opacity': @_options.node_opacity}, ms
 
     highlightEdge: (edgeview, color, ms=100) -> edgeview.animate {'stroke': color}, ms
     unhighlightEdge: (edgeview, color, ms=100) -> edgeview.animate {'stroke': @_options.edge_color}, ms
