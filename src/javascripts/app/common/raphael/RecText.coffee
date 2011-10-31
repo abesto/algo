@@ -25,7 +25,8 @@ define ['vendor/underscore', './raphael.class', 'vendor/jquery', './raphael.setf
       t.attr 'stroke-width', 0
 
       # Draw a rect around the text
-      r = @_paper.rect b.x-opts.padding, b.y-opts.padding, b.width+(2*opts.padding), b.height+(2*opts.padding)
+      r = @_paper.rect opts.x, opts.y, b.width+(2*opts.padding), b.height+(2*opts.padding)
+      r.translate -opts.padding-(b.width/2), -opts.padding-(b.height/2)
       r.attr {fill: opts.fill_color, 'fill-opacity': opts.opacity}
       r.toBack()
 
