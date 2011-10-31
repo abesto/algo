@@ -49,11 +49,7 @@ define ['vendor/underscore', './raphael.class', 'vendor/jquery', './raphael.setf
 
     moveTo: (x, y) ->
       [t, r] = [@_set.get('text'), @_set.get('rect')]
-      t.attr {x: x, y: y}
-      b = r.getBBox()
-      r.attr
-        x: x - b.width / 2
-        y: y - b.height / 2
+      @_set.attr {x: x, y: y}
 
     translate: (args...) -> @_set.translate args...
     getBBox: -> @_set.get('rect').getBBox()
