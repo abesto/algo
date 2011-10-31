@@ -47,9 +47,16 @@ define ['vendor/jquery', 'vendor/underscore'], ($, _) ->
     moveNode:
       node: 'move'
 
+  noopAlgorithm = (controller) ->
+    step: -> true
+    run: -> true
+    _state: 'ready'
+
   class GraphController
     constructor: (@model, @view) ->
       @_action = 'noop'
+      @_algorithm = noopAlgorithm()
+      @_algorithmEventHandlers = []
       $model = $(model)
       $view = $(view)
       view.setModel model
@@ -71,10 +78,34 @@ define ['vendor/jquery', 'vendor/underscore'], ($, _) ->
           cursors[action]['node']
       )
 
+    algorithm: (type) ->
+      @_algorithm._state = 'foobar'  # Disables actions until the below callback fires
+      require ['app/modules/Graph/model/' + type], (AlgorithmClass) =>
+        @_algorithm = new AlgorithmClass(@model)
+        @_algorithm.step()
+        for {type: type, handler: handler} in @_algorithmEventHandlers
+          @_algorithm.bind type, handler
+
+    step: -> 
+      @_algorithm.step()
+      if @_algorithm._state == 'ready'
+        @_algorithm = noopAlgorithm()
+
+    run: -> 
+      @_algorithm.run()
+      if @_algorithm._state == 'ready'
+        @_algorithm = noopAlgorithm()
+
+    # Bind to the current algorithms transition events, same as StateMachine.bind
+    bind: (type, handler) ->
+      @_algorithmEventHandlers.push({type: type, handler: handler})
+
+    # Private helper, unrelated to bind above
     _bind: ($view, type) ->
       $view.bind type, =>
-        if not _.isUndefined(actions[@_action][type])
-          actions[@_action][type].apply this, _(arguments).toArray()
+        actor = if @_algorithm._state == 'ready' then actions[@_action] else @_algorithm
+        if not _.isUndefined(actor[type])
+          actor[type].apply this, _(arguments).toArray()
 
 
 

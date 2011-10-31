@@ -127,6 +127,9 @@ define ['app/common/UID', 'app/common/UIDMap', 'vendor/jquery', 'vendor/undersco
 
       return e
 
+
+    nodes: -> @_nodes.items()
+    edges: -> @_edges.items()
     
     hasNode: (node) -> @_nodes.exists node
     hasEdge: (edge) -> @_edges.exists edge

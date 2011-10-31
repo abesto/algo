@@ -111,22 +111,17 @@ define ['vendor/jquery', 'vendor/underscore'], ($, _) ->
     # if such a method exists. This method can call @result to set @_data.result.. Finally an event is fired to notify
     # the rest of the application about what happened.
     step: (to) =>
+      from = @_state
       to = if _.isUndefined(to) or _.isUndefined(to.stepRequest) then null else to.stepRequest
       candidates = _.flatten (transition.to for transition in @_opts.transitions when @_state in transition.from)
       candidates = (c for c in candidates when @_guardCheck(c))
-      if candidates.length == 1
-        if to != null and to not in candidates
-          throw "Couldn't transition into requested state"
-        else
-          @_state = candidates[0]
-      else if candidates.length > 1
-        if to != null
-          if to in candidates
-            @_state = to
-          else
-            throw "Couldn't transition into requested state #{to}. Candidates were #{candidates}"
-        else
-          throw "Couldn't figure out where to go from #{@_state}. Candidates were #{candidates}"
+      if to != null
+        if to in candidates then @_state = to else throw "Couldn't transition into requested state #{to}. Candidates were #{candidates}"
+      else if candidates.length == 1
+        @_state = candidates[0]
+      else
+        throw "Couldn't figure out where to go from #{@_state}. Candidates were #{candidates}"
+      @_opts[from + '-out']?.apply(this, @_data.params)
       @_opts[@_state]?.apply(this, @_data.params)
       @trigger @_state
 

@@ -3,7 +3,7 @@ define ['vendor/jquery', 'vendor/raphael', 'vendor/underscore', 'app/common/raph
     @default_options = {
       'background_color': '#fff'
 
-      'node_radius': 20
+      'node_radius': 25
       'node_border_width': 2
       'node_color': '#000'
       'node_opacity': 0
@@ -100,11 +100,14 @@ define ['vendor/jquery', 'vendor/raphael', 'vendor/underscore', 'app/common/raph
         'stroke-width': @_options.edge_width
 
       if @model.options.weighted
+        if @_options.edge_weight_is_length
+          model.weight = Math.round(G.pythagoras(x2-x1, y2-y1))
+
         view.label = @_paper.RecText(
           $.extend {}, G.middlepoint(x1, y1, x2, y2), {
             centerX: true
             centerY: true
-            text: Math.round(G.pythagoras(x2-x1, y2-y1))
+            text: model.weight
             padding: 4
             fill_color: '#fff'
           }
