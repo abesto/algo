@@ -40,7 +40,7 @@ define ['vendor/jquery', 'vendor/underscore'], ($, _) ->
     constructor: ->
       @_state = 'ready'
       @_data = {}
-      @_opts = $.extend({entryPoints: [], transitions: [], skip: [], guards: {}}, @constructor.StateMachineDefinition)
+      @_opts = $.extend(true, {entryPoints: [], transitions: [], skip: [], guards: {}}, @constructor.StateMachineDefinition)
 
       @_opts.transitions.unshift {from: ['ready'], to: @_opts.entryPoints}
 
