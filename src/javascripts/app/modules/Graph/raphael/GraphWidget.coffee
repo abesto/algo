@@ -20,6 +20,7 @@ define ['vendor/jquery', 'vendor/raphael', 'vendor/underscore', 'app/common/raph
       @_options = $.extend {}, @constructor.default_options, opts
       @_nodes = @_paper.set()
       @_edges = @_paper.set()
+      @$ = $(this)
 
     setModel: (model) ->
       @model = model
@@ -35,19 +36,33 @@ define ['vendor/jquery', 'vendor/raphael', 'vendor/underscore', 'app/common/raph
       $model.bind 'labeled-node', (event, model, label) -> model.view[1].attr('text', label)
 
     createNode: (x, y, model) ->
+      # The node circle
       circle = @_paper.ellipse x, y, @_options.node_radius, @_options.node_radius
       circle.attr
         stroke: @_options.node_color
         fill: @_options.node_color
         'fill-opacity': @_options.node_opacity
         'stroke-width': @_options.node_border_width
+      # Node label text
       text = @_paper.text x, y, ''
       text.attr 'stroke-width', 0
-      view = @_paper.set(circle, text)
-      circle.view = view
-      text.view = view
+      # Node UID text
+      uid = @_paper.RecText
+        x: x
+        y: y
+        centerX: true
+        centerY: true
+        text: model.UID
+        padding: 4
+        fill_color: '#fff'
+        opacity: 1
+
+      uid._set.translate 0, -@_options.node_radius
+      uid._set.toFront()
+
+      view = @_paper.set(circle, text, uid._set)
+      i.view = view for i in [model, circle, text, uid._set.get('rect', 0), uid._set.get('text', 0)]
       view.model = model
-      model.view = view
       @_nodes.push view
 
       view.hover(
@@ -65,13 +80,13 @@ define ['vendor/jquery', 'vendor/raphael', 'vendor/underscore', 'app/common/raph
 
       view.drag(
         # onmove
-        (dx, dy, x, y, e) -> $(this).trigger('moved-node', [dx, dy, x, y, view, e]),
+        (dx, dy, x, y, e) -> @$.trigger('moved-node', [dx, dy, x, y, view, e]),
         # onstart
         (x, y, e) -> 
-          $(this).trigger('grabbed-node', [x, y, view, e])
+          @$.trigger('grabbed-node', [x, y, view, e])
         #onend
         (e) -> 
-          $(this).trigger('dropped-node', [view, e])
+          @$.trigger('dropped-node', [view, e])
         #contexts
         this, this, this
       )
@@ -101,13 +116,13 @@ define ['vendor/jquery', 'vendor/raphael', 'vendor/underscore', 'app/common/raph
       view.model = model
 
       view.hover(
-        (e) -> $(this).trigger('entered-edge', [view, e]),
-        (e) -> $(this).trigger('left-edge', [view, e]),
+        (e) -> @$.trigger('entered-edge', [view, e]),
+        (e) -> @$.trigger('left-edge', [view, e]),
         this, this
       )
 
       view.click(
-        (e) -> $(this).trigger('clicked-edge', [view, e]),
+        (e) -> @$.trigger('clicked-edge', [view, e]),
         this
       )
 
@@ -153,11 +168,9 @@ define ['vendor/jquery', 'vendor/raphael', 'vendor/underscore', 'app/common/raph
         delete @_paper.tempedge
 
     highlightNode: (nodeview, color, ms=100, opacity=@_options.node_highlight_opacity) -> 
-      nodeview.animate {'stroke': color, 'fill': color}, ms
-      nodeview[0].animate {'fill-opacity': opacity}, ms
+      nodeview[0].animate {'stroke': color, 'fill': color, 'fill-opacity': opacity}, ms
     unhighlightNode: (nodeview, color, ms=100) -> 
-      nodeview.animate {'stroke': @_options.node_color, 'fill': @_options.node_color}, ms
-      nodeview[0].animate {'fill-opacity': @_options.node_opacity}, ms
+      nodeview[0].animate {'stroke': @_options.node_color, 'fill': @_options.node_color, 'fill-opacity': @_options.node_opacity}, ms
 
     highlightEdge: (edgeview, color, ms=100) -> edgeview.animate {'stroke': color}, ms
     unhighlightEdge: (edgeview, color, ms=100) -> edgeview.animate {'stroke': @_options.edge_color}, ms
