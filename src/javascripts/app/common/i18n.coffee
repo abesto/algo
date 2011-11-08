@@ -1,5 +1,4 @@
-define ['vendor/underscore', 'app/common/UID'],
-(_, Registry, UID) ->
+define ['vendor/underscore'], (_) ->
   # Initialization
   language = 'en'
   dataProvider = null
@@ -11,7 +10,7 @@ define ['vendor/underscore', 'app/common/UID'],
       doUpdate params...
     else
       updateQueue.push params
-    
+
   doUpdate = ($el, module, key, data) ->
     dataProvider.get language, module, key, data, (string) ->
       nodename = $el[0].nodeName.toUpperCase()
@@ -25,16 +24,16 @@ define ['vendor/underscore', 'app/common/UID'],
     registerUpdater: (updater) ->
       updater.updateCallback = update
       updaters[updater.UID] = updater
-      
+
     unregisterUpdater: (updater) ->
      delete updater.updateCallback
      delete updaters[updater.UID]
-    
+
     setLanguage: (llanguage) ->
       language = llanguage
       for uid, updater of updaters
         updater.update()
-        
+
     createUpdater: (name, params...) ->
       require ['app/common/i18n/Updaters/' + name], (U) ->
         updater = new U(params...)
@@ -46,4 +45,4 @@ define ['vendor/underscore', 'app/common/UID'],
         while updateQueue.length > 0
           doUpdate(updateQueue.pop()...)
 }
-  
+
