@@ -1,9 +1,8 @@
 define [
-  'app/common/loadcss', 'vendor/jquery', 'vendor/raphael', 'vendor/underscore',
+  'vendor/jquery', 'vendor/raphael', 'vendor/underscore',
   'app/common/i18n'
   ]
-, (css, $, Raphael, _, i18n) ->
-  css 'main'
+, ($, Raphael, _, i18n) ->
 
   class Module
     constructor: (name, path) ->
