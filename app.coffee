@@ -37,7 +37,7 @@ app.get '/', (req, res) ->
 
 app.get '/controls/:module', (req, res) ->
   res.render('controls/' + req.params.module, {layout: false})
-  
+
 app.get('/tests', (req, res) ->
     res.render('tests', {
         title: 'Tests'
@@ -45,5 +45,5 @@ app.get('/tests', (req, res) ->
     })
 )
 
-app.listen(9000)
+app.listen(8080)
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env)
