@@ -2,10 +2,10 @@
 define ['vendor/jquery', 'vendor/raphael'], ($, R) ->
   R.fn.line = (x1, y1, x2, y2, _arrowProps={}, line=null) ->
     arrowProps = $.extend(
-        {size:0;filled:true;foot:true;angle:45}, 
+        {size:0;filled:true;foot:true;angle:45},
         if line isnt null then line.arrowProps else {},
         _arrowProps
-    }
+    )
 
     divisor = 45 / arrowProps.angle
     back = if arrowProps.foot or arrowProps.filled then 'L' else 'M'
