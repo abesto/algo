@@ -1,16 +1,23 @@
 define ['vendor/jquery'
 'app/common/i18n'
 'app/modules/Graph/model/Graph', 'app/modules/Graph/model/Dijkstra'
-'app/modules/Graph/raphael/GraphWidget', 'app/modules/Graph/raphael/GraphController'
-], ($, i18n, G, D, GW, GC) ->
+'app/modules/Graph/raphael/GraphWidget', 'app/modules/Graph/widgets/GraphCodeListing'
+'app/modules/Graph/raphael/GraphController'
+], ($, i18n, Graph, Dijkstra, GraphWidget, GraphCodeListing, GraphController) ->
   ($controlContainer, $statusContainer, paper, $display) ->
-    model = new G
-    view = paper.GraphWidget($display)
-    controller = new GC model, view
-    window.g = model
+
+    graph = new Graph
+    graphWidget = paper.GraphWidget $display
+    controller = new GraphController graph, graphWidget
+
+    listing = new GraphCodeListing $statusContainer, 'Graph/dijkstra-algorithm', graph
+    listing.setStateMachine controller
+
+    # For debugging
+    window.g = graph
     window.c = controller
 
-    i18n.createUpdater('JqueryEventUpdater', $statusContainer, 'Graph', controller, 'transition')
+    #i18n.createUpdater('JqueryEventUpdater', $statusContainer, 'Graph', controller, 'transition')
     i18n.setDataProvider 'AsyncJsonDataProvider'
     i18n.setLanguage('en')
 

@@ -9,8 +9,6 @@ define ['app/common/StateMachine'], (StateMachine) ->
         {from: ['all-nodes-processed', 'remaining-nodes-inaccessible'], to: ['ready']}
       ]
 
-      skip: ['loop']
-
       guards:
         loop:
           'all-nodes-processed': -> @_data.q.length == 0
@@ -25,6 +23,8 @@ define ['app/common/StateMachine'], (StateMachine) ->
           'loop': -> @_data['relax-edges'].length == 0
           'relax': -> @_data['relax-edges'].length > 0
 
+      skip: ['loop']
+
       init: ->
         for node in @graph.nodes()
           @_setDistPrev(node, Infinity, null)
@@ -38,30 +38,31 @@ define ['app/common/StateMachine'], (StateMachine) ->
           delete @['clicked-node']
 
       loop: ->
-        @_data.min?.color 'none'
+        @_data.min?.color 'none', 'u'
+        @_data.min?.color 'none', 'neighbor'
 
       'select-min': ->
         @_data.min = @_data.q[0]
         for n in @_data.q[1..]
           if @_data.dist[n.UID] < @_data.dist[@_data.min.UID]
             @_data.min = n
-        @_data.min.color 'blue'
+        @_data.min.color 'blue', 'u'
 
       'relax-init': ->
         @_data.q.splice @_data.q.indexOf(@_data.min), 1
         @_data['relax-edges'] = @_data.min.outEdges.items()
-        edge.to.color 'yellow' for edge in @_data['relax-edges']
+        edge.to.color 'yellow', 'neighbor' for edge in @_data['relax-edges']
 
       'relax': ->
         @_data.e = @_data['relax-edges'].pop()
         @_data.v = @_data.e.to
-        @_data.v.color 'orange'        
+        @_data.v.color 'orange', 'v'
         @_data.alt = @_data.dist[@_data.min.UID] + @_data.e.weight
         if @_data.alt < @_data.dist[@_data.v.UID]
           @_setDistPrev @_data.v, @_data.alt, @_data.e
 
       'relax-out': ->
-        @_data.v.color 'none'
+        @_data.v.color 'none', 'v'
 
         
     _setDistPrev: (node, dist, prev) ->

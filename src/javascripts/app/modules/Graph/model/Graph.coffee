@@ -12,15 +12,15 @@ define ['app/common/UID', 'app/common/UIDMap', 'vendor/jquery', 'vendor/undersco
 
     isLoopEdge: -> @from == @to
     toString: -> "Edge-#{@UID}"
-    color: (color) ->
+    color: (color, varname) ->
       if _.isUndefined(color)
         return @_color
       else
         @_color = color
         if color == 'none'
-          $(@graph).trigger 'uncolored-edge', this
+          $(@graph).trigger 'uncolored-edge', [this, varname]
         else
-          $(@graph).trigger 'colored-edge', [this, color]
+          $(@graph).trigger 'colored-edge', [this, color, varname]
 
   # A node is a UID with a list of in edges and out edges
   class Node
@@ -56,15 +56,15 @@ define ['app/common/UID', 'app/common/UIDMap', 'vendor/jquery', 'vendor/undersco
         @_label = label
         $(@graph).trigger 'labeled-node', [this, label]
 
-    color: (color) ->
+    color: (color, varname) ->
       if _.isUndefined(color)
         return @_color
       else
         @_color = color
         if color == 'none'
-          $(@graph).trigger 'uncolored-node', this
+          $(@graph).trigger 'uncolored-node', [this, varname]
         else
-          $(@graph).trigger 'colored-node', [this, color]
+          $(@graph).trigger 'colored-node', [this, color, varname]
 
 
 

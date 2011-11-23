@@ -79,12 +79,13 @@ define ['vendor/jquery', 'vendor/underscore'], ($, _) ->
       )
 
     algorithm: (type) ->
-      @_algorithm._state = 'foobar'  # Disables actions until the below callback fires
+      @_algorithm._state = '__disabled'  # Disables actions until the below callback fires
       require ['app/modules/Graph/model/' + type], (AlgorithmClass) =>
         @_algorithm = new AlgorithmClass(@model)
+        for {type: type, handler: handler, algorithm: algorithm} in @_algorithmEventHandlers
+          if algorithm == 'any' or @_algorithm instanceof algorithm
+            @_algorithm.bind type, handler
         @_algorithm.step()
-        for {type: type, handler: handler} in @_algorithmEventHandlers
-          @_algorithm.bind type, handler
 
     step: -> 
       @_algorithm.step()
@@ -97,8 +98,11 @@ define ['vendor/jquery', 'vendor/underscore'], ($, _) ->
         @_algorithm = noopAlgorithm()
 
     # Bind to the current algorithms transition events, same as StateMachine.bind
-    bind: (type, handler) ->
-      @_algorithmEventHandlers.push({type: type, handler: handler})
+    # If algorithm is given, then the handler will be called only if the current
+    # algorithm is `instanceof algorithm`
+    bind: (type, handler, algorithm='any') ->
+      @_algorithmEventHandlers.push({type: type, handler: handler, algorithm: algorithm})
+      @_algorithm?.bind? type, handler
 
     # Private helper, unrelated to bind above
     _bind: ($view, type) ->
