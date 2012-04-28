@@ -1,8 +1,10 @@
 define ['vendor/jquery'], ($) ->
   class CodeListing
-    constructor: (@$container, codeUri) ->
+    constructor: (@$container) ->
       @$content = $('<pre>').addClass('code-listing')
       @$container.append(@$content)
+
+    display: (codeUri) ->
       $.get('/resources/' + codeUri + '.algo', {}, @format)
 
     format: (code) =>

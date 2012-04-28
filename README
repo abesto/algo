@@ -6,3 +6,4 @@ Implemented:
   * Hash functions: identity, mod 10
  * Graphs
   * Dijsktra's algorithm
+  * Depth-first search

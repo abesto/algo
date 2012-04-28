@@ -10,6 +10,7 @@ define ['app/common/StateMachine'], (StateMachine) ->
     @StateMachineDefinition:
       entryPoints: ['init']
       transitions: [
+        {from: ['init'], to: ['loop']}
         {from: ['loop'], to: ['edge-explored', 'edge-unexplored', 'ready']}
         {from: ['edge-unexplored'], to: ['discovery-edge', 'back-edge']}
         {from: ['edge-explored', 'discovery-edge', 'back-edge'], to: ['loop']}
@@ -24,26 +25,31 @@ define ['app/common/StateMachine'], (StateMachine) ->
           'discovery-edge': -> @currentEdge().to.color() == unexplored
           'back-edge': -> @currentEdge().to.color() == explored
 
-      #skip: ['loop']
+      skip: ['loop']
 
 
       init: (node) ->
-        @['clicked-node'] = (event, nodeview, nodemodel) =>
-          @_state = 'loop'
-          @_data.node = nodemodel
-          @_data.node.color current
-          @_data.edgeIndex = 0
-          @step()
-          delete @['clicked-node']
         if node?
-          @['clicked-node'](null, null, node)
+          @_data.node = node
+          @_data.node.color explored, 'vertex'
+          @_data.edgeIndex = -1
+        else
+          @['clicked-node'] = (event, nodeview, nodemodel) =>
+            @_state = 'loop'
+            @_data.node = nodemodel
+            @_data.node.color explored, 'vertex'
+            @_data.edgeIndex = 0
+            delete @['clicked-node']
 
       loop: -> 
         @_data.edgeIndex++
-        #@currentEdge()?.color current
+        @currentEdge()?.color @currentEdge().color(), 'outedge'  # Refreshes code listing colors
+
+      'edge-unexplored': ->
+        @currentEdge()?.color current, 'outedge'
 
       'discovery-edge': ->
-        @currentEdge().color explored
+        @currentEdge().color explored, 'outedge'
         recursive = new DepthFirst @graph
         @_chain recursive, recursive.init, @currentEdge().to
 
@@ -51,4 +57,4 @@ define ['app/common/StateMachine'], (StateMachine) ->
         @currentEdge().color back
 
       'ready': ->
-        @_data.node.color explored
+        @_data.node.color explored, 'vertex'

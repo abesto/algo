@@ -10,7 +10,7 @@ define ['vendor/jquery'
     graphWidget = paper.GraphWidget $display
     controller = new GraphController graph, graphWidget
 
-    listing = new GraphCodeListing $statusContainer, 'Graph/dijkstra-algorithm', graph
+    listing = new GraphCodeListing $statusContainer, graph
     listing.setStateMachine controller
 
     # For debugging
@@ -24,6 +24,9 @@ define ['vendor/jquery'
     $controlContainer.load '/controls/Graph', null, ->
       $('.i18n-simple').each -> i18n.createUpdater('SimpleUpdater', $(this), 'Graph', this.id)
       $('input[name="graph-action"]').click -> controller.setAction(@value)
-      $('input[class="algorithm"]').click -> controller.algorithm $(this).data('class')
+      $('input[class="algorithm"]').click -> 
+        algorithm = $(this).data 'class'
+        listing.display 'Graph/' + algorithm
+        controller.algorithm algorithm
 
     return controller
