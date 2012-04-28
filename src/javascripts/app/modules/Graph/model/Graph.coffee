@@ -120,7 +120,7 @@ define ['app/common/UID', 'app/common/UIDMap', 'vendor/jquery', 'vendor/undersco
       @_trigger 'created-edge', e
 
       if not @options.directed
-        e2 = new Edge(to, from, weight)
+        e2 = new Edge(this, to, from, weight)
         @_edges.add e2
         from.addEdge e2
         to.addEdge e2
