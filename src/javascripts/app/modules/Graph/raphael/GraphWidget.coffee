@@ -16,7 +16,7 @@ define ['vendor/jquery', 'vendor/raphael', 'vendor/underscore', 'app/common/raph
     }
 
     constructor: (@_paper, @_display, opts) ->
-      $(@_display).click (e) => $(this).trigger('clicked-paper', [e.layerX, e.layerY])
+      $(@_display).click (e) => $(this).trigger('clicked-paper', [e.offsetX, e.offsetY])
       @_options = $.extend {}, @constructor.default_options, opts
       @_nodes = @_paper.set()
       @_edges = @_paper.set()
