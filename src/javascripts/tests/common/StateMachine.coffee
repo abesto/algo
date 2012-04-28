@@ -116,16 +116,33 @@ define ['vendor/qunit', 'vendor/jquery', 'app/common/StateMachine'], (T, $, SM) 
       @StateMachineDefinition:
         entryPoints: ['b1'],
         transitions: [
-          {from: ['b1'], to: ['b2']},
+          {from: ['b1'], to: ['b2']}
           {from: ['b2'], to: ['ready']}
         ]
-        b1: -> @result 42
+        b1: -> @_chain @chained, @ep
+        b2: -> @_chain @chained, @ep
 
-    bottom = new B
-    middle = new A('middle', bottom, bottom.b1)
-    top = new A('top', middle, middle.a1)
+      constructor: (@id, @chained, @ep) ->
+        super()
 
-    expected = ['a1', 'a1', 'b1', 'b2', 'a2', 'b1', 'b2', 'a2', 'a1', 'b1', 'b2', 'a2', 'b1', 'b2', 'ready']
+    class C extends SM
+      @StateMachineDefinition:
+        entryPoints: ['c1'],
+        transitions: [
+          {from: ['c1'], to: ['c2']},
+          {from: ['c2'], to: ['ready']}
+        ]
+        c1: -> @result 42
+
+    bottom = new C
+    middle = new B('middle', bottom, bottom.c1)
+    top = new A('top', middle, middle.b1)
+
+    expected = ['a1', 'b1', 'c1', 'c2', 'chain-done',
+                      'b2', 'c1', 'c2', 'chain-done', 'chain-done',
+                'a2', 'b1', 'c1', 'c2', 'chain-done',
+                      'b2', 'c1', 'c2', 'chain-done', 'chain-done',
+                'ready']
     got = []
     top.bind 'transition', (event, data) -> got.push event.type
     T.strictEqual top.a1().run(), 42

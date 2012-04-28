@@ -85,7 +85,8 @@ define ['vendor/jquery', 'vendor/underscore'], ($, _) ->
           if sm._state == 'ready'
             sm.trigger = StateMachine.prototype.step
             @step = StateMachine.prototype.step
-            @step params...
+            @trigger 'chain-done'
+            #@step params...
 
       return undefined
 
