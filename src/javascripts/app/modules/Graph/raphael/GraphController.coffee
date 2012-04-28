@@ -79,6 +79,8 @@ define ['vendor/jquery', 'vendor/underscore'], ($, _) ->
       )
 
     algorithm: (type) ->
+      edge.color 'none' for edge in @model.edges()
+      node.color 'none' for node in @model.nodes()
       @_algorithm._state = '__disabled'  # Disables actions until the below callback fires
       require ['app/modules/Graph/model/' + type], (AlgorithmClass) =>
         @_algorithm = new AlgorithmClass(@model)

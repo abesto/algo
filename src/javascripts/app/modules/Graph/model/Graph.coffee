@@ -22,6 +22,7 @@ define ['app/common/UID', 'app/common/UIDMap', 'vendor/jquery', 'vendor/undersco
         else
           $(@graph).trigger 'colored-edge', [this, color, varname]
 
+
   # A node is a UID with a list of in edges and out edges
   class Node
     constructor: (@graph) -> 

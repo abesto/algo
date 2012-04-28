@@ -24,6 +24,6 @@ define ['vendor/jquery'
     $controlContainer.load '/controls/Graph', null, ->
       $('.i18n-simple').each -> i18n.createUpdater('SimpleUpdater', $(this), 'Graph', this.id)
       $('input[name="graph-action"]').click -> controller.setAction(@value)
-      $('input[class="algorithm"]').click -> controller.algorithm(@value)
+      $('input[class="algorithm"]').click -> controller.algorithm $(this).data('class')
 
     return controller
