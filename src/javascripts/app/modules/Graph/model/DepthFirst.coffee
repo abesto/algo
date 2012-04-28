@@ -4,6 +4,9 @@ define ['app/common/StateMachine'], (StateMachine) ->
   explored = 'green'
   back = 'red'
 
+  order = 0
+  depth = 0
+
   class DepthFirst extends StateMachine
     currentEdge: -> @_data.node.outEdges.items()[@_data.edgeIndex]
 
@@ -28,19 +31,21 @@ define ['app/common/StateMachine'], (StateMachine) ->
       skip: ['loop']
 
 
-      init: (order, node) ->
+      init: (node) ->
         # If we got parameters, this is already a recursive call
         if node?
           @_data.node = node
-          @_data.node.label order
+          @_data.node.label "D:#{depth}\nO:#{order}"
           @_data.node.color explored, 'vertex'
           @_data.edgeIndex = -1
         # If not, this is the top-level call initiated by the user
         else
           @['clicked-node'] = (event, nodeview, nodemodel) =>
+            order = 1
+            depth = 1
             @_state = 'loop'
             @_data.node = nodemodel
-            @_data.node.label 1
+            @_data.node.label "D:#{depth}\nO:#{order}"
             @_data.node.color explored, 'vertex'
             @_data.edgeIndex = 0
             delete @['clicked-node']
@@ -54,11 +59,14 @@ define ['app/common/StateMachine'], (StateMachine) ->
 
       'discovery-edge': ->
         @currentEdge().color explored, 'outedge'
+        depth++
+        order++
         recursive = new DepthFirst @graph
-        @_chain recursive, recursive.init, @_data.node.label()+1, @currentEdge().to
+        @_chain recursive, recursive.init, @currentEdge().to
 
       'back-edge': ->
         @currentEdge().color back
 
       'ready': ->
         @_data.node.color explored, 'vertex'
+        depth--
