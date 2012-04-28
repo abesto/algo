@@ -6,5 +6,6 @@
       "express": ">=2.4.3"
     , "stylus": ">= 0.0.1"
     , "jade": ">= 0.0.1"
+    , "coffee-script": "latest"
   }
 }
