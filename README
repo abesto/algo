@@ -1,3 +1,8 @@
-This project aims to graphically and interactively demonstrate basic algorithms and data structures. Currently in early development, not usable yet.
+This project aims to graphically and interactively demonstrate basic algorithms and data structures.
 
-Most of the time an up-do-date version can be seen at http://algo-abesto.dotcloud.com/. It's slow to load, so wait for it :)
+Implemented:
+ * Chained hash table
+  * List implementations: unordered list, ordered list, reverse ordered list
+  * Hash functions: identity, mod 10
+ * Graphs
+  * Dijsktra's algorithm
