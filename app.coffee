@@ -32,7 +32,7 @@ app.configure 'production', ->
 
 app.get '/', (req, res) ->
   res.render('index', {
-    title: 'ORLY'
+    title: 'Algorithms and Data structures'
   })
 
 app.get '/controls/:module', (req, res) ->
