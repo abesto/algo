@@ -45,5 +45,6 @@ app.get('/tests', (req, res) ->
     })
 )
 
-app.listen process.argv[2] or 8080
-console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env)
+port = process.argv[2] or 8080
+app.listen port, '127.0.0.1'
+console.log("Express server listening on port %d in %s mode", port, app.settings.env)
