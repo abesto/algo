@@ -171,16 +171,9 @@ define ['vendor/jquery', 'vendor/raphael', 'vendor/underscore', 'app/common/raph
         delete @_paper.tempedge
 
     highlightNode: (nodeview, color, ms=100, opacity=@_options.node_highlight_opacity) -> 
-      nv = nodeview[0]
-      if not nv.prehighlight?
-        nv.prehighlight =
-          stroke: nv.attr 'stroke'
-          fill: nv.attr 'fill'
-          'fill-opacity': nv.attr 'fill-opacity'
       nodeview[0].animate {'stroke': color, 'fill': color, 'fill-opacity': opacity}, ms
     unhighlightNode: (nodeview, color, ms=100) -> 
-      nodeview[0].animate nodeview[0].prehighlight, ms
-      delete nodeview[0].prehighlight
+      nodeview[0].animate {'stroke': @_options.node_color, 'fill': @_options.node_color, 'fill-opacity': @_options.node_opacity}, ms
 
     highlightEdge: (edgeview, color, ms=100) -> edgeview.animate {'stroke': color}, ms
     unhighlightEdge: (edgeview, color, ms=100) -> edgeview.animate {'stroke': @_options.edge_color}, ms
