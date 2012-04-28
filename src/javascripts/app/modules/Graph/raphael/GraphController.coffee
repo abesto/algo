@@ -11,11 +11,10 @@ define ['vendor/jquery', 'vendor/underscore'], ($, _) ->
       'entered-node': (event, nodeview) -> @view.highlightNode nodeview, '#000', 100, 0.1
       'left-node': (event, nodeview) -> @view.unhighlightNode nodeview
       'grabbed-node': ($event, x, y, view, revent) -> 
-        @view.highlightNode view, '#000', 0.1
         {cx: @ox, cy: @oy} = view[0].attr ['cx', 'cy']
         @view.highlightNode view, '#000'
       'dropped-node': ($event, view, revent) ->
-        @view.highlightNode view, '#000', 100, 0.1
+        @view.highlightNode view, '#000'
         delete @ox
         delete @oy
       'moved-node': ($event, dx, dy, x, y, view, revent) -> 

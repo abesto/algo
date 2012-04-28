@@ -1,1 +1,2 @@
 Graphs: node and edge highlighting to mark currently processed item (node/edge), separate from coloring (algorithms use colors to mark node/edge state)
+Graphs: make graph read-only when running an algorithm. also disable highlighting from tool hover/clicks.
