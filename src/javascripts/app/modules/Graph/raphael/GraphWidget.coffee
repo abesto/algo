@@ -172,10 +172,11 @@ define ['vendor/jquery', 'vendor/raphael', 'vendor/underscore', 'app/common/raph
 
     highlightNode: (nodeview, color, ms=100, opacity=@_options.node_highlight_opacity) -> 
       nv = nodeview[0]
-      nv.prehighlight =
-        stroke: nv.attr 'stroke'
-        fill: nv.attr 'fill'
-        'fill-opacity': nv.attr 'fill-opacity'
+      if not nv.prehighlight?
+        nv.prehighlight =
+          stroke: nv.attr 'stroke'
+          fill: nv.attr 'fill'
+          'fill-opacity': nv.attr 'fill-opacity'
       nodeview[0].animate {'stroke': color, 'fill': color, 'fill-opacity': opacity}, ms
     unhighlightNode: (nodeview, color, ms=100) -> 
       nodeview[0].animate nodeview[0].prehighlight, ms

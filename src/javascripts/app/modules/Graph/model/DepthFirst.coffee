@@ -28,15 +28,19 @@ define ['app/common/StateMachine'], (StateMachine) ->
       skip: ['loop']
 
 
-      init: (node) ->
+      init: (order, node) ->
+        # If we got parameters, this is already a recursive call
         if node?
           @_data.node = node
+          @_data.node.label order
           @_data.node.color explored, 'vertex'
           @_data.edgeIndex = -1
+        # If not, this is the top-level call initiated by the user
         else
           @['clicked-node'] = (event, nodeview, nodemodel) =>
             @_state = 'loop'
             @_data.node = nodemodel
+            @_data.node.label 1
             @_data.node.color explored, 'vertex'
             @_data.edgeIndex = 0
             delete @['clicked-node']
@@ -51,7 +55,7 @@ define ['app/common/StateMachine'], (StateMachine) ->
       'discovery-edge': ->
         @currentEdge().color explored, 'outedge'
         recursive = new DepthFirst @graph
-        @_chain recursive, recursive.init, @currentEdge().to
+        @_chain recursive, recursive.init, @_data.node.label()+1, @currentEdge().to
 
       'back-edge': ->
         @currentEdge().color back
