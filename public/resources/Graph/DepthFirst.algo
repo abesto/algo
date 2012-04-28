@@ -1,6 +1,6 @@
 <algorithm>
-global depth = 1
-global order = 1
+global depth := 1
+global order := 1
 <state name="init">function DepthFirstSearch(Graph, vertex):</state>
     <state name="init">color <variable name="vertex"/> as explored</state>
     <state name="loop">for each <variable name="outedge"/> of <variable name="vertex"/></state>
