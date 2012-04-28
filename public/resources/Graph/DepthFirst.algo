@@ -1,0 +1,12 @@
+<algorithm>
+<state name="init">function DepthFirstSearch(Graph, vertex):</state>
+    <state name="init">color <variable name="vertex"/> as explored</state>
+    <state name="loop">for each <variable name="outedge"/> of <variable name="vertex"/></state>
+        if <variable name="outedge"/> is unexplored then
+            <state name="edge-unexplored"><variable name="w"/> := Graph.opposite(<variable name="vertex"/>, <variable name="outedge"/>)</state>
+            if w is unexplored then
+                <state name="discovery-edge">label <variable name="outedge"/> as a discovery edge
+                recursively call DepthFirstSearch(Graph,<variable name="w"/>)</state>
+            else 
+                <state name="back-edge">label <variable name="outedge"/> as a back edge</state>
+</algorithm>
