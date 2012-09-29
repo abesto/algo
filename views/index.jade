@@ -1,15 +1,22 @@
-div#header
-  span(data-module='ChainedHashTable') Chained hash table
-  span(data-module='Graph') Graphs
-table#container
-  tr
-    td(rowspan=2)#left
-      div#controls
-      input#step(type='button')
-      div#hu(onclick='require(["app/common/i18n"], function(i18n) { i18n.setLanguage("hu"); })')
-      div#en(onclick='require(["app/common/i18n"], function(i18n) { i18n.setLanguage("en"); })')
-    td#display
-  tr
-    td#bottom
-    
-<script data-main="javascripts/main" src="javascripts/vendor/require.js"></script>
+extends layout
+
+block content
+  != exportPaths('jsPaths')
+
+  div#header
+    span(data-module='ChainedHashTable') Chained hash table
+    span(data-module='Graph') Graphs
+  table#container
+    tr
+      td(rowspan=2)#left
+        div#controls
+        input#step(type='button')
+        div#hu(onclick='require(["app/common/i18n"], function(i18n) { i18n.setLanguage("hu"); })')
+        div#en(onclick='require(["app/common/i18n"], function(i18n) { i18n.setLanguage("en"); })')
+      td#display
+    tr
+      td#bottom
+
+  - var mainJsPath = jsUrl("/js/main.js")
+  script(type="text/javascript", data-main="#{mainJsPath}", src="js/vendor/require.js")
+

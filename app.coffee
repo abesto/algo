@@ -1,23 +1,18 @@
 express = require 'express'
+assets = require 'connect-assets'
+jsPaths = require 'connect-assets-jspaths'
 
-app = module.exports = express.createServer()
+app = module.exports = express()
 
 app.configure( ->
   app.set 'views', __dirname + '/views'
   app.set 'view engine', 'jade'
-  app.use express.compiler(
-    src: __dirname + '/src'
-    dest: __dirname + '/public'
-    enable: ['coffeescript']
-  )
+  app.use assets()
+  jsPaths assets
   app.use express.bodyParser()
   app.use express.methodOverride()
   #app.use express.cookieParser()
   #app.use express.session({ secret: 'foobar' })
-  app.use(require('stylus').middleware(
-    src: __dirname + '/src'
-    dest: __dirname + '/public'
-  ))
   app.use app.router
   app.use express.static(__dirname + '/public')
 )
@@ -32,7 +27,8 @@ app.configure 'production', ->
 
 app.get '/', (req, res) ->
   res.render('index', {
-    title: 'Algorithms and Data structures'
+    title: 'Algorithms and Data structures',
+    layout: 'layout'
   })
 
 app.get '/controls/:module', (req, res) ->
