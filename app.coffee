@@ -23,6 +23,9 @@ app.configure 'development', ->
 
 app.configure 'production', ->
   app.use express.errorHandler()
+  app.all '*', (req, res, next) ->
+    return next() if req.headers["x-forwarded-proto"] == 'https'
+    res.redirect('https://' + req.host + req.url);
 
 
 app.get '/', (req, res) ->
