@@ -9,7 +9,7 @@
 #  * f(a,b) > 0 if a > b
 
 #
-define ['vendor/jquery', 'app/common/StateMachine', './UnorderedList'], ($, StateMachine, UL) ->
+define ['jquery', 'app/common/StateMachine', './UnorderedList'], ($, StateMachine, UL) ->
   class GenericOrderedList extends UL
     @StateMachineDefinition = $.extend {}, UL.StateMachineDefinition
     @StateMachineDefinition.add = (element) ->

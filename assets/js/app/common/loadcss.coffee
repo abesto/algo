@@ -1,6 +1,6 @@
 # Load CSS files asynchronously
 
-define ['vendor/jquery'], ($) ->
+define ['jquery'], ($) ->
     (urls...) ->
         $ ->
             for url in urls then do (url) ->

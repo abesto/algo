@@ -1,4 +1,4 @@
-define ['vendor/qunit', 'app/common/UID'], (T, U) ->
+define ['qunit', 'app/common/UID'], (T, U) ->
   T.module 'UID'
   
   T.test 'Global series from 0', ->

@@ -1,4 +1,4 @@
-define ['vendor/underscore', 'app/common/UID'],
+define ['underscore', 'app/common/UID'],
 (_, Registry, UID) ->
   # Initialization
   language = 'en'

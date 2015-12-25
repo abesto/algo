@@ -1,4 +1,4 @@
-define ['vendor/jquery', 'app/common/EventLogger',
+define ['jquery', 'app/common/EventLogger',
 './ChainedHashTable/model/ChainedHashTable', './ChainedHashTable/model/OrderedList',
 './ChainedHashTable/model/OrderedUniqueList', './ChainedHashTable/model/UnorderedList',
 'app/common/i18n'

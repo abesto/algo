@@ -1,4 +1,4 @@
-define ['vendor/qunit', 'vendor/jquery', 'app/common/StateMachine'], (T, $, SM) ->
+define ['qunit', 'jquery', 'app/common/StateMachine'], (T, $, SM) ->
   class S extends SM
     @StateMachineDefinition:
       entryPoints: ['s1', 's2', 's3'],

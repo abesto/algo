@@ -1,4 +1,4 @@
-define ['vendor/qunit', 'vendor/raphael', 
+define ['qunit', 'raphael', 
 'app/modules/ChainedHashTable/raphael/LinkedList'], (T, R) ->
   T.module 'Widgets: LinkedList',
     setup: ->

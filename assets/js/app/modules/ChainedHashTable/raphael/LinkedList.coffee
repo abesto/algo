@@ -1,5 +1,5 @@
 define [
-  'vendor/underscore', 'vendor/jquery', 'app/common/raphael/raphael.class', 'app/common/raphael/RecText'
+  'underscore', 'jquery', 'app/common/raphael/raphael.class', 'app/common/raphael/RecText'
   'app/common/raphael/raphael.setfixes', 'app/common/raphael/raphael.line'
 ], (_, $, RC) ->
   defaults =
@@ -10,7 +10,7 @@ define [
     pointerBoxWidth: 15    # Width of the last box, where the pointer arrow starts if there's a next item
     pointerArrowLength: 20
 
-  RC class LinkedList
+  RC 'LinkedList', class LinkedList
     constructor: (@_paper, opts) ->
       @_items = @_paper.set()
       @_options = $.extend {}, defaults, opts

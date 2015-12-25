@@ -1,4 +1,4 @@
-define ['vendor/underscore', './raphael.class', 'vendor/jquery', './raphael.setfixes'], (_, RC, $) ->
+define ['underscore', './raphael.class', 'jquery', './raphael.setfixes'], (_, RC, $) ->
   defaults =
     x: 0
     y: 0
@@ -9,7 +9,7 @@ define ['vendor/underscore', './raphael.class', 'vendor/jquery', './raphael.setf
     fill_color: '#efefef'
     opacity: 1
 
-  RC class RecText
+  RC 'RecText', class RecText
     constructor: (@_paper, opts) ->
       opts = $.extend {}, defaults, opts
 

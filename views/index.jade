@@ -18,5 +18,7 @@ block content
       td#bottom
 
   - var mainJsPath = jsUrl("/js/main.js")
-  script(type="text/javascript", data-main="#{mainJsPath}", src="js/vendor/require.js")
+  script(type="text/javascript", data-main="#{mainJsPath}", src="js/require.js")
+  script(type="text/javascript")
+    require.config({paths: jsPaths});
 

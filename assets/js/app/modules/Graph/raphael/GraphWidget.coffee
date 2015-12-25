@@ -1,5 +1,5 @@
-define ['vendor/jquery', 'vendor/raphael', 'vendor/underscore', 'app/common/raphael/raphael.class', 'app/common/Geometry', 'app/common/raphael/raphael.line', 'app/common/raphael/RecText'], ($, Raphael, _, RC, G) ->
-  RC class GraphWidget
+define ['jquery', 'raphael', 'underscore', 'app/common/raphael/raphael.class', 'app/common/Geometry', 'app/common/raphael/raphael.line', 'app/common/raphael/RecText'], ($, Raphael, _, RC, G) ->
+  RC 'GraphWidget', class GraphWidget
     @default_options = {
       'background_color': '#fff'
 

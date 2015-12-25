@@ -3,7 +3,7 @@
 # Each key can only appear once in this list. The API is accordingly modified:
 # `add` will return `null` if the key was already present.
 
-define ['vendor/jquery', './OrderedList'], ($, OL) ->
+define ['jquery', './OrderedList'], ($, OL) ->
   return (compare) ->
     L = new OL(compare)
     class OrderedUniqueList extends L

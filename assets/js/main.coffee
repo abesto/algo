@@ -1,5 +1,5 @@
 define [
-  'vendor/jquery', 'vendor/raphael', 'vendor/underscore',
+  'jquery', 'raphael', 'underscore',
   'app/common/i18n'
   ]
 , ($, Raphael, _, i18n) ->

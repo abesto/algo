@@ -1,4 +1,4 @@
-define ['vendor/qunit', 'vendor/raphael', 
+define ['qunit', 'raphael', 
 'app/common/raphael/raphael.setfixes'], (T, R) ->
   T.module 'Raphael Set enhancements',
     setup: ->

@@ -1,4 +1,4 @@
-define ['vendor/jquery', 'vendor/underscore'], ($, _) ->
+define ['jquery', 'underscore'], ($, _) ->
   actions =
     noop: {}
     createNode:

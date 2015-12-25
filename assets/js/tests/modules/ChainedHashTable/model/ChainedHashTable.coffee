@@ -1,4 +1,4 @@
-define ['vendor/qunit', 'vendor/jquery',
+define ['qunit', 'jquery',
 'app/modules/ChainedHashTable/model/ChainedHashTable',
 'app/modules/ChainedHashTable/model/UnorderedList'],
 (T, $, CHT, UL) ->

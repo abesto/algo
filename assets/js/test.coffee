@@ -1,5 +1,5 @@
 define [].concat(
-  ['vendor/qunit', 'vendor/jquery'],
+  ['/qunit', '/jquery'],
 
   'tests/common/' + m for m in \
   ['StateMachine', 'UID', 'UIDMap', 'raphael/raphael.setfixes'],

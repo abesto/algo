@@ -7,7 +7,7 @@
 # Subsets can be accessed as setObject.key
 # Subsets are sets too.
 ##
-define ['vendor/raphael', 'vendor/underscore'], (R, _) ->
+define ['raphael', 'underscore'], (R, _) ->
   f = R::set
   R::set = (args...) ->
     s = f(args...)

@@ -1,4 +1,4 @@
-define ['vendor/underscore', 'vendor/jquery', 'vendor/jquery/json'], (_, $) ->
+define ['underscore', 'jquery', 'jquery/json'], (_, $) ->
   class AsyncJsonI18nDataProvider
     constructor: (@path='/locales') ->
 

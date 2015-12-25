@@ -1,4 +1,4 @@
-define ['vendor/qunit', 'vendor/jquery', 'app/modules/Graph/model/Graph'], (T, $, G) ->
+define ['qunit', 'jquery', 'app/modules/Graph/model/Graph'], (T, $, G) ->
   T.module 'Graph model',
     setup: ->
       @g = new G

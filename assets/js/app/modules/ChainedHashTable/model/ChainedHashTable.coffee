@@ -39,7 +39,7 @@
 #
 
 #
-define ['vendor/jquery', 'vendor/underscore'
+define ['jquery', 'underscore'
 'app/common/StateMachine'
 './Element', './UnorderedList'],
 ($, _, StateMachine, Element, UnorderedList) ->

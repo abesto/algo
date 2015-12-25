@@ -1,4 +1,4 @@
-define ['app/common/UID', 'vendor/underscore'], (UID, _) ->
+define ['app/common/UID', 'underscore'], (UID, _) ->
   class UIDMap
     constructor: ->
       @_map = {}

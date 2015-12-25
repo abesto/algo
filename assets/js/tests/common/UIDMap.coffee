@@ -1,4 +1,4 @@
-define ['vendor/qunit', 'app/common/UIDMap'], (T, M) ->
+define ['qunit', 'app/common/UIDMap'], (T, M) ->
   T.module 'UIDMap',
     setup: ->
       @m = new M

@@ -35,7 +35,7 @@
 #     for states that are not interesting for the user, but needed for clarity of the implementation.
 #  * Methods with the name of a state will be run on the StateMachine when it transitions
 #    into the state with the same name (before the event is fired).
-define ['vendor/jquery', 'vendor/underscore'], ($, _) ->
+define ['jquery', 'underscore'], ($, _) ->
   class StateMachine
     constructor: ->
       @_state = 'ready'

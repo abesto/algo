@@ -1,4 +1,4 @@
-define ['vendor/underscore', 'vendor/jquery', 'app/common/UID', 'app/common/i18n'], 
+define ['underscore', 'jquery', 'app/common/UID', 'app/common/i18n'], 
 (_, $, UID, i18n) ->
   class SimpleI18nUpdater
     constructor: (@el, @module, @key) ->

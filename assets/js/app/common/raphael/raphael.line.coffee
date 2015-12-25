@@ -1,5 +1,5 @@
 # Basic idea from http://taitems.tumblr.com/post/549973287/drawing-arrows-in-raphaeljs
-define ['vendor/jquery', 'vendor/raphael'], ($, R) ->
+define ['jquery', 'raphael'], ($, R) ->
   R.fn.line = (x1, y1, x2, y2, _arrowProps={}, line=null) ->
     arrowProps = $.extend(
         {size:0;filled:true;foot:true;angle:45},

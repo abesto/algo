@@ -1,4 +1,4 @@
-define(['vendor/jquery'], function(jQuery) { 
+define(['jquery'], function(jQuery) { 
 
 (function($){$.toJSON=function(o)
 {if(typeof(JSON)=='object'&&JSON.stringify)

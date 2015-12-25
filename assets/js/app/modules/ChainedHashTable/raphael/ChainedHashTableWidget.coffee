@@ -1,4 +1,4 @@
-define ['./LinkedList', 'vendor/jquery', 'app/common/raphael/raphael.class'], (List, $, RC) ->
+define ['./LinkedList', 'jquery', 'app/common/raphael/raphael.class'], (List, $, RC) ->
   defaults =
     x: 0
     y: 0
@@ -6,7 +6,7 @@ define ['./LinkedList', 'vendor/jquery', 'app/common/raphael/raphael.class'], (L
     verticalInnerPadding: 15  # Between lists
     linkedListOptions: {}     # Passed on to linked lists
 
-  RC class ChainedHashTable
+  RC 'ChainedHashTable', class ChainedHashTable
     init: () ->
       {x: @_x, y: @_y} = @_options
       @_y += @_options.hashContainerPadding

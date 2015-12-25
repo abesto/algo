@@ -1,4 +1,4 @@
-define ['vendor/jquery'
+define ['jquery'
 'app/common/i18n'
 'app/modules/Graph/model/Graph', 'app/modules/Graph/model/Dijkstra'
 'app/modules/Graph/raphael/GraphWidget', 'app/modules/Graph/widgets/GraphCodeListing'

@@ -1,4 +1,4 @@
-define ['vendor/jquery', './SimpleUpdater'], ($, SU) ->
+define ['jquery', './SimpleUpdater'], ($, SU) ->
   class JqueryEventI18nUpdater extends SU
     constructor: (@el, @module, @eventProvider, type) ->
       super @el, @module

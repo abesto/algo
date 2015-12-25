@@ -1,4 +1,4 @@
-define ['vendor/qunit',
+define ['qunit',
 'app/modules/ChainedHashTable/model/Element',
 'app/modules/ChainedHashTable/model/OrderedList'],
 (T, E, OL) ->

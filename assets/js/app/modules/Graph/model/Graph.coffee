@@ -1,4 +1,4 @@
-define ['app/common/UID', 'app/common/UIDMap', 'vendor/jquery', 'vendor/underscore'], (UID, UIDMap, $, _) ->
+define ['app/common/UID', 'app/common/UIDMap', 'jquery', 'underscore'], (UID, UIDMap, $, _) ->
 
   # An edge is an ordered pair of two Node instances with a weight and a UID
   class Edge

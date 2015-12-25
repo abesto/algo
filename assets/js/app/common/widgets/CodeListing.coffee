@@ -1,4 +1,4 @@
-define ['vendor/jquery'], ($) ->
+define ['jquery'], ($) ->
   class CodeListing
     constructor: (@$container) ->
       @$content = $('<pre>').addClass('code-listing')
