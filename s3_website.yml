@@ -1,0 +1,17 @@
+s3_id: <%= ENV['S3_ID'] %>
+s3_secret: <%= ENV['S3_SECRET'] %>
+s3_bucket: algo.abesto.net
+cloudfront_distribution_id: EVC5I0JXMDQIF
+
+cloudfront_distribution_config:
+  aliases:
+    quantity: 2
+    items:
+      CNAME0: algo.abesto.net
+      CNAME1: algo.abesto.tech
+
+site: generated-static
+gzip: true
+
+s3_endpoint: eu-west-1
+s3_reduced_redundancy: true
