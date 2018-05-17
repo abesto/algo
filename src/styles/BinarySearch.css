@@ -1,0 +1,24 @@
+.binary-search .numbers {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+}
+
+.binary-search .numbers .number {
+    padding: 5px;
+    border: 1px solid black;
+    margin: 5px;
+}
+
+
+.binary-search .numbers .number.lo {
+    background-color: lightblue;
+}
+
+.binary-search .numbers .number.hi {
+    background-color: lightgreen;
+}
+
+.binary-search .numbers .number.mid {
+    background-color: yellow;
+}
