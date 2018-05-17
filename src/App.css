@@ -1,2 +1,28 @@
 .App {
 }
+
+.pseudocode {
+    white-space: pre;
+    font-family: monospace;
+    font-size: 1.2em;
+}
+
+.pseudocode .Var {
+    text-decoration-line: underline;
+    text-decoration-style: dotted;
+    cursor: zoom-in;
+}
+
+.pseudocode .comment {
+    color: gray;
+}
+
+.pseudocode .current-step {
+    font-weight: bold;
+    background-color: #eee;
+}
+
+.Inspector {
+    margin: 20px;
+    border: 1px solid silver;
+}

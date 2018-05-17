@@ -10,15 +10,14 @@
     margin: 5px;
 }
 
-
-.binary-search .numbers .number.lo {
+.binary-search .low {
     background-color: lightblue;
 }
 
-.binary-search .numbers .number.hi {
+.binary-search .high {
     background-color: lightgreen;
 }
 
-.binary-search .numbers .number.mid {
+.binary-search .mid {
     background-color: yellow;
 }

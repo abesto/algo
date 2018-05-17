@@ -1,23 +1,28 @@
 // Algorithm originally taken from https://rosettacode.org/wiki/Binary_search#JavaScript
 export default function * binarySearch (a, value) {
-  var state = {mid: null, lo: 0, hi: a.length - 1, result: null}
-  yield state
+  var mid = null
+  var low = 0
+  var high = a.length - 1
+  var result = null
+  yield {low, high, step: 'init'}
 
-  while (state.lo <= state.hi) {
-    state.mid = Math.floor((state.lo + state.hi) / 2)
-    yield state
-
-    if (a[state.mid] > value) {
-      state.hi = state.mid - 1
-      yield state
-    } else if (a[state.mid] < value) {
-      state.lo = state.mid + 1
-      yield state
+  while (low <= high) {
+    yield {low, mid, high, step: 'loop'}
+    mid = Math.floor((low + high) / 2)
+    yield {low, mid, high, step: 'mid'}
+    yield {low, mid, high, step: 'branch'}
+    if (a[mid] > value) {
+      high = mid - 1
+      yield {low, mid, high, step: 'branch-0'}
+    } else if (a[mid] < value) {
+      low = mid + 1
+      yield {low, mid, high, step: 'branch-1'}
     } else {
-      state.result = state.mid
-      return state
+      result = mid
+      yield {low, mid, high, result, step: 'done'}
+      return {low, mid, high, result, found: true}
     }
   }
 
-  return state
+  return {low, mid, high, found: false}
 }

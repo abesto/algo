@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
 import { startAlgorithm, stepAlgorithm } from '../actions/algorithm.js'
+
 import BinarySearchComponent from '../components/BinarySearch.js'
 
 const mapStateToProps = (state, ownProps) => ({
