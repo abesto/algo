@@ -5,6 +5,7 @@
     white-space: pre;
     font-family: monospace;
     font-size: 1.2em;
+    color: #222;
 }
 
 .pseudocode .Var {
@@ -18,8 +19,8 @@
 }
 
 .pseudocode .current-step {
+    color: black;
     font-weight: bold;
-    background-color: #eee;
 }
 
 .Inspector {

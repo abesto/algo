@@ -41,41 +41,22 @@ const BinarySearch = ({ numbers, target, algoState, startAlgorithm, stepAlgorith
       <button onClick={() => startAlgorithm(binarySearch(numbers, target))}>Start</button>
       <button onClick={() => stepAlgorithm()}>Step</button>
       <div className='pseudocode'>
-        BinarySearch({A}[0..{N}-1], {Value}) {'{\n'}
-        {<Step name='init'>
-        {'    '}{Low} = 0{'\n'}
-        {'    '}{High} = {N} - 1{'\n'}
-        </Step>}
-        {<Step name='loop'>
-        {'    '}while ({Low} &lt;= {High}) {'{\n'}
-        </Step>}
-        {'        '}{<Comment>// invariants: {Value} &gt; {A}[i] for all i &lt; {Low}{'\n'}
-        {'                       '}{Value} &lt; {A}[i] for all i &gt; {High}</Comment>}{'\n'}
-        {<Step name='mid'>
-        {'        '}{Mid} = ({Low} + {High}) / 2{'\n'}
-        </Step>}
-        {<Step name='branch'>
-        {'        '}if ({A}[{Mid}] &gt; {Value}){'\n'}
-        </Step>}
-        {<Step name='branch-0'>
-        {'            '}{High} = {Mid} - 1{'\n'}
-        </Step>}
-        {<Step name='branch'>
-        {'        '}else if ({A}[{Mid}] &lt; {Value}){'\n'}
-        </Step>}
-        {<Step name='branch-1'>
-        {'            '}{Low} = {Mid} + 1{'\n'}
-        </Step>}
-        {<Step name='branch'>
-        {'        '}else{'\n'}
-        </Step>}
-        {<Step name='done'>
-        {'            '}return {Mid}{'\n'}
-        </Step>}
-        {'     }\n'}
-        {'    '}return not_found {<Comment>// {Value} would be inserted at index "{Low}"{'\n'}</Comment>}
-        {'}'}
-
+        {/*                       */}BinarySearch({A}[0..{N}-1], {Value}) {'{'}                                      {'\n'}
+        {<Step name='init'>{/*    */}    {Low} = 0                                                                   {'\n'}
+          {/*                     */}    {High} = {N} - 1                                                            {'\n'}</Step>}
+        {<Step name='loop'>{/*    */}    while ({Low} &lt;= {High}) {'{'}                                            {'\n'}</Step>}
+        {<Comment>{/*             */}        // invariants: {Value} &gt; {A}[i] for all i &lt; {Low}                 </Comment>} {'\n'}
+        {<Comment>{/*             */}                       {Value} &lt; {A}[i] for all i &gt; {High}                </Comment>}{'\n'}
+        {<Step name='mid'>{/*     */}        {Mid} = ({Low} + {High}) / 2                                            {'\n'}</Step>}
+        {<Step name='branch'>{/*  */}        if ({A}[{Mid}] &gt; {Value})                                            {'\n'}</Step>}
+        {<Step name='branch-0'>{/**/}            {High} = {Mid} - 1                                                  {'\n'}</Step>}
+        {<Step name='branch'>{/*  */}        else if ({A}[{Mid}] &lt; {Value})                                       {'\n'}</Step>}
+        {<Step name='branch-1'>{/**/}            {Low} = {Mid} + 1                                                   {'\n'}</Step>}
+        {<Step name='branch'>{/*  */}        else                                                                    {'\n'}</Step>}
+        {<Step name='done'>{/*    */}            return {Mid}                                                        {'\n'}</Step>}
+        {<Step name='loop'>{/*    */}    {'}'}                                                                       {'\n'}</Step>}
+        {/*                       */}    return not_found {<Comment>// {Value} would be inserted at index "{Low}"    {'\n'}</Comment>}
+        {/*                       */}{'}'}
       </div>
       <Inspector />
     </div>
