@@ -1,23 +1,46 @@
-.binary-search .numbers {
+.BinarySearch {
+    display: grid;
+    grid-template: "desc           desc" auto
+                   "controls    numbers" 1fr
+                   "controls pseudocode" auto
+                   / minmax(120px, 15%) 1fr;
+}
+
+.BinarySearch .description {
+    grid-area: desc;
+}
+
+.BinarySearch .numbers {
+    grid-area: numbers;
     display: flex;
     flex-flow: row wrap;
     justify-content: center;
 }
 
-.binary-search .numbers .number {
+.BinarySearch .controls {
+    grid-area: controls;
+    background-color: #eee;
+    box-shadow:
+}
+
+.BinarySearch .Pseudocode {
+    grid-area: pseudocode;
+}
+
+.BinarySearch .numbers .number {
     padding: 5px;
     border: 1px solid black;
     margin: 5px;
 }
 
-.binary-search .low {
+.BinarySearch .low {
     background-color: lightblue;
 }
 
-.binary-search .high {
+.BinarySearch .high {
     background-color: lightgreen;
 }
 
-.binary-search .mid {
+.BinarySearch .mid {
     background-color: yellow;
 }
