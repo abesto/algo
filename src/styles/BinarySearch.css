@@ -3,7 +3,7 @@
     grid-template: "desc         desc     desc    " auto
                    "controls  numbers    inspector" auto
                    "controls  pseudocode inspector" auto
-                   / minmax(120px, 15%) min-content auto;
+                   / min-content min-content 1fr;
     grid-gap: 20px;
 }
 
