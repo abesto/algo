@@ -3,7 +3,6 @@ export default function * binarySearch (a, value) {
   let mid = null
   let low = 0
   let high = a.length - 1
-  let result = null
 
   const step = (step) => ({a, value, low, mid, high, step})
 
@@ -21,7 +20,6 @@ export default function * binarySearch (a, value) {
       low = mid + 1
       yield step('branch-1')
     } else {
-      result = mid
       return step('done')
     }
   }
