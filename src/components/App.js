@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import './App.css'
-import BinarySearch from './containers/BinarySearch.js'
+import '../styles/App.css'
+import BinarySearch from '../containers/BinarySearch.js'
 
 class App extends Component {
   render () {

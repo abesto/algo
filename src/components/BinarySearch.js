@@ -45,8 +45,8 @@ const BinarySearch = ({ numbers, target, algoState, startAlgorithm, stepAlgorith
         {<Step name='init'>{/*    */}    {Low} = 0                                                                   {'\n'}
           {/*                     */}    {High} = {N} - 1                                                            {'\n'}</Step>}
         {<Step name='loop'>{/*    */}    while ({Low} &lt;= {High}) {'{'}                                            {'\n'}</Step>}
-        {<Comment>{/*             */}        // invariants: {Value} &gt; {A}[i] for all i &lt; {Low}                 </Comment>} {'\n'}
-        {<Comment>{/*             */}                       {Value} &lt; {A}[i] for all i &gt; {High}                </Comment>}{'\n'}
+        {<Comment>{/*             */}        // invariants: {Value} &gt; {A}[i] for all i &lt; {Low}                 {'\n'}</Comment>}
+        {<Comment>{/*             */}                       {Value} &lt; {A}[i] for all i &gt; {High}                {'\n'}</Comment>}
         {<Step name='mid'>{/*     */}        {Mid} = ({Low} + {High}) / 2                                            {'\n'}</Step>}
         {<Step name='branch'>{/*  */}        if ({A}[{Mid}] &gt; {Value})                                            {'\n'}</Step>}
         {<Step name='branch-0'>{/**/}            {High} = {Mid} - 1                                                  {'\n'}</Step>}
@@ -61,7 +61,6 @@ const BinarySearch = ({ numbers, target, algoState, startAlgorithm, stepAlgorith
       <Inspector />
     </div>
   )
-  // TODO a component should not include a container; refactor
 }
 
 BinarySearch.propTypes = {
