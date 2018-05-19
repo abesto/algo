@@ -32,11 +32,7 @@ export default class BinarySearch extends React.Component {
   }
 
   numberToInsert () {
-    try {
-      return parseInt(this.state.insertFieldValue, 10)
-    } catch (ex) {
-      return null
-    }
+    return parseInt(this.state.insertFieldValue, 10)
   }
 
   restart (numbers = this.algoVar('a'), target = this.algoVar('value')) {
@@ -45,7 +41,7 @@ export default class BinarySearch extends React.Component {
 
   restartWithExtraNumber () {
     const numberToInsert = this.numberToInsert()
-    if (numberToInsert === null) {
+    if (isNaN(numberToInsert)) {
       return
     }
     const numbers = this.algoVar('a')
@@ -55,6 +51,14 @@ export default class BinarySearch extends React.Component {
       insertFieldValue: ''
     })
     this.restart(numbers)
+  }
+
+  restartWithout (index) {
+    return () => {
+      const numbers = this.algoVar('a')
+      numbers.splice(index, 1)
+      this.restart(numbers)
+    }
   }
 
   algoVar (name) {
@@ -103,34 +107,56 @@ export default class BinarySearch extends React.Component {
           <h3>Controls</h3>
           <div className='controls-grid'>
             <label className='target-label'>Search for:</label>
-            <input className='target' name='target' value={target} onChange={(e) => this.restart(numbers, parseInt(e.target.value, 10))} />
-            <input className='insert-field' name='insert-field' value={this.state.insertFieldValue} onChange={this.handleInsertFieldChanged} />
+            <input
+              className='target'
+              name='target'
+              value={target}
+              onChange={(e) => this.restart(numbers, parseInt(e.target.value, 10))}
+              type='number'
+            />
+            <input
+              className='insert-field'
+              name='insert-field'
+              value={this.state.insertFieldValue}
+              onChange={this.handleInsertFieldChanged}
+              placeholder='Enter number to insert...'
+              type='number'
+            />
             <button className='insert' onClick={this.restartWithExtraNumber}>Insert number</button>
-            <button className='start' onClick={this.restart}>Start</button>
+            <button className='start' onClick={() => this.restart()}>Start</button>
             <button className='step' onClick={() => stepAlgorithm()}>Step</button>
           </div>
         </div>
         <div className='numbers'>
           {numbers.map((n, i) =>
-            <div className={classNames('number', {low: low === i, high: high === i, mid: mid === i})} key={i}>{n}</div>)
+            <div
+              className={classNames('number', {low: low === i, high: high === i, mid: mid === i})}
+              key={i}
+            >
+              {n}
+              <div
+                className='number-delete'
+                onClick={this.restartWithout(i)}
+              />
+            </div>)
           }
         </div>
         <Pseudocode>
-          {/*                      */}BinarySearch({A}[0..{N}-1], {Value}) {'{'}                                  {'\n'}
-          <Step name='init'>{/*    */}    {Low} = 0                                                               </Step>
-          <Step name='init'>{/*    */}    {High} = {N} - 1                                                        </Step>
-          <Step name='loop'>{/*    */}    while ({Low} &lt;= {High}) {'{'}                                        </Step>
-          <Comment>{/*             */}         # invariants: {Value} &gt; {A}[i] for all i &lt; {Low}             </Comment>
-          <Comment>{/*             */}                       {Value} &lt; {A}[i] for all i &gt; {High}            </Comment>
-          <Step name='mid'>{/*     */}        {Mid} = ({Low} + {High}) / 2                                        </Step>
-          <Step name='branch'>{/*  */}        if ({A}[{Mid}] &gt; {Value})                                        </Step>
-          <Step name='branch-0'>{/**/}            {High} = {Mid} - 1                                              </Step>
-          <Step name='branch'>{/*  */}        else if ({A}[{Mid}] &lt; {Value})                                   </Step>
-          <Step name='branch-1'>{/**/}            {Low} = {Mid} + 1                                               </Step>
-          <Step name='branch'>{/*  */}        else                                                                </Step>
-          <Step name='done'>{/*    */}            return {Mid}                                                    </Step>
-          <Step name='loop'>{/*    */}    {'}'}                                                                   </Step>
-          {/*                       */}    return not_found  <Comment># {Value} would be inserted at index "{Low}"</Comment>
+          {/*                       */}BinarySearch({A}[0..{N}-1], {Value}) {'{'}                                 {'\n'}
+          <Step name='init'>{/*     */}    {Low} = 0                                                              </Step>
+          <Step name='init'>{/*     */}    {High} = {N} - 1                                                       </Step>
+          <Step name='loop'>{/*     */}    while ({Low} &lt;= {High}) {'{'}                                       </Step>
+          <Comment>{/*              */}         # invariants: {Value} &gt; {A}[i] for all i &lt; {Low}            </Comment>{'\n'}
+          <Comment>{/*              */}                       {Value} &lt; {A}[i] for all i &gt; {High}           </Comment>{'\n'}
+          <Step name='mid'>{/*      */}        {Mid} = ({Low} + {High}) / 2                                       </Step>
+          <Step name='branch'>{/*   */}        if ({A}[{Mid}] &gt; {Value})                                       </Step>
+          <Step name='branch-0'>{/* */}            {High} = {Mid} - 1                                             </Step>
+          <Step name='branch'>{/*   */}        else if ({A}[{Mid}] &lt; {Value})                                  </Step>
+          <Step name='branch-1'>{/* */}            {Low} = {Mid} + 1                                              </Step>
+          <Step name='branch'>{/*   */}        else                                                               </Step>
+          <Step name='done'>{/*     */}            return {Mid}                                                   </Step>
+          <Step name='loop'>{/*     */}    {'}'}                                                                  </Step>
+          <Step name='not-found'>{/**/}    return not_found  <Comment># {Value} would be inserted at index "{Low}"</Comment></Step>
           {/*                       */}{'}'}
         </Pseudocode>
         <Inspector vars={{a: numbers, value: target, low, mid, high}} />

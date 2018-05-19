@@ -18,6 +18,10 @@ const algorithm = (state = initialState(), action) => {
         state: action.algorithm.next()
       }
     case ALGORITHM_STEP:
+      console.log(state)
+      if (state.state.done) {
+        return state
+      }
       return {
         currentAlgorithm: state.currentAlgorithm,
         state: state.currentAlgorithm.next()

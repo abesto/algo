@@ -22,10 +22,9 @@ export default function * binarySearch (a, value) {
       yield step('branch-1')
     } else {
       result = mid
-      yield step('done')
-      return result
+      return step('done')
     }
   }
 
-  return null
+  return step('not-found')
 }
