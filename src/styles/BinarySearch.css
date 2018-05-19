@@ -1,14 +1,18 @@
 .BinarySearch {
     display: grid;
-    grid-template: "desc           desc" auto
-                   "controls    numbers" 1fr
-                   "controls pseudocode" auto
-                   / minmax(120px, 15%) 1fr;
+    grid-template: "desc         desc     desc    " auto
+                   "controls  numbers    inspector" auto
+                   "controls  pseudocode inspector" auto
+                   / minmax(120px, 15%) min-content auto;
     grid-gap: 20px;
 }
 
 .BinarySearch .description {
     grid-area: desc;
+    padding: 20px;
+    background-color: #eaeaea;
+    box-shadow: 2px 2px 5px 2px darkgray;
+    margin-bottom: 25px;
 }
 
 .BinarySearch .numbers {
@@ -22,7 +26,6 @@
 
     padding: 15px;
     border: 1px solid silver;
-    box-shadow: 2px 2px 2px 1px darkgray;
     background-color: #f5f5f5;
 }
 
@@ -31,7 +34,6 @@
     grid-template: "label        target" auto
                    "start         start" 40px
                    "step           step" 40px
-                   "inspector inspector" auto
                    / 1fr 1fr;
     grid-gap: 10px;
     margin-top: 20px;
@@ -53,7 +55,7 @@
     grid-area: step;
 }
 
-.BinarySearch .controls .Inspector {
+.BinarySearch .Inspector {
     grid-area: inspector;
 }
 
@@ -65,6 +67,7 @@
     padding: 5px;
     border: 1px solid black;
     margin: 5px;
+    max-height: 20px;
 }
 
 .BinarySearch .low {

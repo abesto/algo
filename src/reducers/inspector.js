@@ -1,4 +1,4 @@
-import { INSPECTOR_SHOW, INSPECTOR_CLEAR } from '../constants/ActionTypes.js'
+import { INSPECTOR_HIGHLIGHT, INSPECTOR_CLEAR } from '../constants/ActionTypes.js'
 
 const initialState = {
   value: null
@@ -6,10 +6,13 @@ const initialState = {
 
 const inspector = (state = initialState, action) => {
   switch (action.type) {
-    case INSPECTOR_SHOW:
-      return {value: action.value}
+    case INSPECTOR_HIGHLIGHT:
+      return {name: action.name}
     case INSPECTOR_CLEAR:
-      return initialState
+      if (state.name === action.name) {
+        return initialState
+      }
+      return state
     default:
       return state
   }

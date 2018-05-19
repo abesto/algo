@@ -2,7 +2,7 @@ import { ALGORITHM_START, ALGORITHM_STEP } from '../constants/ActionTypes.js'
 import binarySearch from '../algorithms/binarySearch.js'
 
 const initialState = () => {
-  const algo = binarySearch([1, 2, 5, 9, 13, 20, 30, 42, 100, 250, 9000], 20)
+  const algo = binarySearch([1, 2, 5, 9, 13, 20, 42, 100, 250, 9000], 20)
   const state = algo.next()
   return {
     currentAlgorithm: algo,

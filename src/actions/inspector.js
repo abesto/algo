@@ -1,8 +1,11 @@
-import { INSPECTOR_SHOW, INSPECTOR_CLEAR } from '../constants/ActionTypes.js'
+import { INSPECTOR_HIGHLIGHT, INSPECTOR_CLEAR } from '../constants/ActionTypes.js'
 
-export const inspect = (value) => ({
-  type: INSPECTOR_SHOW,
-  value
+export const highlight = (name) => ({
+  type: INSPECTOR_HIGHLIGHT,
+  name
 })
 
-export const clearInspector = () => ({type: INSPECTOR_CLEAR})
+export const clearHighlight = (name) => ({
+  type: INSPECTOR_CLEAR,
+  name
+})

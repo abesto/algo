@@ -23,14 +23,13 @@ const BinarySearch = ({ algoState, startAlgorithm, stepAlgorithm }) => {
   const numbers = s.a
   const target = s.value
 
-  const V = (name) => <Var value={s[name]}>{name}</Var>
   const Step = MkStep(step)
-  const Low = V('low')
-  const Mid = V('mid')
-  const High = V('high')
-  const N = <Var value={numbers.length}>N</Var>
-  const Value = <Var value={target}>value</Var>
-  const A = <Var value={numbers}>A</Var>
+  const Low = <Var name='low' />
+  const Mid = <Var name='mid' />
+  const High = <Var name='high' />
+  const N = <Var name='n' />
+  const Value = <Var name='value' />
+  const A = <Var name='a' />
   return (
     <div className='BinarySearch'>
       <div className='description'>
@@ -50,7 +49,6 @@ const BinarySearch = ({ algoState, startAlgorithm, stepAlgorithm }) => {
           <input className='target' name='target' value={target} onChange={(e) => startAlgorithm(binarySearch(numbers, parseInt(e.target.value, 10)))} />
           <button className='start' onClick={() => startAlgorithm(binarySearch(numbers, target))}>Start</button>
           <button className='step' onClick={() => stepAlgorithm()}>Step</button>
-          <Inspector />
         </div>
       </div>
       <div className='numbers'>
@@ -76,6 +74,7 @@ const BinarySearch = ({ algoState, startAlgorithm, stepAlgorithm }) => {
         {/*                       */}    return not_found {<Comment>// {Value} would be inserted at index "{Low}"    {'\n'}</Comment>}
         {/*                       */}{'}'}
       </Pseudocode>
+      <Inspector vars={{a: numbers, value: target, low, mid, high}} />
     </div>
   )
 }
