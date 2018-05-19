@@ -1,9 +1,9 @@
 // Algorithm originally taken from https://rosettacode.org/wiki/Binary_search#JavaScript
 export default function * binarySearch (a, value) {
-  var mid = null
-  var low = 0
-  var high = a.length - 1
-  var result = null
+  let mid = null
+  let low = 0
+  let high = a.length - 1
+  let result = null
 
   const step = (step) => ({a, value, low, mid, high, step})
 

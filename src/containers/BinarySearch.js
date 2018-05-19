@@ -3,11 +3,11 @@ import { startAlgorithm, stepAlgorithm } from '../actions/algorithm.js'
 
 import BinarySearchComponent from '../components/BinarySearch.js'
 
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = (state) => ({
   algoState: state.algorithm.state
 })
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
+const mapDispatchToProps = (dispatch) => ({
   startAlgorithm: (numbers, target) => dispatch(startAlgorithm(numbers, target)),
   stepAlgorithm: () => dispatch(stepAlgorithm())
 })
