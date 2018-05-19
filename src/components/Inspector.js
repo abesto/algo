@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import '../styles/Inspector.css'
+
 const Inspector = ({ value }) => (
   <div className='Inspector'>Inspector: {JSON.stringify(value)}</div>
 )

@@ -1,13 +1,17 @@
+// libs
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-import binarySearch from '../algorithms/binarySearch.js'
+// React components, containers
 import Var from '../containers/Var.js'
 import Inspector from '../containers/Inspector.js'
 import Comment from './Comment.js'
 import MkStep from './Step.js'
+import Pseudocode from './Pseudocode.js'
 
+// Binary search specifics
+import binarySearch from '../algorithms/binarySearch.js'
 import '../styles/BinarySearch.css'
 
 const BinarySearch = ({ numbers, target, algoState, startAlgorithm, stepAlgorithm }) => {
@@ -40,7 +44,7 @@ const BinarySearch = ({ numbers, target, algoState, startAlgorithm, stepAlgorith
       </div>
       <button onClick={() => startAlgorithm(binarySearch(numbers, target))}>Start</button>
       <button onClick={() => stepAlgorithm()}>Step</button>
-      <div className='pseudocode'>
+      <Pseudocode>
         {/*                       */}BinarySearch({A}[0..{N}-1], {Value}) {'{'}                                      {'\n'}
         {<Step name='init'>{/*    */}    {Low} = 0                                                                   {'\n'}
           {/*                     */}    {High} = {N} - 1                                                            {'\n'}</Step>}
@@ -57,7 +61,7 @@ const BinarySearch = ({ numbers, target, algoState, startAlgorithm, stepAlgorith
         {<Step name='loop'>{/*    */}    {'}'}                                                                       {'\n'}</Step>}
         {/*                       */}    return not_found {<Comment>// {Value} would be inserted at index "{Low}"    {'\n'}</Comment>}
         {/*                       */}{'}'}
-      </div>
+      </Pseudocode>
       <Inspector />
     </div>
   )
