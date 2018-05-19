@@ -14,17 +14,14 @@ import Pseudocode from './Pseudocode.js'
 import binarySearch from '../algorithms/binarySearch.js'
 import '../styles/BinarySearch.css'
 
-const BinarySearch = ({ numbers, target, algoState, startAlgorithm, stepAlgorithm }) => {
-  var s
-  if (algoState.hasOwnProperty('value')) {
-    s = algoState.value
-  } else {
-    s = {low: null, mid: null, high: null, step: null}
-  }
+const BinarySearch = ({ algoState, startAlgorithm, stepAlgorithm }) => {
+  const s = algoState.value
   const low = s.low
   const mid = s.mid
   const high = s.high
   const step = s.step
+  const numbers = s.a
+  const target = s.value
 
   const V = (name) => <Var value={s[name]}>{name}</Var>
   const Step = MkStep(step)
@@ -34,8 +31,6 @@ const BinarySearch = ({ numbers, target, algoState, startAlgorithm, stepAlgorith
   const N = <Var value={numbers.length}>N</Var>
   const Value = <Var value={target}>value</Var>
   const A = <Var value={numbers}>A</Var>
-  // TODO get contents from rosetta code dynamically, if possible
-  // TODO properly format blockquote. get some lightweight CSS lib?
   return (
     <div className='BinarySearch'>
       <div className='description'>
@@ -44,15 +39,19 @@ const BinarySearch = ({ numbers, target, algoState, startAlgorithm, stepAlgorith
           <p>A binary search divides a range of values into halves, and continues to narrow down the field of search until the unknown value is found. It is the classic example of a "divide and conquer" algorithm.</p>
           <p>As an analogy, consider the children's game "guess a number." The scorer has a secret number, and will only tell the player if their guessed number is higher than, lower than, or equal to the secret number. The player then uses this information to guess a new number.</p>
           <p>As the player, an optimal strategy for the general case is to start by choosing the range's midpoint as the guess, and then asking whether the guess was higher, lower, or equal to the secret number. If the guess was too high, one would select the point exactly between the range midpoint and the beginning of the range. If the original guess was too low, one would ask about the point exactly between the range midpoint and the end of the range. This process repeats until one has reached the secret number.</p>
+          <footer className='blockquote-footer'><cite title='Binary Search - Rosetta Code'>– <a href='https://rosettacode.org/wiki/Binary_search'>Binary Search - Rosetta Code</a></cite></footer>
         </blockquote>
         <p>This algorithm can be implemented both recursively and iteratively. This page showcases the iterative approach.</p>
       </div>
       <div className='controls'>
         <h3>Controls</h3>
-        Looking for: {target}
-        <button onClick={() => startAlgorithm(binarySearch(numbers, target))}>Start</button>
-        <button onClick={() => stepAlgorithm()}>Step</button>
-        <Inspector />
+        <div className='controls-grid'>
+          <label className='target-label'>Search for:</label>
+          <input className='target' name='target' value={target} onChange={(e) => startAlgorithm(binarySearch(numbers, parseInt(e.target.value, 10)))} />
+          <button className='start' onClick={() => startAlgorithm(binarySearch(numbers, target))}>Start</button>
+          <button className='step' onClick={() => stepAlgorithm()}>Step</button>
+          <Inspector />
+        </div>
       </div>
       <div className='numbers'>
         {numbers.map((n, i) =>
@@ -82,8 +81,6 @@ const BinarySearch = ({ numbers, target, algoState, startAlgorithm, stepAlgorith
 }
 
 BinarySearch.propTypes = {
-  numbers: PropTypes.arrayOf(PropTypes.number).isRequired,
-  target: PropTypes.number.isRequired,
   algoState: PropTypes.object.isRequired,
   startAlgorithm: PropTypes.func.isRequired,
   stepAlgorithm: PropTypes.func.isRequired

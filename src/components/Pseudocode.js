@@ -3,9 +3,9 @@ import React from 'react'
 import '../styles/Pseudocode.css'
 
 const Pseudocode = ({ children }) => (
-  <div className='Pseudocode'>
+  <code className='Pseudocode'>
     {children}
-  </div>
+  </code>
 )
 
 export default Pseudocode

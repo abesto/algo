@@ -4,6 +4,7 @@
                    "controls    numbers" 1fr
                    "controls pseudocode" auto
                    / minmax(120px, 15%) 1fr;
+    grid-gap: 20px;
 }
 
 .BinarySearch .description {
@@ -14,13 +15,46 @@
     grid-area: numbers;
     display: flex;
     flex-flow: row wrap;
-    justify-content: center;
 }
 
 .BinarySearch .controls {
     grid-area: controls;
-    background-color: #eee;
-    box-shadow:
+
+    padding: 15px;
+    border: 1px solid silver;
+    box-shadow: 2px 2px 2px 1px darkgray;
+    background-color: #f5f5f5;
+}
+
+.BinarySearch .controls-grid {
+    display: grid;
+    grid-template: "label        target" auto
+                   "start         start" 40px
+                   "step           step" 40px
+                   "inspector inspector" auto
+                   / 1fr 1fr;
+    grid-gap: 10px;
+    margin-top: 20px;
+}
+
+.BinarySearch .controls .target-label {
+    grid-area: label;
+}
+
+.BinarySearch .controls .target {
+    grid-area: target;
+}
+
+.BinarySearch .controls .start {
+    grid-area: start;
+}
+
+.BinarySearch .controls .step {
+    grid-area: step;
+}
+
+.BinarySearch .controls .Inspector {
+    grid-area: inspector;
 }
 
 .BinarySearch .Pseudocode {

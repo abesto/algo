@@ -1,11 +1,16 @@
 import { ALGORITHM_START, ALGORITHM_STEP } from '../constants/ActionTypes.js'
+import binarySearch from '../algorithms/binarySearch.js'
 
-const initialState = {
-  currentAlgorithm: null,
-  state: {}
+const initialState = () => {
+  const algo = binarySearch([1, 2, 5, 9, 13, 20, 30, 42, 100, 250, 9000], 20)
+  const state = algo.next()
+  return {
+    currentAlgorithm: algo,
+    state
+  }
 }
 
-const algorithm = (state = initialState, action) => {
+const algorithm = (state = initialState(), action) => {
   switch (action.type) {
     case ALGORITHM_START:
       return {
