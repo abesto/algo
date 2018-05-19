@@ -57,21 +57,21 @@ const BinarySearch = ({ algoState, startAlgorithm, stepAlgorithm }) => {
         }
       </div>
       <Pseudocode>
-        {/*                       */}BinarySearch({A}[0..{N}-1], {Value}) {'{'}                                      {'\n'}
-        {<Step name='init'>{/*    */}    {Low} = 0                                                                   {'\n'}
-          {/*                     */}    {High} = {N} - 1                                                            {'\n'}</Step>}
-        {<Step name='loop'>{/*    */}    while ({Low} &lt;= {High}) {'{'}                                            {'\n'}</Step>}
-        {<Comment>{/*             */}        // invariants: {Value} &gt; {A}[i] for all i &lt; {Low}                 {'\n'}</Comment>}
-        {<Comment>{/*             */}                       {Value} &lt; {A}[i] for all i &gt; {High}                {'\n'}</Comment>}
-        {<Step name='mid'>{/*     */}        {Mid} = ({Low} + {High}) / 2                                            {'\n'}</Step>}
-        {<Step name='branch'>{/*  */}        if ({A}[{Mid}] &gt; {Value})                                            {'\n'}</Step>}
-        {<Step name='branch-0'>{/**/}            {High} = {Mid} - 1                                                  {'\n'}</Step>}
-        {<Step name='branch'>{/*  */}        else if ({A}[{Mid}] &lt; {Value})                                       {'\n'}</Step>}
-        {<Step name='branch-1'>{/**/}            {Low} = {Mid} + 1                                                   {'\n'}</Step>}
-        {<Step name='branch'>{/*  */}        else                                                                    {'\n'}</Step>}
-        {<Step name='done'>{/*    */}            return {Mid}                                                        {'\n'}</Step>}
-        {<Step name='loop'>{/*    */}    {'}'}                                                                       {'\n'}</Step>}
-        {/*                       */}    return not_found {<Comment>// {Value} would be inserted at index "{Low}"    {'\n'}</Comment>}
+        {/*                       */}BinarySearch({A}[0..{N}-1], {Value}) {'{'}                                  {'\n'}
+        {<Step name='init'>{/*    */}    {Low} = 0                                                               </Step>}
+        {<Step name='init'>{/*    */}    {High} = {N} - 1                                                        </Step>}
+        {<Step name='loop'>{/*    */}    while ({Low} &lt;= {High}) {'{'}                                        </Step>}
+        {<Comment>{/*             */}        // invariants: {Value} &gt; {A}[i] for all i &lt; {Low}             </Comment>}
+        {<Comment>{/*             */}                       {Value} &lt; {A}[i] for all i &gt; {High}            </Comment>}
+        {<Step name='mid'>{/*     */}        {Mid} = ({Low} + {High}) / 2                                        </Step>}
+        {<Step name='branch'>{/*  */}        if ({A}[{Mid}] &gt; {Value})                                        </Step>}
+        {<Step name='branch-0'>{/**/}            {High} = {Mid} - 1                                              </Step>}
+        {<Step name='branch'>{/*  */}        else if ({A}[{Mid}] &lt; {Value})                                   </Step>}
+        {<Step name='branch-1'>{/**/}            {Low} = {Mid} + 1                                               </Step>}
+        {<Step name='branch'>{/*  */}        else                                                                </Step>}
+        {<Step name='done'>{/*    */}            return {Mid}                                                    </Step>}
+        {<Step name='loop'>{/*    */}    {'}'}                                                                   </Step>}
+        {/*                       */}    return not_found {<Comment>// {Value} would be inserted at index "{Low}"</Comment>}
         {/*                       */}{'}'}
       </Pseudocode>
       <Inspector vars={{a: numbers, value: target, low, mid, high}} />

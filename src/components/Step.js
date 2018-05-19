@@ -4,7 +4,7 @@ import classNames from 'classnames'
 import '../styles/Step.css'
 
 const MkStep = (current) => ({ name, children }) => (
-  <span className={classNames('Step', {'current-step': name === current})}>{children}</span>
+  <div className={classNames('Step', {'current-step': name === current})}>{children}{'\n'}</div>
 )
 
 export default MkStep

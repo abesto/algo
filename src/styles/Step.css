@@ -1,4 +1,5 @@
 .Step.current-step {
     color: black;
     font-weight: bold;
+    background-color: lightyellow;
 }

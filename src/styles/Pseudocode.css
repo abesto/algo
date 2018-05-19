@@ -2,4 +2,8 @@
     white-space: pre;
     font-size: 1.2em;
     color: #222;
+    background-color: #f3f3f3;
+    padding: 15px;
+    border: 1px dashed #f88;
+    border-radius: 5px;
 }
