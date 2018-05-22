@@ -2,11 +2,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import _ from 'lodash'
 
 // React components, containers
-import Var from '../containers/Var.js'
 import Inspector from '../containers/Inspector.js'
-import Comment from './Comment.js'
 import MkStep from './Step.js'
 import Pseudocode from './Pseudocode.js'
 
@@ -35,7 +34,7 @@ export default class BinarySearch extends React.Component {
     return parseInt(this.state.insertFieldValue, 10)
   }
 
-  restart (numbers = this.algoVar('a'), target = this.algoVar('value')) {
+  restart (numbers = this.algoVar('A'), target = this.algoVar('value')) {
     this.props.startAlgorithm(binarySearch(numbers, target))
   }
 
@@ -44,7 +43,7 @@ export default class BinarySearch extends React.Component {
     if (isNaN(numberToInsert)) {
       return
     }
-    const numbers = this.algoVar('a')
+    const numbers = this.algoVar('A')
     numbers.push(numberToInsert)
     numbers.sort((a, b) => a - b)
     this.setState({
@@ -55,14 +54,14 @@ export default class BinarySearch extends React.Component {
 
   restartWithout (index) {
     return () => {
-      const numbers = this.algoVar('a')
+      const numbers = this.algoVar('A')
       numbers.splice(index, 1)
       this.restart(numbers)
     }
   }
 
   algoVar (name) {
-    return this.props.algoState.value[name]
+    return this.props.algoState.value.variables[name]
   }
 
   render () {
@@ -70,17 +69,11 @@ export default class BinarySearch extends React.Component {
     const low = this.algoVar('low')
     const mid = this.algoVar('mid')
     const high = this.algoVar('high')
-    const step = this.algoVar('step')
-    const numbers = this.algoVar('a')
+    const step = this.props.algoState.value.step
+    const numbers = this.algoVar('A')
     const target = this.algoVar('value')
 
     const Step = MkStep(step)
-    const Low = <Var name='low' />
-    const Mid = <Var name='mid' />
-    const High = <Var name='high' />
-    const N = <Var name='n' />
-    const Value = <Var name='value' />
-    const A = <Var name='a' />
 
     return (
       <div className='BinarySearch'>
@@ -141,25 +134,28 @@ export default class BinarySearch extends React.Component {
             </div>)
           }
         </div>
-        <Pseudocode>
-          {/*                       */}BinarySearch({A}[0..{N}-1], {Value}) {'{'}                                 {'\n'}
-          <Step name='init'>{/*     */}    {Low} = 0                                                              </Step>
-          <Step name='init'>{/*     */}    {High} = {N} - 1                                                       </Step>
-          <Step name='loop'>{/*     */}    while ({Low} &lt;= {High}) {'{'}                                       </Step>
-          <Comment>{/*              */}         # invariants: {Value} &gt; {A}[i] for all i &lt; {Low}            </Comment>{'\n'}
-          <Comment>{/*              */}                       {Value} &lt; {A}[i] for all i &gt; {High}           </Comment>{'\n'}
-          <Step name='mid'>{/*      */}        {Mid} = ({Low} + {High}) / 2                                       </Step>
-          <Step name='branch'>{/*   */}        if ({A}[{Mid}] &gt; {Value})                                       </Step>
-          <Step name='branch-0'>{/* */}            {High} = {Mid} - 1                                             </Step>
-          <Step name='branch'>{/*   */}        else if ({A}[{Mid}] &lt; {Value})                                  </Step>
-          <Step name='branch-1'>{/* */}            {Low} = {Mid} + 1                                              </Step>
-          <Step name='branch'>{/*   */}        else                                                               </Step>
-          <Step name='done'>{/*     */}            return {Mid}                                                   </Step>
-          <Step name='loop'>{/*     */}    {'}'}                                                                  </Step>
-          <Step name='not-found'>{/**/}    return not_found  <Comment># {Value} would be inserted at index "{Low}"</Comment></Step>
-          {/*                       */}{'}'}
-        </Pseudocode>
-        <Inspector vars={{a: numbers, value: target, low, mid, high}} />
+        <Pseudocode
+          Step={Step}
+          vars={this.props.algoState.value.variables}
+        >{`
+        :BinarySearch({A}[0..{N}-1], {value}) {
+    init:    {low} = 0
+    init:    {high} = {N} - 1
+    loop:    while ({low} <= {high}) {
+        :        // invariants: {value} > {A}[i] for all i < {low}
+        :        //             {value} < {A}[i] for all i > {high}
+     mid:        {mid} = ({low} + {high}) / 2
+  branch:        if ({A}[{mid}] > {value})
+branch-0:            {high} = {mid} - 1
+  branch:        else if ({A}[{mid}] < {value})
+branch-1:            {low} = {mid} + 1
+  branch:        else
+    done:            return {mid}
+    loop:    }
+        :    return not_found // {value} would be inserted at index "{low}"
+        :}
+`}</Pseudocode>
+        <Inspector vars={this.props.algoState.value.variables} />
       </div>
     )
   }

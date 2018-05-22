@@ -1,10 +1,13 @@
 // Algorithm originally taken from https://rosettacode.org/wiki/Binary_search#JavaScript
-export default function * binarySearch (a, value) {
+export default function * binarySearch (A, value) {
   let mid = null
   let low = 0
-  let high = a.length - 1
+  let high = A.length - 1
 
-  const step = (step) => ({a, value, low, mid, high, step})
+  const step = (step) => ({
+    variables: {A, N: A.length, value, low, mid, high},
+    step
+  })
 
   yield step('init')
 
@@ -13,10 +16,10 @@ export default function * binarySearch (a, value) {
     mid = Math.floor((low + high) / 2)
     yield step('mid')
     yield step('branch')
-    if (a[mid] > value) {
+    if (A[mid] > value) {
       high = mid - 1
       yield step('branch-0')
-    } else if (a[mid] < value) {
+    } else if (A[mid] < value) {
       low = mid + 1
       yield step('branch-1')
     } else {
