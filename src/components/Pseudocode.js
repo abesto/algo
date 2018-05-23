@@ -17,7 +17,7 @@ const Pseudocode = ({ children, Step }) => {
     )
   )
 
-  const renderLine = (line) => {
+  const renderLine = (line, lineNo) => {
     const lineParts = line.split(':')
     const stepName = lineParts.shift().trim()
     const algoLine = lineParts.join(':')
@@ -28,11 +28,11 @@ const Pseudocode = ({ children, Step }) => {
       stepContents = injectVars(algoLine)
     } else {
       stepContents = injectVars(commentParts.shift()).concat(
-        <Comment>{'//'}{injectVars(commentParts.join('//'))}</Comment>
+        <Comment key='comment'>{'//'}{injectVars(commentParts.join('//'))}</Comment>
       )
     }
 
-    return <Step name={stepName}>{stepContents}</Step>
+    return <Step name={stepName} key={lineNo}>{stepContents}</Step>
   }
 
   const input = React.Children.toArray(children)[0]
