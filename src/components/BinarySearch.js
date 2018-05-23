@@ -2,7 +2,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import _ from 'lodash'
 
 // React components, containers
 import Inspector from '../containers/Inspector.js'
