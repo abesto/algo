@@ -28,7 +28,7 @@ const Pseudocode = ({ children, Step }) => {
       stepContents = injectVars(algoLine)
     } else {
       stepContents = injectVars(commentParts.shift()).concat(
-        <Comment>//{injectVars(commentParts.join('//'))}</Comment>
+        <Comment>{'//'}{injectVars(commentParts.join('//'))}</Comment>
       )
     }
 
