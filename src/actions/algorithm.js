@@ -1,4 +1,4 @@
-import { ALGORITHM_START, ALGORITHM_STEP } from '../constants/ActionTypes.js'
+import { ALGORITHM_START, ALGORITHM_STEP } from '../constants/ActionTypes'
 
 export const startAlgorithm = (algorithm) => ({
   type: ALGORITHM_START,

@@ -29,6 +29,7 @@
 
 .BinarySearch .numbers .number {
     position: relative;
+    font-family: 'Inconsolata', monospace;
 }
 
 .BinarySearch .numbers .number-delete {

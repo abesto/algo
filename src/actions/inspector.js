@@ -1,4 +1,4 @@
-import { INSPECTOR_HIGHLIGHT, INSPECTOR_CLEAR } from '../constants/ActionTypes.js'
+import { INSPECTOR_HIGHLIGHT, INSPECTOR_CLEAR } from '../constants/ActionTypes'
 
 export const highlight = (name) => ({
   type: INSPECTOR_HIGHLIGHT,

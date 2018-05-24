@@ -9,8 +9,7 @@
 }
 
 .Inspector table tbody td {
-    font-family: monospace;
-    font-size: 1.2em;
+    font-family: 'Inconsolata', monospace;
     border: 1px solid silver;
     padding: 3px;
 }
