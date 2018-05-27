@@ -5,7 +5,7 @@ import BinarySearchComponent from '../components/BinarySearch.js'
 import { BINARY_SEARCH } from '../constants/AlgorithmNames'
 
 const mapStateToProps = (state) => ({
-  algoState: state.algorithm.states[BINARY_SEARCH]
+  algoState: state.algorithm.getIn(['states', BINARY_SEARCH, 'value'])
 })
 
 const mapDispatchToProps = (dispatch) => ({

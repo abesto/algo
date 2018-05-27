@@ -5,7 +5,7 @@ import LinearSearchComponent from '../components/LinearSearch.js'
 import { LINEAR_SEARCH } from '../constants/AlgorithmNames'
 
 const mapStateToProps = (state) => ({
-  algoState: state.algorithm.states[LINEAR_SEARCH]
+  algoState: state.algorithm.getIn(['states', LINEAR_SEARCH, 'value'])
 })
 
 const mapDispatchToProps = (dispatch) => ({

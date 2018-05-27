@@ -5,7 +5,7 @@ import classNames from 'classnames'
 
 // React components, containers
 import Inspector from '../containers/Inspector.js'
-import MkStep from './Step.js'
+import SearchControls from './SearchControls'
 import Pseudocode from './Pseudocode.js'
 import Blockquote from './Blockquote'
 
@@ -13,128 +13,55 @@ import Blockquote from './Blockquote'
 import binarySearch from '../algorithms/binarySearch.js'
 import '../styles/BinarySearch.css'
 
-export default class BinarySearch extends React.Component {
-  constructor () {
-    super()
-    this.state = {
-      insertFieldValue: ''
-    }
-    this.restart = this.restart.bind(this)
-    this.restartWithExtraNumber = this.restartWithExtraNumber.bind(this)
-    this.handleInsertFieldChanged = this.handleInsertFieldChanged.bind(this)
-  }
+const BinarySearch = ({ algoState, startAlgorithm, stepAlgorithm }) => {
+  const algoVar = (name) => algoState.getIn(['variables', name])
+  const numbers = algoVar('A')
+  const target = algoVar('value')
 
-  handleInsertFieldChanged (event) {
-    this.setState({
-      insertFieldValue: event.target.value
-    })
-  }
+  const restart = (A = numbers, value = target) => startAlgorithm(binarySearch(A, value))
+  const restartWithExtraNumber = (numberToInsert) => restart(numbers.push(numberToInsert).sort())
+  const restartWithout = (index) => () => restart(numbers.splice(index, 1))
 
-  numberToInsert () {
-    return parseInt(this.state.insertFieldValue, 10)
-  }
-
-  restart (numbers = this.algoVar('A'), target = this.algoVar('value')) {
-    this.props.startAlgorithm(binarySearch(numbers, target))
-  }
-
-  restartWithExtraNumber () {
-    const numberToInsert = this.numberToInsert()
-    if (isNaN(numberToInsert)) {
-      return
-    }
-    const numbers = this.algoVar('A')
-    numbers.push(numberToInsert)
-    numbers.sort((a, b) => a - b)
-    this.setState({
-      insertFieldValue: ''
-    })
-    this.restart(numbers)
-  }
-
-  restartWithout (index) {
-    return () => {
-      const numbers = this.algoVar('A')
-      numbers.splice(index, 1)
-      this.restart(numbers)
-    }
-  }
-
-  algoVar (name) {
-    return this.props.algoState.value.variables[name]
-  }
-
-  render () {
-    const stepAlgorithm = this.props.stepAlgorithm
-    const low = this.algoVar('low')
-    const mid = this.algoVar('mid')
-    const high = this.algoVar('high')
-    const step = this.props.algoState.value.step
-    const numbers = this.algoVar('A')
-    const target = this.algoVar('value')
-
-    const Step = MkStep(step)
-
-    return (
-      <div className='BinarySearch'>
-        <div className='description'>
-          <h2>Binary search</h2>
-          <Blockquote href='https://rosettacode.org/wiki/Binary_search' title='Binary Search - Rosetta Code'>
-            <p>A binary search divides a range of values into halves, and continues to narrow down the field of search
-              until the unknown value is found. It is the classic example of a "divide and conquer" algorithm.</p>
-            <p>As an analogy, consider the children's game "guess a number." The scorer has a secret number, and will
-              only tell the player if their guessed number is higher than, lower than, or equal to the secret number.
-              The player then uses this information to guess a new number.</p>
-            <p>As the player, an optimal strategy for the general case is to start by choosing the range's midpoint as
-              the guess, and then asking whether the guess was higher, lower, or equal to the secret number. If the
-              guess was too high, one would select the point exactly between the range midpoint and the beginning of
-              the range. If the original guess was too low, one would ask about the point exactly between the range
-              midpoint and the end of the range. This process repeats until one has reached the secret number.</p>
-          </Blockquote>
-          <p>This algorithm can be implemented both recursively and iteratively. This page showcases the iterative approach.</p>
-        </div>
-        <div className='controls'>
-          <h3>Controls</h3>
-          <div className='controls-grid'>
-            <label className='target-label'>Search for:</label>
-            <input
-              className='target'
-              name='target'
-              value={target}
-              onChange={(e) => this.restart(numbers, parseInt(e.target.value, 10))}
-              type='number'
-            />
-            <input
-              className='insert-field'
-              name='insert-field'
-              value={this.state.insertFieldValue}
-              onChange={this.handleInsertFieldChanged}
-              placeholder='Enter number to insert...'
-              type='number'
-            />
-            <button className='insert' onClick={this.restartWithExtraNumber}>Insert number</button>
-            <button className='start' onClick={() => this.restart()}>Start</button>
-            <button className='step' onClick={() => stepAlgorithm()}>Step</button>
-          </div>
-        </div>
-        <div className='numbers'>
-          {numbers.map((n, i) =>
+  return (
+    <div className='BinarySearch'>
+      <div className='description'>
+        <h2>Binary search</h2>
+        <Blockquote href='https://rosettacode.org/wiki/Binary_search' title='Binary Search - Rosetta Code'>
+          <p>A binary search divides a range of values into halves, and continues to narrow down the field of search
+            until the unknown value is found. It is the classic example of a "divide and conquer" algorithm.</p>
+          <p>As an analogy, consider the children's game "guess a number." The scorer has a secret number, and will
+            only tell the player if their guessed number is higher than, lower than, or equal to the secret number.
+            The player then uses this information to guess a new number.</p>
+          <p>As the player, an optimal strategy for the general case is to start by choosing the range's midpoint as
+            the guess, and then asking whether the guess was higher, lower, or equal to the secret number. If the
+            guess was too high, one would select the point exactly between the range midpoint and the beginning of
+            the range. If the original guess was too low, one would ask about the point exactly between the range
+            midpoint and the end of the range. This process repeats until one has reached the secret number.</p>
+        </Blockquote>
+        <p>This algorithm can be implemented both recursively and iteratively. This page showcases the iterative approach.</p>
+      </div>
+      <SearchControls
+        target={target}
+        onInsert={restartWithExtraNumber}
+        onStart={restart}
+        onStep={stepAlgorithm}
+        onTargetChanged={(target) => restart(numbers, target)}
+      />
+      <div className='numbers'>
+        {numbers.map((n, i) =>
+          <div
+            className={classNames('number', {low: algoVar('low') === i, high: algoVar('high') === i, mid: algoVar('mid') === i})}
+            key={i}
+          >
+            {n}
             <div
-              className={classNames('number', {low: low === i, high: high === i, mid: mid === i})}
-              key={i}
-            >
-              {n}
-              <div
-                className='number-delete'
-                onClick={this.restartWithout(i)}
-              />
-            </div>)
-          }
-        </div>
-        <Pseudocode
-          Step={Step}
-          vars={this.props.algoState.value.variables}
-        >{`
+              className='number-delete'
+              onClick={restartWithout(i)}
+            />
+          </div>)
+        }
+      </div>
+      <Pseudocode algoState={algoState}>{`
          :BinarySearch({A}[0..{N}-1], {value}) {
      init:    {low} = 0
      init:    {high} = {N} - 1
@@ -152,10 +79,9 @@ export default class BinarySearch extends React.Component {
 not-found:    return not_found // {value} would be inserted at index "{low}"
         :}
 `}</Pseudocode>
-        <Inspector vars={this.props.algoState.value.variables} />
-      </div>
-    )
-  }
+      <Inspector vars={algoState.get('variables')} />
+    </div>
+  )
 }
 
 BinarySearch.propTypes = {
@@ -163,3 +89,5 @@ BinarySearch.propTypes = {
   startAlgorithm: PropTypes.func.isRequired,
   stepAlgorithm: PropTypes.func.isRequired
 }
+
+export default BinarySearch

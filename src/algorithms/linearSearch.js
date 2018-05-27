@@ -1,23 +1,26 @@
+import { List, Map } from 'immutable'
+
 import { LINEAR_SEARCH } from '../constants/AlgorithmNames'
 
-export default function * linearSearch (A = [1, 2, 5, 9, 13, 20, 42, 100, 250, 9000], value = 20) {
+export default function * linearSearch (A = List([1, 2, 5, 9, 13, 20, 42, 100, 250, 9000]), value = 20) {
+  const N = A.count()
   let i
-  const step = (step) => ({
-    variables: {A, N: A.length, value, i, 'A[i]': A[i]},
+  const step = (step) => Map({
+    variables: Map({A, N, value, i, 'A[i]': A.get(i)}),
     name: LINEAR_SEARCH,
     step
   })
 
   i = 0
   yield step('init')
-  while (i < A.length && A[i] !== value)  {
+  while (i < N && A.get(i) !== value)  {
     yield step('loop')
     i += 1
     yield step('inc')
   }
 
   yield step('branch')
-  if (i < A.length) {
+  if (i < N) {
     return step('done')
   }
 

@@ -1,12 +1,14 @@
 import React from 'react'
+
 import Var from '../containers/Var.js'
 import Comment from './Comment.js'
+import Step from './Step'
 
 import '../styles/Pseudocode.css'
 
 const variableRegex = /{([^}]+)}/
 
-const Pseudocode = ({ children, Step }) => {
+const Pseudocode = ({ children, algoState }) => {
   const injectVars = (input) => (
     input.split(variableRegex).map((part, index) =>
       (
@@ -16,6 +18,8 @@ const Pseudocode = ({ children, Step }) => {
       )
     )
   )
+
+  const currentStepName = algoState.get('step')
 
   const renderLine = (line, lineNo) => {
     const lineParts = line.split(':')
@@ -32,7 +36,7 @@ const Pseudocode = ({ children, Step }) => {
       )
     }
 
-    return <Step name={stepName} key={lineNo}>{stepContents}</Step>
+    return <Step name={stepName} currentStepName={currentStepName} key={lineNo}>{stepContents}</Step>
   }
 
   const input = React.Children.toArray(children)[0]

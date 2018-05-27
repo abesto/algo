@@ -3,9 +3,9 @@ import classNames from 'classnames'
 
 import '../styles/Step.css'
 
-const MkStep = (current) => ({ name, children }) => (
-  <div className={classNames('Step', {'current-step': name === current})}>
+const Step = ({ name, currentStepName, children }) => (
+  <div className={classNames('Step', {'current-step': name === currentStepName})}>
     <div className='placeholder'>{children}</div>{children}{'\n'}</div>
 )
 
-export default MkStep
+export default Step

@@ -16,12 +16,12 @@ const Inspector = ({ name, vars }) => (
         </tr>
       </thead>
       <tbody>
-        {Object.keys(vars).map((key) => (
+        {vars.map((value, key) => (
           <tr className={classNames({highlighted: name === key})} key={key}>
             <td><Var name={key} /></td>
-            <td>{JSON.stringify(vars[key], null, 4)}</td>
+            <td>{JSON.stringify(value, null, 4)}</td>
           </tr>
-        ))}
+        )).toArray()}
       </tbody>
     </table>
   </div>

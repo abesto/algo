@@ -1,13 +1,16 @@
-// Algorithm originally taken from https://rosettacode.org/wiki/Binary_search#JavaScript
+import { List, Map } from 'immutable'
+
 import { BINARY_SEARCH } from '../constants/AlgorithmNames'
 
-export default function * binarySearch (A = [1, 2, 5, 9, 13, 20, 42, 100, 250, 9000], value = 20) {
+// Algorithm originally taken from https://rosettacode.org/wiki/Binary_search#JavaScript
+export default function * binarySearch (A = List([1, 2, 5, 9, 13, 20, 42, 100, 250, 9000]), value = 20) {
+  const N = A.count()
   let mid = null
   let low = 0
-  let high = A.length - 1
+  let high = N - 1
 
-  const step = (step) => ({
-    variables: {A, N: A.length, value, low, mid, high},
+  const step = (step) => Map({
+    variables: Map({A, N, value, low, mid, high}),
     name: BINARY_SEARCH,
     step
   })
@@ -19,10 +22,10 @@ export default function * binarySearch (A = [1, 2, 5, 9, 13, 20, 42, 100, 250, 9
     mid = Math.floor((low + high) / 2)
     yield step('mid')
     yield step('branch')
-    if (A[mid] > value) {
+    if (A.get(mid) > value) {
       high = mid - 1
       yield step('branch-0')
-    } else if (A[mid] < value) {
+    } else if (A.get(mid) < value) {
       low = mid + 1
       yield step('branch-1')
     } else {
