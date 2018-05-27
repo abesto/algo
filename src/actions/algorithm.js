@@ -5,4 +5,7 @@ export const startAlgorithm = (algorithm) => ({
   algorithm
 })
 
-export const stepAlgorithm = () => ({type: ALGORITHM_STEP})
+export const stepAlgorithm = (name) => ({
+  type: ALGORITHM_STEP,
+  name
+})

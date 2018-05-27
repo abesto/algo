@@ -1,11 +1,14 @@
 // Algorithm originally taken from https://rosettacode.org/wiki/Binary_search#JavaScript
-export default function * binarySearch (A, value) {
+import { BINARY_SEARCH } from '../constants/AlgorithmNames'
+
+export default function * binarySearch (A = [1, 2, 5, 9, 13, 20, 42, 100, 250, 9000], value = 20) {
   let mid = null
   let low = 0
   let high = A.length - 1
 
   const step = (step) => ({
     variables: {A, N: A.length, value, low, mid, high},
+    name: BINARY_SEARCH,
     step
   })
 

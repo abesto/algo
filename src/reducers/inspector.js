@@ -1,7 +1,7 @@
 import { INSPECTOR_HIGHLIGHT, INSPECTOR_CLEAR } from '../constants/ActionTypes.js'
 
 const initialState = {
-  value: null
+  name: ''
 }
 
 const inspector = (state = initialState, action) => {

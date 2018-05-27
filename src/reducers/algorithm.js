@@ -1,31 +1,42 @@
-import { ALGORITHM_START, ALGORITHM_STEP } from '../constants/ActionTypes.js'
-import binarySearch from '../algorithms/binarySearch.js'
+import _ from 'lodash'
 
-const initialState = () => {
-  const algo = binarySearch([1, 2, 5, 9, 13, 20, 42, 100, 250, 9000], 20)
-  const state = algo.next()
+import binarySearch from '../algorithms/binarySearch'
+import linearSearch from '../algorithms/linearSearch'
+import { ALGORITHM_START, ALGORITHM_STEP } from '../constants/ActionTypes.js'
+
+const nextStateFragment = (algorithm) => {
+  const state = algorithm.next()
   return {
-    currentAlgorithm: algo,
-    state
+    algorithms: {
+      [state.value.name]: algorithm
+    },
+    states: {
+      [state.value.name]: state
+    }
   }
 }
 
-const algorithm = (state = initialState(), action) => {
+const initialState = _.merge(
+  {
+    algorithms: {},
+    states: {}
+  },
+  nextStateFragment(binarySearch()),
+  nextStateFragment(linearSearch())
+)
+
+console.log(initialState)
+
+const algorithm = (state = initialState, action) => {
   switch (action.type) {
     case ALGORITHM_START:
-      return {
-        currentAlgorithm: action.algorithm,
-        state: action.algorithm.next()
-      }
+      return _.merge({}, state, nextStateFragment(action.algorithm))
     case ALGORITHM_STEP:
-      console.log(state)
-      if (state.state.done) {
+      const name = action.name
+      if (state.states[name].done) {
         return state
       }
-      return {
-        currentAlgorithm: state.currentAlgorithm,
-        state: state.currentAlgorithm.next()
-      }
+      return _.merge({}, state, nextStateFragment(state.algorithms[name]))
     default:
       return state
   }

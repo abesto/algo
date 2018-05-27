@@ -28,7 +28,8 @@ const Inspector = ({ name, vars }) => (
 )
 
 Inspector.propTypes = {
-  vars: PropTypes.object
+  name: PropTypes.string.isRequired,
+  vars: PropTypes.object.isRequired
 }
 
 export default Inspector

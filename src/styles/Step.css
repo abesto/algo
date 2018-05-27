@@ -3,3 +3,13 @@
     font-weight: bold;
     background-color: lightyellow;
 }
+
+/* Reserve enough space so that the width doesn't change when a step is hovered */
+.Step .placeholder {
+    display: block;
+    font-weight: bold;
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+}
+

@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
 
-import '../styles/App.css'
 import BinarySearch from '../containers/BinarySearch'
+import LinearSearch from '../containers/LinearSearch'
+
+import '../styles/App.css'
 import Sidebar from './Sidebar'
-import * as routes from '../constants/routes'
+import * as routes from '../constants/Routes'
 import Landing from './Landing'
 
 class App extends Component {
@@ -14,6 +16,7 @@ class App extends Component {
         <Sidebar />
         <main>
           <Route exact path={routes.LANDING} component={Landing} />
+          <Route path={routes.LINEAR_SEARCH} component={LinearSearch} />
           <Route path={routes.BINARY_SEARCH} component={BinarySearch} />
         </main>
         <footer>

@@ -4,7 +4,7 @@ import Comment from './Comment.js'
 
 import '../styles/Pseudocode.css'
 
-const variableRegex = /{([a-zA-Z]+)}/
+const variableRegex = /{([^}]+)}/
 
 const Pseudocode = ({ children, Step }) => {
   const injectVars = (input) => (
