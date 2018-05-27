@@ -7,6 +7,7 @@ import classNames from 'classnames'
 import Inspector from '../containers/Inspector.js'
 import MkStep from './Step.js'
 import Pseudocode from './Pseudocode.js'
+import Blockquote from './Blockquote'
 
 // Linear search specifics
 import linearSearch from '../algorithms/linearSearch'
@@ -75,14 +76,11 @@ export default class LinearSearch extends React.Component {
       <div className='LinearSearch'>
         <div className='description'>
           <h2>Linear search</h2>
-          <blockquote cite='https://en.wikipedia.org/wiki/Brute-force_search'>
+          <Blockquote href='https://en.wikipedia.org/wiki/Brute-force_search' title='Linear search - Wikipedia'>
             <p>Linear search or sequential search is a method for finding a target value within a list. It sequentially
               checks each element of the list for the target value until a match is found or until all the elements have
               been searched.</p>
-            <footer className='blockquote-footer'><cite title='Linear search - Wikipedia'>
-              – <a href='https://en.wikipedia.org/wiki/Linear_search'>Linear search - Wikipedia</a>
-            </cite></footer>
-          </blockquote>
+          </Blockquote>
         </div>
         <div className='controls'>
           <h3>Controls</h3>

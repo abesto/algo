@@ -16,11 +16,6 @@
     margin-bottom: 25px;
 }
 
-.BinarySearch .description blockquote {
-    border-left: 5px solid lightgray;
-    padding-left: 25px;
-}
-
 .BinarySearch .numbers {
     grid-area: numbers;
     display: flex;

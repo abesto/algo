@@ -16,11 +16,6 @@
     margin-bottom: 25px;
 }
 
-.LinearSearch .description blockquote {
-    border-left: 5px solid lightgray;
-    padding-left: 25px;
-}
-
 .LinearSearch .numbers {
     grid-area: numbers;
     display: flex;

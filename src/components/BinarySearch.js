@@ -7,6 +7,7 @@ import classNames from 'classnames'
 import Inspector from '../containers/Inspector.js'
 import MkStep from './Step.js'
 import Pseudocode from './Pseudocode.js'
+import Blockquote from './Blockquote'
 
 // Binary search specifics
 import binarySearch from '../algorithms/binarySearch.js'
@@ -78,7 +79,7 @@ export default class BinarySearch extends React.Component {
       <div className='BinarySearch'>
         <div className='description'>
           <h2>Binary search</h2>
-          <blockquote cite='https://rosettacode.org/wiki/Binary_search'>
+          <Blockquote href='https://rosettacode.org/wiki/Binary_search' title='Binary Search - Rosetta Code'>
             <p>A binary search divides a range of values into halves, and continues to narrow down the field of search
               until the unknown value is found. It is the classic example of a "divide and conquer" algorithm.</p>
             <p>As an analogy, consider the children's game "guess a number." The scorer has a secret number, and will
@@ -89,10 +90,7 @@ export default class BinarySearch extends React.Component {
               guess was too high, one would select the point exactly between the range midpoint and the beginning of
               the range. If the original guess was too low, one would ask about the point exactly between the range
               midpoint and the end of the range. This process repeats until one has reached the secret number.</p>
-            <footer className='blockquote-footer'><cite title='Binary Search - Rosetta Code'>
-              – <a href='https://rosettacode.org/wiki/Binary_search'>Binary Search - Rosetta Code</a>
-            </cite></footer>
-          </blockquote>
+          </Blockquote>
           <p>This algorithm can be implemented both recursively and iteratively. This page showcases the iterative approach.</p>
         </div>
         <div className='controls'>
