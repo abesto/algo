@@ -6,7 +6,7 @@ import Var from '../containers/Var.js'
 
 import '../styles/Inspector.css'
 
-const Inspector = ({ name, vars }) => (
+const Inspector = ({ name, variables }) => (
   <div className='Inspector'>
     <table>
       <thead>
@@ -16,7 +16,7 @@ const Inspector = ({ name, vars }) => (
         </tr>
       </thead>
       <tbody>
-        {vars.map((value, key) => (
+        {variables.map((value, key) => (
           <tr className={classNames({highlighted: name === key})} key={key}>
             <td><Var name={key} /></td>
             <td>{JSON.stringify(value, null, 4)}</td>
@@ -29,7 +29,7 @@ const Inspector = ({ name, vars }) => (
 
 Inspector.propTypes = {
   name: PropTypes.string.isRequired,
-  vars: PropTypes.object.isRequired
+  variables: PropTypes.object.isRequired
 }
 
 export default Inspector

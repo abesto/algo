@@ -16,41 +16,12 @@
     margin-bottom: 25px;
 }
 
-.BinarySearch .numbers {
-    grid-area: numbers;
-    display: flex;
-    flex-flow: row wrap;
-}
-
-.BinarySearch .numbers .number {
-    position: relative;
-    font-family: 'Inconsolata', monospace;
-}
-
-.BinarySearch .numbers .number-delete {
-    padding: 0;
-    background-color: red;
-    cursor: pointer;
-    width: 7px;
-    height: 7px;
-    right: 0;
-    top: 0;
-    position: absolute;
-}
-
 .BinarySearch .Inspector {
     grid-area: inspector;
 }
 
 .BinarySearch .Pseudocode {
     grid-area: pseudocode;
-}
-
-.BinarySearch .numbers .number {
-    padding: 5px;
-    border: 1px solid black;
-    margin: 5px;
-    max-height: 22px;
 }
 
 .BinarySearch .low {

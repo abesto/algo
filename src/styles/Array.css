@@ -1,0 +1,26 @@
+.Array {
+    grid-area: numbers;
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.Array .item {
+    position: relative;
+    font-family: 'Inconsolata', monospace;
+    padding: 5px;
+    border: 1px solid black;
+    margin: 5px;
+    max-height: 22px;
+}
+
+.Array .item-delete {
+    padding: 0;
+    background-color: red;
+    cursor: pointer;
+    width: 7px;
+    height: 7px;
+    right: 0;
+    top: 0;
+    position: absolute;
+}
+

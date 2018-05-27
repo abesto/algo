@@ -1,12 +1,12 @@
 // libs
 import React from 'react'
 import PropTypes from 'prop-types'
-import classNames from 'classnames'
 
 // React components, containers
-import Inspector from '../containers/Inspector.js'
+import Inspector from '../containers/Inspector'
 import SearchControls from './SearchControls'
-import Pseudocode from './Pseudocode.js'
+import Array from './Array'
+import Pseudocode from './Pseudocode'
 import Blockquote from './Blockquote'
 
 // Binary search specifics
@@ -14,9 +14,9 @@ import binarySearch from '../algorithms/binarySearch.js'
 import '../styles/BinarySearch.css'
 
 const BinarySearch = ({ algoState, startAlgorithm, stepAlgorithm }) => {
-  const algoVar = (name) => algoState.getIn(['variables', name])
-  const numbers = algoVar('A')
-  const target = algoVar('value')
+  const variables = algoState.get('variables')
+  const numbers = variables.get('A')
+  const target = variables.get('value')
 
   const restart = (A = numbers, value = target) => startAlgorithm(binarySearch(A, value))
   const restartWithExtraNumber = (numberToInsert) => restart(numbers.push(numberToInsert).sort())
@@ -47,20 +47,11 @@ const BinarySearch = ({ algoState, startAlgorithm, stepAlgorithm }) => {
         onStep={stepAlgorithm}
         onTargetChanged={(target) => restart(numbers, target)}
       />
-      <div className='numbers'>
-        {numbers.map((n, i) =>
-          <div
-            className={classNames('number', {low: algoVar('low') === i, high: algoVar('high') === i, mid: algoVar('mid') === i})}
-            key={i}
-          >
-            {n}
-            <div
-              className='number-delete'
-              onClick={restartWithout(i)}
-            />
-          </div>)
-        }
-      </div>
+      <Array
+        items={numbers}
+        variables={variables}
+        onRemove={restartWithout}
+      />
       <Pseudocode algoState={algoState}>{`
          :BinarySearch({A}[0..{N}-1], {value}) {
      init:    {low} = 0
@@ -79,7 +70,7 @@ const BinarySearch = ({ algoState, startAlgorithm, stepAlgorithm }) => {
 not-found:    return not_found // {value} would be inserted at index "{low}"
         :}
 `}</Pseudocode>
-      <Inspector vars={algoState.get('variables')} />
+      <Inspector variables={algoState.get('variables')} />
     </div>
   )
 }
