@@ -11,17 +11,17 @@ const variablesToClassnames = (currentIndex, variables) =>
 
 const Array = ({ items, variables, onRemove }) => {
   return (
-  <div className='Array'>
-    {
-      items.map((item, index) =>
-        <div className={classNames('item', variablesToClassnames(index, variables))} key={index}>
-          {item}
-          <div className='item-delete' onClick={() => onRemove(index)} />
-        </div>
-      )
-    }
-  </div>
-)}
+    <div className='Array'>
+      {
+        items.map((item, index) =>
+          <div className={classNames('item', variablesToClassnames(index, variables))} key={index}>
+            {item}
+            <div className='item-delete' onClick={() => onRemove(index)} />
+          </div>
+        )
+      }
+    </div>
+  )}
 
 Array.propTypes = {
   items: PropTypes.instanceOf(List).isRequired,

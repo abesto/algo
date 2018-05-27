@@ -1,25 +1,23 @@
-import { Map } from 'immutable'
+import { Map, List } from 'immutable'
 
 import binarySearch from '../algorithms/binarySearch'
 import linearSearch from '../algorithms/linearSearch'
 import { ALGORITHM_START, ALGORITHM_STEP } from '../constants/ActionTypes.js'
 
-const nextFragment = (algorithm) => {
-  const state = Map(algorithm.next())
-  const name = state.getIn(['value', 'name'])
-  return Map({
-    algorithms: Map([[name, algorithm]]),
-    states: Map([[name, state]])
-  })
+const withNextFragment = (state, algorithm) => {
+  const algoState = Map(algorithm.next())
+  const name = algoState.getIn(['value', 'name'])
+  return state
+    .setIn(['algorithms', name], algorithm)
+    .setIn(['states', name], algoState)
 }
 
-const initialState = Map().mergeDeep(
-  nextFragment(binarySearch()),
-  nextFragment(linearSearch())
-)
+const initialState = List([
+  binarySearch(), linearSearch()
+]).reduce(withNextFragment, Map())
 
 const algorithm = (state = initialState, action) => {
-  const next = (algorithm) => state.mergeDeep(nextFragment(algorithm))
+  const next = (algorithm) => withNextFragment(state, algorithm)
 
   switch (action.type) {
     case ALGORITHM_START:

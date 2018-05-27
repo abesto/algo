@@ -20,7 +20,7 @@ const LinearSearch = ({ algoState, startAlgorithm, stepAlgorithm }) => {
 
   const restart = (A = numbers, value = target) => startAlgorithm(linearSearch(A, value))
   const restartWithExtraNumber = (numberToInsert) => restart(numbers.push(numberToInsert))
-  const restartWithout = (index) => () => restart(numbers.splice(index, 1))
+  const restartWithout = (index) => restart(numbers.splice(index, 1))
 
 
   return (

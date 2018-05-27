@@ -20,7 +20,7 @@ const BinarySearch = ({ algoState, startAlgorithm, stepAlgorithm }) => {
 
   const restart = (A = numbers, value = target) => startAlgorithm(binarySearch(A, value))
   const restartWithExtraNumber = (numberToInsert) => restart(numbers.push(numberToInsert).sort())
-  const restartWithout = (index) => () => restart(numbers.splice(index, 1))
+  const restartWithout = (index) => restart(numbers.delete(index))
 
   return (
     <div className='BinarySearch'>
