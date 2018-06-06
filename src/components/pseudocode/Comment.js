@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import '../styles/Comment.css'
+import '../../styles/Comment.css'
 
 const Comment = ({ children }) => (
   <span className='Comment'>{children}</span>

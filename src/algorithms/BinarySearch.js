@@ -4,7 +4,7 @@ import { BINARY_SEARCH } from '../constants/AlgorithmNames'
 import Algorithm from './Algorithm'
 import { GLOBALS_KEY_SEARCH } from '../constants/Globals'
 
-const BinarySearch = new Algorithm(
+const BinarySearchAlgo = new Algorithm(
   BINARY_SEARCH, GLOBALS_KEY_SEARCH,
   function * (globals, mkStep) {
     // Algorithm originally taken from https://rosettacode.org/wiki/Binary_search#JavaScript
@@ -43,4 +43,4 @@ const BinarySearch = new Algorithm(
   }
 )
 
-export default BinarySearch
+export default BinarySearchAlgo

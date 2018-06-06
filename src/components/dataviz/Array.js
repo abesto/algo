@@ -1,32 +1,31 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { List, Map } from 'immutable'
+import { Map } from 'immutable'
 import classNames from 'classnames'
 
-import '../styles/Array.css'
-
+import '../../styles/Array.css'
 
 const variablesToClassnames = (currentIndex, variables) =>
   variables.map((value) => value === currentIndex).toJS()
 
-const Array = ({ items, variables, onRemove }) => {
+const Array = ({ variables, changeGlobals }) => {
   return (
     <div className='Array'>
       {
-        items.map((item, index) =>
+        variables.get('A').map((item, index) =>
           <div className={classNames('item', variablesToClassnames(index, variables))} key={index}>
             {item}
-            <div className='item-delete' onClick={() => onRemove(index)} />
+            <div className='item-delete' onClick={() => changeGlobals({A: variables.get('A').remove(index)})} />
           </div>
         )
       }
     </div>
-  )}
+  )
+}
 
 Array.propTypes = {
-  items: PropTypes.instanceOf(List).isRequired,
   variables: PropTypes.instanceOf(Map).isRequired,
-  onRemove: PropTypes.func
+  changeGlobals: PropTypes.func.isRequired
 }
 
 export default Array

@@ -1,2 +1,2 @@
-export const BINARY_SEARCH = 'binary-search'
-export const LINEAR_SEARCH = 'linear-search'
+export const BINARY_SEARCH = 'BinarySearch'
+export const LINEAR_SEARCH = 'LinearSearch'

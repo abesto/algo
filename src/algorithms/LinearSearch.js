@@ -4,7 +4,7 @@ import { LINEAR_SEARCH } from '../constants/AlgorithmNames'
 import { GLOBALS_KEY_SEARCH } from '../constants/Globals'
 import Algorithm from './Algorithm'
 
-const LinearSearch = new Algorithm(
+const LinearSearchAlgo = new Algorithm(
   LINEAR_SEARCH, GLOBALS_KEY_SEARCH,
   function * linearSearch (globals, mkStep) {
     const A = globals.get('A')
@@ -34,4 +34,4 @@ const LinearSearch = new Algorithm(
   }
 )
 
-export default LinearSearch
+export default LinearSearchAlgo

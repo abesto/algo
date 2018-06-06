@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import '../styles/Blockquote.css'
+import '../../styles/Blockquote.css'
 
 const Blockquote = ({ href, title, children }) => (
   <blockquote className='Blockquote' cite={href}>

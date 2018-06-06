@@ -1,10 +1,10 @@
 import React from 'react'
 
-import Var from '../containers/Var.js'
+import Var from '../../containers/Var.js'
 import Comment from './Comment.js'
 import Step from './Step'
 
-import '../styles/Pseudocode.css'
+import '../../styles/Pseudocode.css'
 
 const variableRegex = /{([^}]+)}/
 
