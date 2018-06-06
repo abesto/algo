@@ -4,13 +4,16 @@ import PropTypes from 'prop-types'
 import Pseudocode from './pseudocode/Pseudocode'
 import Inspector from '../containers/Inspector'
 
+import '../styles/Algorithm.css'
+
+
 const Algorithm = ({algoState, Description, Controls, Dataviz, code, startAlgorithm, stepAlgorithm, changeGlobals}) => {
   const name = algoState.get('name')
   const variables = algoState.get('variables')
   const controlsProps = {variables, startAlgorithm, stepAlgorithm, changeGlobals}
   const datavizProps = {variables, changeGlobals}
   return (
-    <div className={name}>
+    <div className={`Algorithm ${name}`}>
       <Description />
       <Controls {...controlsProps} />
       <Dataviz {...datavizProps} />

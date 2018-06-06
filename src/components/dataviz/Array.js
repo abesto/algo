@@ -10,7 +10,7 @@ const variablesToClassnames = (currentIndex, variables) =>
 
 const Array = ({ variables, changeGlobals }) => {
   return (
-    <div className='Array'>
+    <div className='dataviz Array'>
       {
         variables.get('A').map((item, index) =>
           <div className={classNames('item', variablesToClassnames(index, variables))} key={index}>

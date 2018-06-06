@@ -40,7 +40,7 @@ class SearchControls extends React.Component {
 
   render () {
     return (
-      <div className='SearchControls'>
+      <div className='controls SearchControls'>
         <h3>Controls</h3>
         <div className='controls-grid'>
           <label className='target-label'>Search for:</label>

@@ -1,0 +1,33 @@
+.Algorithm {
+    display: grid;
+    grid-template:
+            "desc         desc        desc    " auto
+            "controls     dataviz     inspector" auto
+            "controls     pseudocode  inspector" auto
+            / min-content min-content 1fr;
+    grid-gap: 20px;
+}
+
+.Algorithm .description {
+    grid-area: desc;
+    padding: 20px;
+    background-color: #eaeaea;
+    box-shadow: 2px 2px 5px 2px darkgray;
+    margin-bottom: 25px;
+}
+
+.Algorithm .Inspector {
+    grid-area: inspector;
+}
+
+.Algorithm .Pseudocode {
+    grid-area: pseudocode;
+}
+
+.Algorithm .controls {
+    grid-area: controls;
+}
+
+.Algorithm .dataviz {
+    grid-area: dataviz;
+}

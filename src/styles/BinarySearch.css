@@ -1,29 +1,3 @@
-.BinarySearch {
-    display: grid;
-    grid-template:
-            "desc         desc        desc    " auto
-            "controls     numbers     inspector" auto
-            "controls     pseudocode  inspector" auto
-            / min-content min-content 1fr;
-    grid-gap: 20px;
-}
-
-.BinarySearch .description {
-    grid-area: desc;
-    padding: 20px;
-    background-color: #eaeaea;
-    box-shadow: 2px 2px 5px 2px darkgray;
-    margin-bottom: 25px;
-}
-
-.BinarySearch .Inspector {
-    grid-area: inspector;
-}
-
-.BinarySearch .Pseudocode {
-    grid-area: pseudocode;
-}
-
 .BinarySearch .low {
     background-color: lightblue;
 }

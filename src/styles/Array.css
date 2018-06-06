@@ -1,5 +1,4 @@
 .Array {
-    grid-area: numbers;
     display: flex;
     flex-flow: row wrap;
 }
