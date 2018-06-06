@@ -16,10 +16,10 @@ const BinarySearch = new Algorithm(
     let low = 0
     let high = N - 1
 
-    const step = mkStep(() => [
-      Map({N, low, mid, high}),
-      Map({A, value})
-    ])
+    const step = mkStep(() => ({
+      locals: Map({N, low, mid, high}),
+      globals: Map({A, value})
+    }))
 
     yield step('init')
 

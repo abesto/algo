@@ -12,10 +12,10 @@ const LinearSearch = new Algorithm(
     const N = A.count()
     let i
 
-    const step = mkStep(() => [
-      Map({i, N, 'A[i]': A.get(i)}),
-      Map({A, value})
-    ])
+    const step = mkStep(() => ({
+      locals: Map({i, N, 'A[i]': A.get(i)}),
+      globals: Map({A, value})
+    }))
 
     i = 0
     yield step('init')

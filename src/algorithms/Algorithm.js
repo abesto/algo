@@ -24,7 +24,7 @@ export default class Algorithm {
   mkStep (fn) {
     const algo = this
     return function (stepName) {
-      const [locals, globals] = fn()
+      const {locals, globals} = fn()
       return Map({
         step: stepName,
         name: algo.name,
