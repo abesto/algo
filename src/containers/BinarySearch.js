@@ -1,15 +1,18 @@
 import { connect } from 'react-redux'
-import { startAlgorithm, stepAlgorithm } from '../actions/algorithm.js'
+import { Map } from 'immutable'
 
+import { changeGlobals, startAlgorithm, stepAlgorithm } from '../actions/algorithm'
 import BinarySearchComponent from '../components/BinarySearch.js'
 import { BINARY_SEARCH } from '../constants/AlgorithmNames'
+import { GLOBALS_KEY_SEARCH } from '../constants/Globals'
 
 const mapStateToProps = (state) => ({
-  algoState: state.algorithm.getIn(['states', BINARY_SEARCH, 'value'])
+  algoState: state.algorithm.getIn(['states', BINARY_SEARCH, 'value'], Map())
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  startAlgorithm: (numbers, target) => dispatch(startAlgorithm(numbers, target)),
+  changeGlobals: (globals) => dispatch(changeGlobals(GLOBALS_KEY_SEARCH, globals)),
+  startAlgorithm: () => dispatch(startAlgorithm(BINARY_SEARCH)),
   stepAlgorithm: () => dispatch(stepAlgorithm(BINARY_SEARCH))
 })
 

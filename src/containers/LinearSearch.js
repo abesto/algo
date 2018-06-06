@@ -1,15 +1,18 @@
 import { connect } from 'react-redux'
-import { startAlgorithm, stepAlgorithm } from '../actions/algorithm.js'
+import { Map } from 'immutable'
 
-import LinearSearchComponent from '../components/LinearSearch.js'
+import { changeGlobals, startAlgorithm, stepAlgorithm } from '../actions/algorithm'
+import LinearSearchComponent from '../components/LinearSearch'
 import { LINEAR_SEARCH } from '../constants/AlgorithmNames'
+import { GLOBALS_KEY_SEARCH } from '../constants/Globals'
 
 const mapStateToProps = (state) => ({
-  algoState: state.algorithm.getIn(['states', LINEAR_SEARCH, 'value'])
+  algoState: state.algorithm.getIn(['states', LINEAR_SEARCH, 'value'], Map())
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  startAlgorithm: (numbers, target) => dispatch(startAlgorithm(numbers, target)),
+  changeGlobals: (globals) => dispatch(changeGlobals(GLOBALS_KEY_SEARCH, globals)),
+  startAlgorithm: () => dispatch(startAlgorithm(LINEAR_SEARCH)),
   stepAlgorithm: () => dispatch(stepAlgorithm(LINEAR_SEARCH))
 })
 

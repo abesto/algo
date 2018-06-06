@@ -1,6 +1,7 @@
 // libs
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Map, List } from 'immutable'
 
 // React components, containers
 import Inspector from '../containers/Inspector.js'
@@ -10,18 +11,16 @@ import Pseudocode from './Pseudocode.js'
 import Blockquote from './Blockquote'
 
 // Linear search specifics
-import linearSearch from '../algorithms/linearSearch'
 import '../styles/LinearSearch.css'
 
-const LinearSearch = ({ algoState, startAlgorithm, stepAlgorithm }) => {
-  const variables = algoState.get('variables')
-  const numbers = variables.get('A')
-  const target = variables.get('value')
+const LinearSearch = ({ algoState, changeGlobals, startAlgorithm, stepAlgorithm }) => {
+  const variables = algoState.get('variables', Map())
+  const numbers = variables.get('A', List())
+  const target = variables.get('value', 0)
 
-  const restart = (A = numbers, value = target) => startAlgorithm(linearSearch(A, value))
-  const restartWithExtraNumber = (numberToInsert) => restart(numbers.push(numberToInsert))
-  const restartWithout = (index) => restart(numbers.splice(index, 1))
-
+  const restartWithTarget = (value) => changeGlobals(Map({value}))
+  const restartWithExtraNumber = (numberToInsert) => changeGlobals(Map({A: numbers.push(numberToInsert)}))
+  const restartWithout = (index) => changeGlobals(Map({A: numbers.delete(index)}))
 
   return (
     <div className='LinearSearch'>
@@ -36,9 +35,9 @@ const LinearSearch = ({ algoState, startAlgorithm, stepAlgorithm }) => {
       <SearchControls
         target={target}
         onInsert={restartWithExtraNumber}
-        onStart={restart}
+        onStart={startAlgorithm}
         onStep={stepAlgorithm}
-        onTargetChanged={(target) => restart(numbers, target)}
+        onTargetChanged={restartWithTarget}
       />
       <Array
         items={numbers}
@@ -65,7 +64,8 @@ not-found:    return not_found
 LinearSearch.propTypes = {
   algoState: PropTypes.object.isRequired,
   startAlgorithm: PropTypes.func.isRequired,
-  stepAlgorithm: PropTypes.func.isRequired
+  stepAlgorithm: PropTypes.func.isRequired,
+  changeGlobals: PropTypes.func.isRequired
 }
 
 export default LinearSearch

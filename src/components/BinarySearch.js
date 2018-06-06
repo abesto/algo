@@ -1,6 +1,7 @@
 // libs
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Map } from 'immutable'
 
 // React components, containers
 import Inspector from '../containers/Inspector'
@@ -10,17 +11,16 @@ import Pseudocode from './Pseudocode'
 import Blockquote from './Blockquote'
 
 // Binary search specifics
-import binarySearch from '../algorithms/binarySearch.js'
 import '../styles/BinarySearch.css'
 
-const BinarySearch = ({ algoState, startAlgorithm, stepAlgorithm }) => {
+const BinarySearch = ({ algoState, changeGlobals, startAlgorithm, stepAlgorithm }) => {
   const variables = algoState.get('variables')
   const numbers = variables.get('A')
   const target = variables.get('value')
 
-  const restart = (A = numbers, value = target) => startAlgorithm(binarySearch(A, value))
-  const restartWithExtraNumber = (numberToInsert) => restart(numbers.push(numberToInsert).sort())
-  const restartWithout = (index) => restart(numbers.delete(index))
+  const restartWithTarget = (value) => changeGlobals(Map({value}))
+  const restartWithExtraNumber = (numberToInsert) => changeGlobals(Map({A: numbers.push(numberToInsert).sort()}))
+  const restartWithout = (index) => changeGlobals(Map({A: numbers.delete(index)}))
 
   return (
     <div className='BinarySearch'>
@@ -43,9 +43,9 @@ const BinarySearch = ({ algoState, startAlgorithm, stepAlgorithm }) => {
       <SearchControls
         target={target}
         onInsert={restartWithExtraNumber}
-        onStart={restart}
+        onStart={startAlgorithm}
         onStep={stepAlgorithm}
-        onTargetChanged={(target) => restart(numbers, target)}
+        onTargetChanged={restartWithTarget}
       />
       <Array
         items={numbers}
@@ -70,7 +70,7 @@ const BinarySearch = ({ algoState, startAlgorithm, stepAlgorithm }) => {
 not-found:    return not_found // {value} would be inserted at index "{low}"
         :}
 `}</Pseudocode>
-      <Inspector variables={algoState.get('variables')} />
+      <Inspector variables={variables} />
     </div>
   )
 }
@@ -78,7 +78,8 @@ not-found:    return not_found // {value} would be inserted at index "{low}"
 BinarySearch.propTypes = {
   algoState: PropTypes.object.isRequired,
   startAlgorithm: PropTypes.func.isRequired,
-  stepAlgorithm: PropTypes.func.isRequired
+  stepAlgorithm: PropTypes.func.isRequired,
+  changeGlobals: PropTypes.func.isRequired
 }
 
 export default BinarySearch
