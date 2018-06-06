@@ -9,7 +9,7 @@ import {
 import { DEFAULTS } from '../constants/Globals'
 
 const withNextFragment = (state, algorithm) => {
-  const algoState = Map(algorithm.next())
+  const algoState = algorithm.next()
   const globals = algoState.getIn(['value', 'globals'])
   const globalsKey = algoState.getIn(['value', 'globalsKey'])
   const name = algorithm.name

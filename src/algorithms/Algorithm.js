@@ -47,6 +47,8 @@ export default class Algorithm {
   }
 
   next () {
-    return this.generator.next()
+    const retval = Map(this.generator.next())
+    this.globals = retval.getIn(['value', 'globals'])
+    return retval
   }
 }
