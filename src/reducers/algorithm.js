@@ -30,6 +30,7 @@ const algorithm = (state = Map(), action) => {
     case ALGORITHM_CHANGE_GLOBALS:
       return state.mergeIn(['globals', action.globalsKey], action.globals)
     case ALGORITHM_START:
+      action.algorithm.start()
       return next(action.algorithm)
     case ALGORITHM_STEP:
       const name = action.name

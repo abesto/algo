@@ -3,16 +3,18 @@ import { Map, is } from 'immutable'
 import { initialize, startAlgorithm } from '../actions/algorithm'
 
 export default class Algorithm {
-  constructor (name, globalsKey, start) {
+  constructor (name, globalsKey, algoFn) {
     this.name = name
     this.globalsKey = globalsKey
     this.store = null
-    this.start = start
+    this.algoFn = algoFn
     this.globals = null
-    this.generator = this.start(this.globals)
+    this.generator = null
 
     this.handleStateChange = this.handleStateChange.bind(this)
     this.mkStep = this.mkStep.bind(this)
+
+    this.start()
   }
 
   register (store) {
@@ -41,9 +43,12 @@ export default class Algorithm {
     const newGlobals = this.store.getState().algorithm.getIn(['globals', this.globalsKey])
     if (!is(oldGlobals, newGlobals)) {
       this.globals = newGlobals
-      this.generator = this.start(this.globals, this.mkStep)
       this.store.dispatch(startAlgorithm(this))
     }
+  }
+
+  start () {
+    this.generator = this.algoFn(this.globals, this.mkStep)
   }
 
   next () {
