@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { HashRouter } from 'react-router-dom'
+import foreach from 'foreach'
 
 import { createStore, applyMiddleware } from 'redux'
 import logger from 'redux-logger'
@@ -8,14 +9,13 @@ import { Provider } from 'react-redux'
 
 import registerServiceWorker from './registerServiceWorker'
 import App from './components/App'
-import './index.css'
 import reducer from './reducers'
-import LinearSearch from './algorithms/LinearSearch'
-import BinarySearch from './algorithms/BinarySearch'
+import algorithmSpecs from './algorithmSpecs'
+
+import './index.css'
 
 const store = createStore(reducer, applyMiddleware(logger))
-LinearSearch.register(store)
-BinarySearch.register(store)
+foreach(algorithmSpecs, (spec) => spec.algorithm.register(store))
 
 ReactDOM.render(
   <Provider store={store}>

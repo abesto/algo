@@ -1,14 +1,12 @@
 import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
 
-import BinarySearch from '../algorithms/BinarySearch'
-import LinearSearch from '../algorithms/LinearSearch'
-
 import '../styles/App.css'
 import Sidebar from './html/Sidebar'
 import * as routes from '../constants/Routes'
 import Landing from './html/Landing'
-import Algorithm from '../containers/Algorithm'
+import { BINARY_SEARCH, LINEAR_SEARCH } from '../constants/AlgorithmNames'
+import AlgorithmRoute from './AlgorithmRoute'
 
 class App extends Component {
   render () {
@@ -17,8 +15,8 @@ class App extends Component {
         <Sidebar />
         <main>
           <Route exact path={routes.LANDING} component={Landing} />
-          <Route path={routes.LINEAR_SEARCH} render={() => <Algorithm algorithm={LinearSearch} />} />
-          <Route path={routes.BINARY_SEARCH} render={() => <Algorithm algorithm={BinarySearch} />} />
+          <AlgorithmRoute name={LINEAR_SEARCH} />
+          <AlgorithmRoute name={BINARY_SEARCH} />
         </main>
         <footer>
           Check out the source: <a href='https://github.com/abesto/algo/tree/2018'>https://github.com/abesto/algo/tree/2018</a>

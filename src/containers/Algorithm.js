@@ -3,12 +3,10 @@ import { Map } from 'immutable'
 
 import { changeGlobals, startAlgorithm, stepAlgorithm } from '../actions/algorithm'
 import AlgorithmComponent from '../components/Algorithm'
-import algorithmSpecs from '../algorithmSpecs'
 
 const mapStateToProps = (state, ownProps) => {
-  const algo = ownProps.algorithm
-  const algoName = algo.name
-  const algoSpec = algorithmSpecs[algoName]
+  const algoSpec = ownProps.algoSpec
+  const algoName = algoSpec.name
   return ({
     algoState: state.algorithm.getIn(['states', algoName, 'value'], Map()),
     Description: algoSpec.Description,
@@ -19,9 +17,9 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  const algo = ownProps.algorithm
-  const algoName = algo.name
-  const globalsKey = algo.globalsKey
+  const algoSpec = ownProps.algoSpec
+  const algoName = algoSpec.name
+  const globalsKey = algoSpec.globalsKey
   return {
     changeGlobals: (globals) => dispatch(changeGlobals(globalsKey, globals)),
     startAlgorithm: () => dispatch(startAlgorithm(algoName)),
