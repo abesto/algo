@@ -1,53 +1,56 @@
-import { BOGO_SORT } from '../constants/AlgorithmNames'
-import Algorithm from './Algorithm'
-import { GLOBALS_KEY_SORT } from '../constants/Globals'
+import { Map } from 'immutable'
+
 import * as random from '../random'
 
-const BogoSortAlgo = new Algorithm(
-  BOGO_SORT, GLOBALS_KEY_SORT,
-  function * (globals, mkStep) {
-    let L = globals.get('L')
-    const N = L.count()
+export default function * BogoSortAlgo (globals, mkStep) {
+  let A = globals.get('A')
+  const N = A.count()
 
-    let i = N - 1
-    let j = 0
-    let sorted = false
+  let i = null
+  let j = null
+  let sorted = false
 
-    const step = mkStep(() => ({
-      locals: Map(i, j, sorted),
-      globals: Map({L, N})
-    }))
+  const step = mkStep(() => ({
+    locals: Map({
+      i,
+      j,
+      sorted,
+      'A[i]':A.get(i),
+      'A[i+1]': A.get(i+1),
+      'A[j]': A.get(j)
+    }),
+    globals: Map({A, N})
+  }))
 
-    yield step('init')
+  yield step('init')
 
-    while (true) {
-      yield step('while')
+  while (true) {
+    yield step('loop')
 
-      // Is the list sorted?
+    // Is the list sorted?
+    yield step('issorted-loop')
+    for (i = 0; i < N - 1; i++) {
+      yield step('issorted-if')
+      if (A.get(i) > A.get(i + 1)) {
+        yield step('notsorted')
+        break
+      }
       yield step('issorted-loop')
-      for (i = 0; i < N - 1; i++) {
-        yield step('issorted-if')
-        if (L.get(i) > L.get(i + 1)) {
-          yield step('notsorted')
-          break
-        }
-        yield step('issorted-loop')
-      }
-      if (i === N - 1) {
-        return step('done')
-      }
-
-      // If not, shuffle it using Knuth's shuffle algorithm
-      for (i = 0; i < N - 1; i--) {
-        yield step('shuffle-for')
-        j = random.intBetween(i, N)
-        yield step('shuffle-j')
-        L = L.set(i, L.get(j)).set(j, L.get(i))
-        yield step('shuffle-swap')
-      }
-      yield step('shuffle-done')
     }
-  }
-)
+    yield step('issorted-post')
+    if (i === N - 1) {
+      return step('done')
+    }
 
-export default BogoSortAlgo
+    // If not, shuffle it using Knuth's shuffle algorithm
+    for (i = 0; i < N - 1; i++) {
+      yield step('shuffle-for')
+      j = random.intBetween(i, N)
+      yield step('shuffle-j')
+      A = A.set(i, A.get(j)).set(j, A.get(i))
+      yield step('shuffle-swap')
+      j = null
+    }
+    yield step('shuffle-done')
+  }
+}

@@ -1,23 +1,28 @@
 import foreach from 'foreach'
 
-import { BINARY_SEARCH, LINEAR_SEARCH } from './constants/AlgorithmNames'
+import { BINARY_SEARCH, BOGO_SORT, LINEAR_SEARCH } from './constants/AlgorithmNames'
+import { GLOBALS_KEY_SEARCH, GLOBALS_KEY_SORT } from './constants/Globals'
 
 import Algorithm from './algorithms/Algorithm'
 import BinarySearchAlgo from './algorithms/BinarySearch'
 import LinearSearchAlgo from './algorithms/LinearSearch'
+import BogoSortAlgo from './algorithms/BogoSort'
 
 import BinarySearchDescription from './components/description/BinarySearch'
 import LinearSearchDescription from './components/description/LinearSearch'
+import BogoSortDescription from './components/description/BogoSort'
 
 import SearchControls from './components/controls/SearchControls'
 import Array from './components/dataviz/Array'
 
 import BinarySearchCode from './pseudocode/BinarySearch'
 import LinearSearchCode from './pseudocode/LinearSearch'
+import BogoSortCode from './pseudocode/BogoSort'
 
 import './styles/BinarySearch.css'
 import './styles/LinearSearch.css'
-import { GLOBALS_KEY_SEARCH } from './constants/Globals'
+import './styles/BogoSort.css'
+
 import * as routes from './constants/Routes'
 
 const algorithmSpecs = {
@@ -38,6 +43,15 @@ const algorithmSpecs = {
     Dataviz: Array,
     code: LinearSearchCode,
     route: routes.LINEAR_SEARCH
+  },
+  [BOGO_SORT]: {
+    algorithm: BogoSortAlgo,
+    globalsKey: GLOBALS_KEY_SORT,
+    Description: BogoSortDescription,
+    Controls: SearchControls,  // TODO change
+    Dataviz: Array,
+    code: BogoSortCode,
+    route: routes.BOGO_SORT
   }
 }
 

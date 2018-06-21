@@ -5,7 +5,7 @@ import '../styles/App.css'
 import Sidebar from './html/Sidebar'
 import * as routes from '../constants/Routes'
 import Landing from './html/Landing'
-import { BINARY_SEARCH, LINEAR_SEARCH } from '../constants/AlgorithmNames'
+import * as algorithmNames from '../constants/AlgorithmNames'
 import AlgorithmRoute from './AlgorithmRoute'
 
 class App extends Component {
@@ -15,8 +15,7 @@ class App extends Component {
         <Sidebar />
         <main>
           <Route exact path={routes.LANDING} component={Landing} />
-          <AlgorithmRoute name={LINEAR_SEARCH} />
-          <AlgorithmRoute name={BINARY_SEARCH} />
+          {Object.values(algorithmNames).map((name, id) => <AlgorithmRoute name={name} key={id} />)}
         </main>
         <footer>
           Check out the source: <a href='https://github.com/abesto/algo/tree/2018'>https://github.com/abesto/algo/tree/2018</a>
