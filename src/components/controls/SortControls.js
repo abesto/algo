@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { StyleSheet, css } from 'aphrodite/no-important'
 import { Map } from 'immutable'
 
-import '../../styles/controls/SortControls.css'
 import * as random from '../../random'
 
 class SortControls extends React.Component {
@@ -46,21 +46,21 @@ class SortControls extends React.Component {
 
   render () {
     return (
-      <div className='controls SortControls'>
+      <div>
         <h3>Controls</h3>
-        <div className='controls-grid'>
+        <div className={css(styles.grid)}>
           <input
-            className='insert-field'
+            className={css(styles.input)}
             name='insert-field'
             value={this.state.insertFieldValue}
             onChange={this.handleInsertFieldChanged}
             placeholder='Enter number to insert...'
             type='number'
           />
-          <button className='insert' onClick={this.handleInsert}>Insert number</button>
-          <button className='shuffle' onClick={this.handleShuffle}>Shuffle</button>
-          <button className='start' onClick={this.props.startAlgorithm}>Start</button>
-          <button className='step' onClick={this.props.stepAlgorithm}>Step</button>
+          <button onClick={this.handleInsert}>Insert number</button>
+          <button className={css(styles.wide)} onClick={this.handleShuffle}>Shuffle</button>
+          <button className={css(styles.wide)} onClick={this.props.startAlgorithm}>Start</button>
+          <button className={css(styles.wide)} onClick={this.props.stepAlgorithm}>Step</button>
         </div>
       </div>
 
@@ -74,5 +74,24 @@ SortControls.propTypes = {
   stepAlgorithm: PropTypes.func.isRequired,
   changeGlobals: PropTypes.func.isRequired
 }
+
+const styles = StyleSheet.create({
+  input: {
+    height: '20px'
+  },
+  label: {
+    textAlign: 'right'
+  },
+  grid: {
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr',
+    gridGap: '30px 10px',
+    marginTop: '20px',
+    alignItems: 'center'
+  },
+  wide: {
+    gridColumn: '1 / -1'
+  }
+})
 
 export default SortControls

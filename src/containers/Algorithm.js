@@ -12,7 +12,8 @@ const mapStateToProps = (state, ownProps) => {
     Description: algoSpec.Description,
     Controls: algoSpec.Controls,
     Dataviz: algoSpec.Dataviz,
-    code: algoSpec.code
+    code: algoSpec.code,
+    varStyles: algoSpec.varStyles
   })
 }
 

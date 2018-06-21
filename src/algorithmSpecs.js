@@ -1,4 +1,5 @@
 import foreach from 'foreach'
+import { StyleSheet } from 'aphrodite/no-important'
 
 import { BINARY_SEARCH, BOGO_SORT, LINEAR_SEARCH } from './constants/AlgorithmNames'
 import { GLOBALS_KEY_SEARCH, GLOBALS_KEY_SORT } from './constants/Globals'
@@ -20,7 +21,12 @@ const algorithmSpecs = {
     Controls: SearchControls,
     Dataviz: Array,
     code: BinarySearchCode,
-    route: routes.BINARY_SEARCH
+    route: routes.BINARY_SEARCH,
+    varStyles: {
+      low: { backgroundColor: 'lightblue' },
+      high: { backgroundColor: 'lightgreen' },
+      mid: { backgroundColor: 'yellow'}
+    }
   },
   [LINEAR_SEARCH]: {
     algorithm: LinearSearchAlgo,
@@ -29,7 +35,10 @@ const algorithmSpecs = {
     Controls: SearchControls,
     Dataviz: Array,
     code: LinearSearchCode,
-    route: routes.LINEAR_SEARCH
+    route: routes.LINEAR_SEARCH,
+    varStyles: {
+      i: { backgroundColor: 'lightgreen' }
+    }
   },
   [BOGO_SORT]: {
     algorithm: BogoSortAlgo,
@@ -38,13 +47,19 @@ const algorithmSpecs = {
     Controls: SortControls,
     Dataviz: Array,
     code: BogoSortCode,
-    route: routes.BOGO_SORT
+    route: routes.BOGO_SORT,
+    varStyles: {
+      i: { backgroundColor: 'lightblue' },
+      j: { backgroundColor: 'lightgreen' },
+      'i,j': { backgroundColor: 'lightcyan' }
+    }
   }
 }
 
 foreach(algorithmSpecs, (spec, name) => {
   spec.algorithm = new Algorithm(name, spec.globalsKey, spec.algorithm)
   spec.name = name
+  spec.varStyles = StyleSheet.create(spec.varStyles)
 })
 
 export default algorithmSpecs

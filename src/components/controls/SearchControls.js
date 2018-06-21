@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { StyleSheet, css } from 'aphrodite/no-important'
 import { Map } from 'immutable'
-
-import '../../styles/controls/SearchControls.css'
 
 class SearchControls extends React.Component {
   constructor () {
@@ -40,28 +39,28 @@ class SearchControls extends React.Component {
 
   render () {
     return (
-      <div className='controls SearchControls'>
+      <div className={css(styles.controls)}>
         <h3>Controls</h3>
-        <div className='controls-grid'>
-          <label className='target-label'>Search for:</label>
+        <div className={css(styles.grid)}>
+          <label className={css(styles.label)}>Search for:</label>
           <input
-            className='target'
             name='target'
+            className={css(styles.input)}
             value={this.props.variables.get('value')}
             onChange={this.handleTargetChange}
             type='number'
           />
           <input
-            className='insert-field'
             name='insert-field'
+            className={css(styles.input)}
             value={this.state.insertFieldValue}
             onChange={this.handleInsertFieldChanged}
             placeholder='Enter number to insert...'
             type='number'
           />
-          <button className='insert' onClick={this.handleInsert}>Insert number</button>
-          <button className='start' onClick={this.props.startAlgorithm}>Start</button>
-          <button className='step' onClick={this.props.stepAlgorithm}>Step</button>
+          <button onClick={this.handleInsert}>Insert number</button>
+          <button className={css(styles.wide)} onClick={this.props.startAlgorithm}>Start</button>
+          <button className={css(styles.wide)} onClick={this.props.stepAlgorithm}>Step</button>
         </div>
       </div>
 
@@ -75,5 +74,29 @@ SearchControls.propTypes = {
   stepAlgorithm: PropTypes.func.isRequired,
   changeGlobals: PropTypes.func.isRequired
 }
+
+const styles = StyleSheet.create({
+  controls: {
+    padding: '15px',
+    border: '1px solid silver',
+    backgroundColor: '#f5f5f5'
+  },
+  input: {
+    height: '20px'
+  },
+  label: {
+    textAlign: 'right'
+  },
+  grid: {
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr',
+    gridGap: '30px 10px',
+    marginTop: '20px',
+    alignItems: 'center'
+  },
+  wide: {
+    gridColumn: '1 / -1'
+  }
+})
 
 export default SearchControls

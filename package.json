@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "classnames": "^2.2.5",
+    "aphrodite": "^2.2.2",
     "foreach": "^2.0.5",
     "gh-pages": "^1.1.0",
     "immutable": "^3.8.2",

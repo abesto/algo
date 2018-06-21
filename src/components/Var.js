@@ -1,14 +1,26 @@
 import React from 'react'
-import classNames from 'classnames'
+import { StyleSheet, css } from 'aphrodite/no-important'
 
-import '../styles/Var.css'
+import VarStylesContext from '../VarStylesContext'
 
 const Var = ({ name, highlight, clearHighlight }) => (
-  <span
-    className={classNames('Var', name)}
-    onMouseEnter={() => highlight(name)}
-    onMouseLeave={() => clearHighlight(name)}
-  >{name}</span>
+  <VarStylesContext.Consumer>
+    {varStyles => (
+      <span
+        className={css(varStyles[name], styles.Var)}
+        onMouseEnter={() => highlight(name)}
+        onMouseLeave={() => clearHighlight(name)}
+      >{name}</span>
+    )}
+  </VarStylesContext.Consumer>
 )
+
+const styles = StyleSheet.create({
+  Var: {
+    textDecorationLine: 'underline',
+    textDecorationStyle: 'dotted',
+    cursor: 'zoom-in'
+  }
+})
 
 export default Var

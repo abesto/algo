@@ -1,9 +1,11 @@
 import React from 'react'
+import { css } from 'aphrodite/no-important'
 
 import Blockquote from '../html/Blockquote'
+import style from './style'
 
 const BinarySearch = () => (
-  <div className='description'>
+  <div className={css(style)}>
     <h2>Binary search</h2>
     <Blockquote href='https://rosettacode.org/wiki/Binary_search' title='Binary Search - Rosetta Code'>
       <p>A binary search divides a range of values into halves, and continues to narrow down the field of search

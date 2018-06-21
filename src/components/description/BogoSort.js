@@ -1,9 +1,11 @@
 import React from 'react'
+import { css } from 'aphrodite/no-important'
 
 import Blockquote from '../html/Blockquote'
+import style from './style'
 
 const BogoSort = () => (
-  <div className='description'>
+  <div className={css(style)}>
     <h2>Bogosort</h2>
     <Blockquote href='https://en.wikipedia.org/wiki/Bogosort' title='Bogosort - Wikipedia'>
       Bogosort is a highly ineffective sorting function based on the generate and test paradigm. The function
