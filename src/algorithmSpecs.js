@@ -5,9 +5,9 @@ import { GLOBALS_KEY_SEARCH, GLOBALS_KEY_SORT } from './constants/Globals'
 import { BinarySearchAlgo, BogoSortAlgo, LinearSearchAlgo } from './algorithms'
 import { LinearSearchCode, BinarySearchCode, BogoSortCode } from './pseudocode'
 import { BinarySearchDescription, LinearSearchDescription, BogoSortDescription} from './components/description'
+import { SearchControls, SortControls } from './components/controls'
 import * as routes from './constants/Routes'
 
-import SearchControls from './components/controls/SearchControls'
 import Array from './components/dataviz/Array'
 
 import Algorithm from './algorithms/Algorithm'
@@ -35,7 +35,7 @@ const algorithmSpecs = {
     algorithm: BogoSortAlgo,
     globalsKey: GLOBALS_KEY_SORT,
     Description: BogoSortDescription,
-    Controls: SearchControls,  // TODO change
+    Controls: SortControls,
     Dataviz: Array,
     code: BogoSortCode,
     route: routes.BOGO_SORT

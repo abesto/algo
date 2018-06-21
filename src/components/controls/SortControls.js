@@ -2,9 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Map } from 'immutable'
 
-import '../../styles/controls/SearchControls.css'
+import '../../styles/controls/SortControls.css'
+import * as random from '../../random'
 
-class SearchControls extends React.Component {
+class SortControls extends React.Component {
   constructor () {
     super()
     this.state = {
@@ -12,13 +13,23 @@ class SearchControls extends React.Component {
     }
     this.handleInsertFieldChanged = this.handleInsertFieldChanged.bind(this)
     this.handleInsert = this.handleInsert.bind(this)
-    this.handleTargetChange = this.handleTargetChange.bind(this)
+    this.handleShuffle = this.handleShuffle.bind(this)
   }
 
   handleInsertFieldChanged (event) {
     this.setState({
       insertFieldValue: event.target.value
     })
+  }
+
+  handleShuffle () {
+    let A = this.props.variables.get('A')
+    const N = A.count()
+    for (let i = 0; i < N - 1; i++) {
+      let j = random.intBetween(i, N)
+      A = A.set(i, A.get(j)).set(j, A.get(i))
+    }
+    this.props.changeGlobals(Map({A}))
   }
 
   handleInsert () {
@@ -33,24 +44,11 @@ class SearchControls extends React.Component {
     })
   }
 
-  handleTargetChange (event) {
-    const value = parseInt(event.target.value, 10)
-    this.props.changeGlobals(Map({value}))
-  }
-
   render () {
     return (
-      <div className='controls SearchControls'>
+      <div className='controls SortControls'>
         <h3>Controls</h3>
         <div className='controls-grid'>
-          <label className='target-label'>Search for:</label>
-          <input
-            className='target'
-            name='target'
-            value={this.props.variables.get('value')}
-            onChange={this.handleTargetChange}
-            type='number'
-          />
           <input
             className='insert-field'
             name='insert-field'
@@ -60,6 +58,7 @@ class SearchControls extends React.Component {
             type='number'
           />
           <button className='insert' onClick={this.handleInsert}>Insert number</button>
+          <button className='shuffle' onClick={this.handleShuffle}>Shuffle</button>
           <button className='start' onClick={this.props.startAlgorithm}>Start</button>
           <button className='step' onClick={this.props.stepAlgorithm}>Step</button>
         </div>
@@ -69,11 +68,11 @@ class SearchControls extends React.Component {
   }
 }
 
-SearchControls.propTypes = {
+SortControls.propTypes = {
   variables: PropTypes.instanceOf(Map).isRequired,
   startAlgorithm: PropTypes.func.isRequired,
   stepAlgorithm: PropTypes.func.isRequired,
   changeGlobals: PropTypes.func.isRequired
 }
 
-export default SearchControls
+export default SortControls

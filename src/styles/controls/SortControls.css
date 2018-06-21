@@ -1,0 +1,29 @@
+.SortControls {
+    padding: 15px;
+    border: 1px solid silver;
+    background-color: #f5f5f5;
+}
+
+.SortControls input {
+    height: 20px;
+}
+
+.SortControls label {
+    text-align: right;
+}
+
+.SortControls .controls-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 30px 10px;
+    margin-top: 20px;
+    align-items: center;
+}
+
+.SortControls .controls-grid .start,
+.SortControls .controls-grid .step,
+.SortControls .controls-grid .shuffle
+{
+    grid-column: 1 / -1;
+}
+

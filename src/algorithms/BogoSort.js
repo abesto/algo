@@ -8,13 +8,11 @@ export default function * BogoSort (globals, mkStep) {
 
   let i = null
   let j = null
-  let sorted = false
 
   const step = mkStep(() => ({
     locals: Map({
       i,
       j,
-      sorted,
       'A[i]':A.get(i),
       'A[i+1]': A.get(i+1),
       'A[j]': A.get(j)
