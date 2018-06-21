@@ -1,4 +1,4 @@
-const BinarySearchCode = `
+const BinarySearch = `
          :BinarySearch({A}[0..{N}-1], {value}) {
      init:    {low} = 0
      init:    {high} = {N} - 1
@@ -17,4 +17,4 @@ not-found:    return not_found // {value} would be inserted at index "{low}"
         :}
 `
 
-export default BinarySearchCode
+export default BinarySearch

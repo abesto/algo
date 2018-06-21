@@ -2,7 +2,7 @@ import React from 'react'
 
 import Blockquote from '../html/Blockquote'
 
-const LinearSearchDescription = () => (
+const LinearSearch = () => (
   <div className='description'>
     <h2>Linear search</h2>
     <Blockquote href='https://en.wikipedia.org/wiki/Brute-force_search' title='Linear search - Wikipedia'>
@@ -13,4 +13,4 @@ const LinearSearchDescription = () => (
   </div>
 )
 
-export default LinearSearchDescription
+export default LinearSearch

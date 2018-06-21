@@ -1,4 +1,4 @@
-const BogoSortCode = `
+const BogoSort = `
              :BogoSort({A}[0..{N}-1]) {
          init:    {sorted} = false
          loop:    while (true) {
@@ -23,4 +23,4 @@ issorted-post:        }
              :}
 `
 
-export default BogoSortCode
+export default BogoSort

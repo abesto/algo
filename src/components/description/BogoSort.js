@@ -2,7 +2,7 @@ import React from 'react'
 
 import Blockquote from '../html/Blockquote'
 
-const BogoSortDescription = () => (
+const BogoSort = () => (
   <div className='description'>
     <h2>Bogosort</h2>
     <Blockquote href='https://en.wikipedia.org/wiki/Bogosort' title='Bogosort - Wikipedia'>
@@ -14,4 +14,4 @@ const BogoSortDescription = () => (
   </div>
 )
 
-export default BogoSortDescription
+export default BogoSort

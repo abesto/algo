@@ -2,7 +2,7 @@ import React from 'react'
 
 import Blockquote from '../html/Blockquote'
 
-const BinarySearchDescription = () => (
+const BinarySearch = () => (
   <div className='description'>
     <h2>Binary search</h2>
     <Blockquote href='https://rosettacode.org/wiki/Binary_search' title='Binary Search - Rosetta Code'>
@@ -21,4 +21,4 @@ const BinarySearchDescription = () => (
   </div>
 )
 
-export default BinarySearchDescription
+export default BinarySearch

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
 
 import '../styles/App.css'
+import '../styles/algorithms/index.css'
 import Sidebar from './html/Sidebar'
 import * as routes from '../constants/Routes'
 import Landing from './html/Landing'

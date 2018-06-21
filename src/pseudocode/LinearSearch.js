@@ -1,4 +1,4 @@
-const LinearSearchCode = `
+const LinearSearch = `
          :LinearSearch({A}[0..{N}-1], {value}) {
      init:    {i} = 0
      loop:    while ({i} < {N} and {A[i]} != {value}) {
@@ -11,4 +11,4 @@ not-found:    return not_found
         :}
 `
 
-export default LinearSearchCode
+export default LinearSearch

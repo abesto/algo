@@ -1,6 +1,6 @@
 import { Map } from 'immutable'
 
-export default function * BinarySearchAlgo (globals, mkStep) {
+export default function * BinarySearch (globals, mkStep) {
   // Algorithm originally taken from https://rosettacode.org/wiki/Binary_search#JavaScript
   const A = globals.get('A').sort()
   const value = globals.get('value')

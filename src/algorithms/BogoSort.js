@@ -2,7 +2,7 @@ import { Map } from 'immutable'
 
 import * as random from '../random'
 
-export default function * BogoSortAlgo (globals, mkStep) {
+export default function * BogoSort (globals, mkStep) {
   let A = globals.get('A')
   const N = A.count()
 

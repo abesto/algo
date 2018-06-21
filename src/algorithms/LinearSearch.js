@@ -1,6 +1,6 @@
 import { Map } from 'immutable'
 
-export default function * LinearSearchAlgo (globals, mkStep) {
+export default function * LinearSearch (globals, mkStep) {
   const A = globals.get('A')
   const value = globals.get('value')
   const N = A.count()

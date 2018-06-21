@@ -2,28 +2,15 @@ import foreach from 'foreach'
 
 import { BINARY_SEARCH, BOGO_SORT, LINEAR_SEARCH } from './constants/AlgorithmNames'
 import { GLOBALS_KEY_SEARCH, GLOBALS_KEY_SORT } from './constants/Globals'
-
-import Algorithm from './algorithms/Algorithm'
-import BinarySearchAlgo from './algorithms/BinarySearch'
-import LinearSearchAlgo from './algorithms/LinearSearch'
-import BogoSortAlgo from './algorithms/BogoSort'
-
-import BinarySearchDescription from './components/description/BinarySearch'
-import LinearSearchDescription from './components/description/LinearSearch'
-import BogoSortDescription from './components/description/BogoSort'
+import { BinarySearchAlgo, BogoSortAlgo, LinearSearchAlgo } from './algorithms'
+import { LinearSearchCode, BinarySearchCode, BogoSortCode } from './pseudocode'
+import { BinarySearchDescription, LinearSearchDescription, BogoSortDescription} from './components/description'
+import * as routes from './constants/Routes'
 
 import SearchControls from './components/controls/SearchControls'
 import Array from './components/dataviz/Array'
 
-import BinarySearchCode from './pseudocode/BinarySearch'
-import LinearSearchCode from './pseudocode/LinearSearch'
-import BogoSortCode from './pseudocode/BogoSort'
-
-import './styles/BinarySearch.css'
-import './styles/LinearSearch.css'
-import './styles/BogoSort.css'
-
-import * as routes from './constants/Routes'
+import Algorithm from './algorithms/Algorithm'
 
 const algorithmSpecs = {
   [BINARY_SEARCH]: {
