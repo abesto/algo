@@ -13,8 +13,8 @@ export default function * BogoSort (globals, mkStep) {
     locals: Map({
       i,
       j,
-      'A[i]':A.get(i),
-      'A[i+1]': A.get(i+1),
+      'A[i]': A.get(i),
+      'A[i+1]': A.get(i + 1),
       'A[j]': A.get(j)
     }),
     globals: Map({A, N})

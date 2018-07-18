@@ -14,6 +14,7 @@ const Sidebar = () =>
       <li><MyLink to={Routes.LINEAR_SEARCH}>Linear search</MyLink></li>
       <li><MyLink to={Routes.BINARY_SEARCH}>Binary search</MyLink></li>
       <li><MyLink to={Routes.BOGO_SORT}>Bogosort</MyLink></li>
+      <li><MyLink to={Routes.BUBBLE_SORT}>Bubble sort</MyLink></li>
     </ul>
   </nav>
 

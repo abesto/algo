@@ -1,11 +1,11 @@
 import foreach from 'foreach'
 import { StyleSheet } from 'aphrodite/no-important'
 
-import { BINARY_SEARCH, BOGO_SORT, LINEAR_SEARCH } from './constants/AlgorithmNames'
+import { BINARY_SEARCH, BOGO_SORT, LINEAR_SEARCH, BUBBLE_SORT } from './constants/AlgorithmNames'
 import { GLOBALS_KEY_SEARCH, GLOBALS_KEY_SORT } from './constants/Globals'
-import { BinarySearchAlgo, BogoSortAlgo, LinearSearchAlgo } from './algorithms'
-import { LinearSearchCode, BinarySearchCode, BogoSortCode } from './pseudocode'
-import { BinarySearchDescription, LinearSearchDescription, BogoSortDescription} from './components/description'
+import { BinarySearchAlgo, BogoSortAlgo, LinearSearchAlgo, BubbleSortAlgo } from './algorithms'
+import { LinearSearchCode, BinarySearchCode, BogoSortCode, BubbleSortCode } from './pseudocode'
+import { BinarySearchDescription, LinearSearchDescription, BogoSortDescription, BubbleSortDescription } from './components/description'
 import { SearchControls, SortControls } from './components/controls'
 import * as routes from './constants/Routes'
 
@@ -52,6 +52,20 @@ const algorithmSpecs = {
       i: { backgroundColor: 'lightblue' },
       j: { backgroundColor: 'lightgreen' },
       'i,j': { backgroundColor: 'lightcyan' }
+    }
+  },
+  [BUBBLE_SORT]: {
+    algorithm: BubbleSortAlgo,
+    globalsKey: GLOBALS_KEY_SORT,
+    Description: BubbleSortDescription,
+    Controls: SortControls,
+    Dataviz: Array,
+    code: BubbleSortCode,
+    route: routes.BUBBLE_SORT,
+    varStyles: {
+      i: { backgroundColor: 'lightblue' },
+      'i-1': { backgroundColor: 'lightcyan' },
+      done: { backgroundColor: 'lightgreen' }
     }
   }
 }
