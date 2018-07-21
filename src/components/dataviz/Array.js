@@ -1,14 +1,27 @@
+// @flow strict
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Map } from 'immutable'
+import { Map, List, Record } from 'immutable'
+import type { RecordFactory, RecordOf } from 'immutable'
 import { StyleSheet, css } from 'aphrodite/no-important'
 
 import VarStylesContext from '../../VarStylesContext'
 
-const variablesToClassname = (currentIndex, variables) =>
-  variables.filter((value) => value === currentIndex).keySeq().sort().join()
+type GlobalsProps = {A: List<number>}
+export const makeGlobals: RecordFactory<GlobalsProps> = Record({A: List()})
+export type Globals = RecordOf<GlobalsProps>
 
-const Array = ({ variables, changeGlobals, }) => {
+const variablesToClassname = (currentIndex: number, variables: Globals): string =>
+  variables.toSeq().filter((value: mixed) => value === currentIndex).keySeq().sort().join()
+
+type GlobalsProps2 = {A: List<number>, value: number}
+export const makeGlobals2: RecordFactory<GlobalsProps2> = Record({A: List(), value: 0})
+export type Globals2 = RecordOf<GlobalsProps2>
+
+const g = makeGlobals2()
+variablesToClassname(0, (g: Globals))
+
+const Array = ({ variables, changeGlobals }: Props) => {
   return (
     <VarStylesContext.Consumer>
       {varStyles => (
@@ -27,10 +40,10 @@ const Array = ({ variables, changeGlobals, }) => {
   )
 }
 
-Array.propTypes = {
-  variables: PropTypes.instanceOf(Map).isRequired,
-  changeGlobals: PropTypes.func.isRequired,
-  varStyles: PropTypes.object
+type Props = {
+  variables: Map<string, string>,
+  changeGlobals: ({A: List<number>}) => void,
+  varStyles: Map<string, string>
 }
 
 const styles = StyleSheet.create({
