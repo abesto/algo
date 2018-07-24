@@ -4,7 +4,6 @@
   "private": true,
   "dependencies": {
     "aphrodite": "^2.2.2",
-    "foreach": "^2.0.5",
     "gh-pages": "^1.1.0",
     "immutable": "^3.8.2",
     "prop-types": "^15.6.1",

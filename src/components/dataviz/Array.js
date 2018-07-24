@@ -8,7 +8,7 @@ import VarStylesContext from '../../VarStylesContext'
 const variablesToClassname = (currentIndex, variables) =>
   variables.filter((value) => value === currentIndex).keySeq().sort().join()
 
-const Array = ({ variables, changeGlobals, }) => {
+const Array = ({ variables, changeGlobals }) => {
   return (
     <VarStylesContext.Consumer>
       {varStyles => (
@@ -36,7 +36,7 @@ Array.propTypes = {
 const styles = StyleSheet.create({
   array: {
     display: 'flex',
-    flexFlow: 'row wrap',
+    flexFlow: 'row wrap'
   },
   item: {
     position: 'relative',

@@ -2,7 +2,7 @@ import { Map, is } from 'immutable'
 
 import { initialize, startAlgorithm } from '../actions/algorithm'
 
-export default class Algorithm {
+export default class AlgorithmImpl {
   constructor (name, globalsKey, algoFn) {
     this.name = name
     this.globalsKey = globalsKey

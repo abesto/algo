@@ -1,11 +1,9 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
 
-import algorithmSpecs from '../algorithmSpecs'
 import Algorithm from '../containers/Algorithm'
 
-const AlgorithmRoute = ({ name }) => {
-  const spec = algorithmSpecs[name]
+const AlgorithmRoute = ({ spec }) => {
   return <Route
     path={spec.route}
     render={() => <Algorithm algoSpec={spec} />}

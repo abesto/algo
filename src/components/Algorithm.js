@@ -6,9 +6,10 @@ import Pseudocode from './pseudocode/Pseudocode'
 import Inspector from '../containers/Inspector'
 import VarStylesContext from '../VarStylesContext'
 
-
-const Algorithm = ({algoState, Description, Controls, Dataviz, code, startAlgorithm, stepAlgorithm, changeGlobals,
-                     varStyles}) =>
+export default function Algorithm
+  ({algoState, Description, Controls, Dataviz, code, startAlgorithm, stepAlgorithm, changeGlobals,
+     varStyles
+   })
 {
   const variables = algoState.get('variables')
   const controlsProps = {variables, startAlgorithm, stepAlgorithm, changeGlobals}
@@ -17,7 +18,7 @@ const Algorithm = ({algoState, Description, Controls, Dataviz, code, startAlgori
     <div className={css(styles.algorithm)}>
       <VarStylesContext.Provider value={varStyles}>
         <div className={css(styles.description)}>
-          <Description />
+          {Description}
         </div>
 
         <div className={css(styles.controls)}>
@@ -37,7 +38,7 @@ const Algorithm = ({algoState, Description, Controls, Dataviz, code, startAlgori
 
 Algorithm.propTypes = {
   algoState: PropTypes.object.isRequired,
-  Description: PropTypes.func.isRequired,
+  Description: PropTypes.node.isRequired,
   Controls: PropTypes.func.isRequired,
   Dataviz: PropTypes.func.isRequired,
   code: PropTypes.string.isRequired,
@@ -76,5 +77,3 @@ const styles = StyleSheet.create({
     gridArea: 'dataviz'
   }
 })
-
-export default Algorithm

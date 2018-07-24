@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { StyleSheet, css } from 'aphrodite/no-important'
 
-import * as Routes from '../../constants/Routes'
+import algorithms from '../../algorithms'
 
 const MyLink = ({to, children}) =>
   <Link className={css(styles.a)} to={to}>{children}</Link>
@@ -10,11 +10,10 @@ const MyLink = ({to, children}) =>
 const Sidebar = () =>
   <nav className={css(styles.sidebar)}>
     <ul className={css(styles.ul)}>
-      <li className={css(styles.logo)}><MyLink to={Routes.LANDING}>algo.abesto.net</MyLink></li>
-      <li><MyLink to={Routes.LINEAR_SEARCH}>Linear search</MyLink></li>
-      <li><MyLink to={Routes.BINARY_SEARCH}>Binary search</MyLink></li>
-      <li><MyLink to={Routes.BOGO_SORT}>Bogosort</MyLink></li>
-      <li><MyLink to={Routes.BUBBLE_SORT}>Bubble sort</MyLink></li>
+      <li className={css(styles.logo)}><MyLink to='/'>algo.abesto.net</MyLink></li>
+      {Object.values(algorithms).map(spec =>
+        <li key={spec.name}><MyLink to={spec.route}>{spec.title}</MyLink></li>
+      )}
     </ul>
   </nav>
 

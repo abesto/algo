@@ -3,10 +3,9 @@ import { Route } from 'react-router-dom'
 import { StyleSheet, css } from 'aphrodite/no-important'
 
 import Sidebar from './html/Sidebar'
-import * as routes from '../constants/Routes'
 import Landing from './html/Landing'
-import * as algorithmNames from '../constants/AlgorithmNames'
 import AlgorithmRoute from './AlgorithmRoute'
+import algorithms from '../algorithms'
 
 class App extends Component {
   render () {
@@ -14,8 +13,8 @@ class App extends Component {
       <div className={css(styles.app)}>
         <Sidebar />
         <main className={css(styles.main)}>
-          <Route exact path={routes.LANDING} component={Landing} />
-          {Object.values(algorithmNames).map((name, id) => <AlgorithmRoute name={name} key={id} />)}
+          <Route exact path='/' component={Landing} />
+          {Object.values(algorithms).map((spec, id) => <AlgorithmRoute spec={spec} key={id} />)}
         </main>
         <footer className={css(styles.footer)}>
           Check out the source: <a href='https://github.com/abesto/algo/tree/2018'>https://github.com/abesto/algo/tree/2018</a>
