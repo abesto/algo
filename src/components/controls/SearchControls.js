@@ -59,7 +59,7 @@ class SearchControls extends React.Component {
             type='number'
           />
           <button onClick={this.handleInsert}>Insert number</button>
-          <button className={css(styles.wide)} onClick={this.props.startAlgorithm}>Start</button>
+          <button className={css(styles.wide)} onClick={this.props.startAlgorithm}>Restart</button>
           <button className={css(styles.wide)} onClick={this.props.stepAlgorithm}>Step</button>
         </div>
       </div>
