@@ -14,6 +14,7 @@ const Sidebar = () =>
       {Object.values(algorithms).map(spec =>
         <li key={spec.name}><MyLink to={spec.route}>{spec.title}</MyLink></li>
       )}
+      <li><MyLink to='/playground'>Playground</MyLink></li>
     </ul>
   </nav>
 
