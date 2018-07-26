@@ -4,6 +4,7 @@ import { Map } from 'immutable'
 import AlgorithmDescription from '../components/AlgorithmDescription'
 import Blockquote from '../components/html/Blockquote'
 import * as random from '../random'
+import { colorVariables } from './helpers'
 
 export { SortControls as Controls } from '../components/controls'
 export { Arrayviz as Dataviz } from '../components/dataviz'
@@ -48,11 +49,10 @@ issorted-post:        }
          init:}
 `
 
-export const varStyles = {
-  i: { backgroundColor: 'lightblue' },
-  j: { backgroundColor: 'lightgreen' },
-  'i-j': { background: 'linear-gradient(lightblue 50%, lightgreen 50%)' }
-}
+export const varStyles = colorVariables({
+  i: 'lightblue',
+  j: 'lightgreen'
+})
 
 export function * generator (globals, mkStep) {
   let A = globals.get('A')

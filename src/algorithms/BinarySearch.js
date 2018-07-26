@@ -3,6 +3,7 @@ import { Map } from 'immutable'
 
 import AlgorithmDescription from '../components/AlgorithmDescription'
 import Blockquote from '../components/html/Blockquote'
+import { colorVariables } from './helpers'
 
 export { GLOBALS_KEY_SEARCH as globalsKey } from '../constants/Globals'
 export { SearchControls as Controls } from '../components/controls'
@@ -49,15 +50,12 @@ not-found:    return not_found // {value} would be inserted at index "{low}"
         :}
 `
 
-export const varStyles = {
-  low: { backgroundColor: 'lightblue' },
-  high: { backgroundColor: 'lightgreen' },
-  mid: { backgroundColor: 'yellow' },
-  'low-mid': { background: 'linear-gradient(lightblue 50%, yellow 50%)' },
-  'low-high': { background: 'linear-gradient(lightblue 50%, lightgreen 50%)' },
-  'mid-high': { background: 'linear-gradient(yellow 50%, lightgreen 50%)' },
-  'low-high-mid': { background: 'linear-gradient(lightblue 33%, yellow 33%, yellow 66%, lightgreen 66%)' }
-}
+export const varStyles = colorVariables({
+  low: 'lightblue',
+  high: 'lightgreen',
+  mid: 'yellow'
+})
+console.log(varStyles)
 
 export function * generator (globals, mkStep) {
   // originally taken from https://rosettacode.org/wiki/Binary_search#JavaScript
