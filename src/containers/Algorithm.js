@@ -21,7 +21,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   const algoSpec = ownProps.algoSpec
   const algoName = algoSpec.name
   const globalsKey = algoSpec.globalsKey
-  const algo = algoSpec.algorithm
+  const algo = algoSpec.implementation
   return {
     changeGlobals: (globals) => dispatch(changeGlobals(globalsKey, globals)),
     startAlgorithm: () => dispatch(startAlgorithm(algo)),
