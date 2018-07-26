@@ -7,7 +7,7 @@ import * as random from '../random'
 import { colorVariables } from './helpers'
 
 export { SortControls as Controls } from '../components/controls'
-export { Arrayviz as Dataviz } from '../components/dataviz'
+export { ArrayViz as Dataviz } from '../components/dataviz'
 export { GLOBALS_KEY_SORT as globalsKey } from '../constants/Globals'
 
 export const route = '/search/bogo'

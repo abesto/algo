@@ -18,12 +18,25 @@ const Cell = ({ hasNext, children }) => <div className={css(styles.cell)}>
   <Pointer hasNext={hasNext} />
 </div>
 
-const LinkedList = ({ items }) => <Fragment>
-  {items.map((value, index) =>
-    <Cell key={index} hasNext={index < items.length - 1}>
-      {value}
-    </Cell>
-  )}
+function ensureArray (item) {
+  if (!(item instanceof Array)) {
+    return [item]
+  }
+  return item
+}
+
+const LinkedList = ({ heads }) => <Fragment>
+  {ensureArray(heads)
+    .map(head => head.iterate())
+    .map((list, listIndex) =>
+      <Fragment key={listIndex}>
+        {[...list].map((item, index) =>
+          <Cell key={index} hasNext={item.next !== null}>
+            {item.value}
+          </Cell>
+        )}
+      </Fragment>
+    )}
 </Fragment>
 
 const styles = StyleSheet.create({

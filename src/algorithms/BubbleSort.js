@@ -6,7 +6,7 @@ import AlgorithmDescription from '../components/AlgorithmDescription'
 
 export { GLOBALS_KEY_SORT as globalsKey } from '../constants/Globals'
 export { SortControls as Controls } from '../components/controls'
-export { Arrayviz as Dataviz } from '../components/dataviz'
+export { ArrayViz as Dataviz } from '../components/dataviz'
 
 export const route = '/sort/bubble'
 

@@ -7,7 +7,7 @@ import { colorVariables } from './helpers'
 
 export { GLOBALS_KEY_SEARCH as globalsKey } from '../constants/Globals'
 export { SearchControls as Controls } from '../components/controls'
-export { Arrayviz as Dataviz } from '../components/dataviz'
+export { ArrayViz as Dataviz } from '../components/dataviz'
 
 export const route = '/search/binary'
 
