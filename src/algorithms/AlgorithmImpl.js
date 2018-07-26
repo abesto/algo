@@ -27,6 +27,12 @@ export default class AlgorithmImpl {
     const algo = this
     return function (stepName) {
       const {locals, globals} = fn()
+
+      console.group(`${algo.name} state`)
+      console.info('locals', locals.toJSON())
+      console.info('globals', globals.toJSON())
+      console.groupEnd()
+
       return Map({
         step: stepName,
         name: algo.name,

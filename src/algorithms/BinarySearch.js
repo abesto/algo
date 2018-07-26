@@ -6,7 +6,7 @@ import Blockquote from '../components/html/Blockquote'
 
 export { GLOBALS_KEY_SEARCH as globalsKey } from '../constants/Globals'
 export { SearchControls as Controls } from '../components/controls'
-export { Array as Dataviz } from '../components/dataviz'
+export { Arrayviz as Dataviz } from '../components/dataviz'
 
 export const route = '/search/binary'
 
@@ -52,11 +52,15 @@ not-found:    return not_found // {value} would be inserted at index "{low}"
 export const varStyles = {
   low: { backgroundColor: 'lightblue' },
   high: { backgroundColor: 'lightgreen' },
-  mid: { backgroundColor: 'yellow' }
+  mid: { backgroundColor: 'yellow' },
+  'low-mid': { background: 'linear-gradient(lightblue 50%, yellow 50%)' },
+  'low-high': { background: 'linear-gradient(lightblue 50%, lightgreen 50%)' },
+  'mid-high': { background: 'linear-gradient(yellow 50%, lightgreen 50%)' },
+  'low-high-mid': { background: 'linear-gradient(lightblue 33%, yellow 33%, yellow 66%, lightgreen 66%)' }
 }
 
 export function * generator (globals, mkStep) {
-  // AlgorithmImpl originally taken from https://rosettacode.org/wiki/Binary_search#JavaScript
+  // originally taken from https://rosettacode.org/wiki/Binary_search#JavaScript
   const A = globals.get('A').sort()
   const value = globals.get('value')
 

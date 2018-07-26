@@ -6,7 +6,7 @@ import AlgorithmDescription from '../components/AlgorithmDescription'
 
 export { GLOBALS_KEY_SEARCH as globalsKey } from '../constants/Globals'
 export { SearchControls as Controls } from '../components/controls'
-export { Array as Dataviz } from '../components/dataviz'
+export { Arrayviz as Dataviz } from '../components/dataviz'
 
 export const route = '/search/linear'
 

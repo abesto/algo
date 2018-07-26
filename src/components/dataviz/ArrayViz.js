@@ -6,17 +6,20 @@ import { StyleSheet, css } from 'aphrodite/no-important'
 import VarStylesContext from '../../VarStylesContext'
 
 const variablesToClassname = (currentIndex, variables) =>
-  variables.filter((value) => value === currentIndex).keySeq().sort().join()
+  variables
+    .filter(variableValue => variableValue === currentIndex)
+    .keySeq().sort()
+    .join('-')
 
-const Array = ({ variables, changeGlobals }) => {
+const ArrayViz = ({ variables, changeGlobals }) => {
   return (
     <VarStylesContext.Consumer>
       {varStyles => (
         <div className={css(styles.array)}>
           {
-            variables.get('A').map((item, index) =>
+            variables.get('A').map((value, index) =>
               <div className={css(styles.item, varStyles[variablesToClassname(index, variables)])} key={index}>
-                {item}
+                {value}
                 <div className={css(styles.itemDelete)} onClick={() => changeGlobals({A: variables.get('A').remove(index)})} />
               </div>
             )
@@ -27,7 +30,7 @@ const Array = ({ variables, changeGlobals }) => {
   )
 }
 
-Array.propTypes = {
+ArrayViz.propTypes = {
   variables: PropTypes.instanceOf(Map).isRequired,
   changeGlobals: PropTypes.func.isRequired,
   varStyles: PropTypes.object
@@ -58,4 +61,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default Array
+export default ArrayViz

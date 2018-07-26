@@ -6,7 +6,7 @@ import Blockquote from '../components/html/Blockquote'
 import * as random from '../random'
 
 export { SortControls as Controls } from '../components/controls'
-export { Array as Dataviz } from '../components/dataviz'
+export { Arrayviz as Dataviz } from '../components/dataviz'
 export { GLOBALS_KEY_SORT as globalsKey } from '../constants/Globals'
 
 export const route = '/search/bogo'
@@ -51,7 +51,7 @@ issorted-post:        }
 export const varStyles = {
   i: { backgroundColor: 'lightblue' },
   j: { backgroundColor: 'lightgreen' },
-  'i,j': { backgroundColor: 'lightcyan' }
+  'i-j': { background: 'linear-gradient(lightblue 50%, lightgreen 50%)' }
 }
 
 export function * generator (globals, mkStep) {
