@@ -17,7 +17,7 @@ const Array = ({ variables, changeGlobals }) => {
             variables.get('A').map((item, index) =>
               <div className={css(styles.item, varStyles[variablesToClassname(index, variables)])} key={index}>
                 {item}
-                <div className={css(styles.itemDelete)} onClick={() => changeGlobals({A: variables.get('A').remove(index)})}/>
+                <div className={css(styles.itemDelete)} onClick={() => changeGlobals({A: variables.get('A').remove(index)})} />
               </div>
             )
           }

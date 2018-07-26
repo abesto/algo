@@ -7,10 +7,9 @@ import Inspector from '../containers/Inspector'
 import VarStylesContext from '../VarStylesContext'
 
 export default function Algorithm
-  ({algoState, Description, Controls, Dataviz, code, startAlgorithm, stepAlgorithm, changeGlobals,
-     varStyles
-   })
-{
+({algoState, Description, Controls, Dataviz, code, startAlgorithm, stepAlgorithm, changeGlobals,
+  varStyles
+}) {
   const variables = algoState.get('variables')
   const controlsProps = {variables, startAlgorithm, stepAlgorithm, changeGlobals}
   const datavizProps = {variables, changeGlobals}

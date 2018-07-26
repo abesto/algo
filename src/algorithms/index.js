@@ -17,7 +17,7 @@ for (const [name, spec] of Object.entries(algorithmSpecs)) {
     ...spec,
     name,
     implementation: new AlgorithmImpl(name, spec.globalsKey, spec.generator),
-    varStyles: StyleSheet.create(spec.varStyles),
+    varStyles: StyleSheet.create(spec.varStyles)
   }
 }
 

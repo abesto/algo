@@ -7,22 +7,22 @@ import Var from '../containers/Var.js'
 const Inspector = ({ name, variables }) => (
   <table className={css(styles.table)}>
     <thead>
-    <tr>
-      <th className={css(styles.th)}>Variable</th>
-      <th className={css(styles.th)}>Value</th>
-    </tr>
+      <tr>
+        <th className={css(styles.th)}>Variable</th>
+        <th className={css(styles.th)}>Value</th>
+      </tr>
     </thead>
     <tbody>
-    {variables.map((value, key) => (
-      <tr className={css(name === key && styles.highlighted)} key={key}>
-        <td className={css(styles.td, styles.name)}>
-          <Var name={key} />:
-        </td>
-        <td className={css(styles.td, styles.value)}>
-          {JSON.stringify(value, null, 4)}
-        </td>
-      </tr>
-    )).toArray()}
+      {variables.map((value, key) => (
+        <tr className={css(name === key && styles.highlighted)} key={key}>
+          <td className={css(styles.td, styles.name)}>
+            <Var name={key} />:
+          </td>
+          <td className={css(styles.td, styles.value)}>
+            {JSON.stringify(value, null, 4)}
+          </td>
+        </tr>
+      )).toArray()}
     </tbody>
   </table>
 )
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   td: {
     fontFamily: ['Inconsolata', 'monospace'],
     border: '1px solid silver',
-    padding: '3px',
+    padding: '3px'
   },
   name: {
     textAlign: 'right',
