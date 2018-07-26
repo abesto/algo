@@ -19,7 +19,6 @@ function * permutationsOfSize (n, items) {
 function * nonSingleSortedPermutations (items) {
   for (let l = 2; l <= items.length; l++) {
     for (const permutation of permutationsOfSize(l, items)) {
-      console.log(permutation)
       yield permutation
     }
   }
