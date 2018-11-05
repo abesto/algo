@@ -39,7 +39,7 @@ class SearchControls extends React.Component {
 
   render () {
     return (
-      <div className={css(styles.controls)}>
+      <div>
         <h3>Controls</h3>
         <div className={css(styles.grid)}>
           <label className={css(styles.label)}>Search for:</label>
@@ -76,11 +76,6 @@ SearchControls.propTypes = {
 }
 
 const styles = StyleSheet.create({
-  controls: {
-    padding: '15px',
-    border: '1px solid silver',
-    backgroundColor: '#f5f5f5'
-  },
   input: {
     height: '20px'
   },
